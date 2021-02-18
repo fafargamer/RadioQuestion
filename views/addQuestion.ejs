@@ -190,15 +190,19 @@
                 // ans.push($(this).attr('name'));
                 // alert($(this).val());                    // Get all radio button values
             });
-        
+            
+            testData=[1,2,3,4,5,6,7]
+            testJSON={"data" : [1,2,3,4,5,7]}
             jsonObj = JSON.stringify(obj)
+            let payload = { name : "test", id: 12345};
             // alert(obj)
-            alert(jsonObj)            
+            // alert(jsonObj)            
 
                 $.ajax({
                     url: '/submitJawaban',
                     ContentType: 'application/json',
-                    data: {'data': jsonObj},
+                    data: JSON.stringify(payload),
+                    dataType: "json",
                     type: 'POST',
                     success: function (data) {
                         alert(data);

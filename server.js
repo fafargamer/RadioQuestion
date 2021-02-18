@@ -24,7 +24,7 @@ app.get('/', function(req, res) {
 });
 
 app.post('/submitJawaban', (req,res) =>{
-    console.log(req.body)
+    res.send(req.body)
 })
 
 // about page
