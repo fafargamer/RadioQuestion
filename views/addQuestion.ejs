@@ -169,8 +169,8 @@
 
     <% }); %>   
     <div class="container mt-sm-5 my-1 text-center">
-        <form action="/submitJawaban" method="POST">
-            <button type="submit" formmethod="post" class="btn btn-primary" id="submitBtn" name="submitBtn">Submit</button>
+        <form action="/submitJawaban/" method="POST" onsubmit="return mySubmitFunction(event)">
+            <button class="btn btn-primary" id="submitBtn" name="submitBtn">Submit</button>
         </form>
     </div>
 
@@ -181,11 +181,63 @@
   <script type="text/javascript">
     $(document).ready(function() {
         
-      $('#submitBtn').on('click', function(){
-        obj = {};
+    //   $('#submitBtn').on('click', function(){
+    //     event.preventDefault();
+    //     obj = {};
+    //     obj.jawaban = [];
+
+    //         $(':radio:checked').each(function(){
+    //             obj.jawaban.push($(this).val());
+    //             // ans.push($(this).attr('name'));
+    //             // alert($(this).val());                    // Get all radio button values
+    //         });
+            
+    //         testData=[1,2,3,4,5,6,7]
+    //         testJSON={"data" : [1,2,3,4,5,7]}
+    //         jsonObj = JSON.stringify(obj)
+    //         let payload = { name : "test", id: 12345};
+    //         console.log(payload)
+    //         // alert(obj)
+    //         // alert(jsonObj)            
+
+    //             $.ajax({
+    //                 url: '/submitJawaban',
+    //                 ContentType: 'application/json',
+    //                 data: payload,
+    //                 dataType: "json",
+    //                 type: 'POST',
+    //                 success: function (data) {
+    //                     alert(data);
+    //                 }
+    //             });
+
+    //         // $.post('/submitJawaban', { parsedData: obj});
+    //         return false;
+
+    //     });
+        $('#submitBtn').on('click', function(){
+            $.post("/submitJawaban/",
+                {
+                    name: "Donald Duck",
+                    city: "Duckburg"
+                },
+                function(data, status){
+                    alert("Data: " + data + "\nStatus: " + status);
+                });
+        });
+
+    });
+
+
+
+    function mySubmitFunction(){
+        event.preventDefault();
+        
+
+                obj = {};
         obj.jawaban = [];
 
-            $(':radio:checked').each(function(){
+        $(':radio:checked').each(function(){
                 obj.jawaban.push($(this).val());
                 // ans.push($(this).attr('name'));
                 // alert($(this).val());                    // Get all radio button values
@@ -195,25 +247,26 @@
             testJSON={"data" : [1,2,3,4,5,7]}
             jsonObj = JSON.stringify(obj)
             let payload = { name : "test", id: 12345};
+            console.log(payload)
             // alert(obj)
             // alert(jsonObj)            
 
-                $.ajax({
-                    url: '/submitJawaban',
-                    ContentType: 'application/json',
-                    data: JSON.stringify(payload),
-                    dataType: "json",
-                    type: 'POST',
-                    success: function (data) {
-                        alert(data);
-                    }
+            // $.post( "/submitJawaban/", function( payload ) {
+            //     alert( "Data Loaded: " + payload );
+            // });
+
+            $.post("/submitJawaban/",
+                {
+                    name: "Donald Duck",
+                    city: "Duckburg"
+                },
+                function(data, status){
+                    alert("Data: " + data + "\nStatus: " + status);
                 });
 
-            // $.post('/submitJawaban', { parsedData: obj});
+            return false;
 
-        });
-
-    });
+    }
   </script>
 
 </body>
