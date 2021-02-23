@@ -1,0 +1,39 @@
+<head>
+    <meta charset="utf-8">
+  
+    <title>The HTML5 Herald</title>
+    <meta name="description" content="The HTML5 Herald">
+    <meta name="author" content="SitePoint">
+  
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="/css/style.css" rel="stylesheet" type="text/css" crossorigin>
+  
+  </head>
+
+  <body>
+    <div class="container-fluid mt-5" style="max-width: 1920px; width: 100%;">
+        <div class="d-flex justify-content-center row question bg-white p-3 border-bottom">
+
+        <form class="question bg-white p-3 border-bottom" action="/Parameter/addSubParameter" method="POST">
+          <div class="d-flex flex-row align-items-center question-title">
+            <!-- <h3 class="text-danger">Q.</h3> -->
+            <h5 class="mt-1 ml-2">Tambah Sub-Parameter</h5><span>(<%=data%>)</span>
+          </div> 
+            <div class="form-group">
+                <label for="inputParameter">Sub-Parameter</label>
+                <input type="text" class="form-control" id="inputSubParameter" name="inputSubParameter" placeholder="">
+            </div>
+            <div class="form-group">
+              <label for="inputParameter">Index Sub-Parameter</label><span>
+              <input type="text" class="form-control" id="inputIndex" name="inputIndex" placeholder="">
+          </div>
+            <div class="form-group">
+              <input type="text" class="form-control" id="idParameter" name="idParameter" value="<%=data%>" hidden>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        </div>
+    </div>
+
+
+  </body>

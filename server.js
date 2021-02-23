@@ -1,9 +1,21 @@
 // load the things we need
 var express = require('express');
+var bodyParser = require('body-parser')
 var app = express();
+require('./models/database.js');
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
+app.use(express.static(__dirname + '/public'));
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({extended: true}));
+
+// parse application/json
+app.use(bodyParser.json())
+
+const parameterController = require('./controllers/parameterController.js');
+
 
 // use res.render to load up an ejs view file
 
@@ -18,19 +30,20 @@ app.get('/', function(req, res) {
                     choices:[ {ans:'ya', val: 1}, {ans:'tidak', val: 0 }, {ans:'mungkin', val: 0.5} ] }
 
                  ] }
-    res.render('addQuestion', {data:data});
+    const header = {headerAspek : "Aspek I", headerIndikator: "Indikator I"}
+    res.render('parameterFill', {data:data, headerData:header});
     //res.send(data)
     console.log(data.test[0])
 });
 
 app.post('/submitJawaban', (req,res) =>{
+    //res.send(req.body)\
     res.send(req.body)
+    console.log(JSON.stringify(req.body.nilai))
 })
 
-// about page
-app.get('/about', function(req, res) {
-    res.render('pages/about');
+app.listen(3000, () => {
+    console.log('Express server started at port : 3000');
 });
 
-app.listen(8080);
-console.log('8080 is the magic port');
+app.use('/Parameter', parameterController);
