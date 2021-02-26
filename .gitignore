@@ -1,4 +1,6 @@
 /node_modules
+/trashbin
 DumpEJS
 grh
 .env
+DumpController

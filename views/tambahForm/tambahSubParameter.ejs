@@ -14,10 +14,10 @@
     <div class="container-fluid mt-5" style="max-width: 1920px; width: 100%;">
         <div class="d-flex justify-content-center row question bg-white p-3 border-bottom">
 
-        <form class="question bg-white p-3 border-bottom" action="/Parameter/addSubParameter" method="POST">
+        <form class="question bg-white p-3 border-bottom" action="/addSubParameter" method="POST"  style="width: 800px;">
           <div class="d-flex flex-row align-items-center question-title">
             <!-- <h3 class="text-danger">Q.</h3> -->
-            <h5 class="mt-1 ml-2">Tambah Sub-Parameter</h5><span>(<%=data%>)</span>
+            <h5 class="mt-1 ml-2">Tambah Sub-Parameter</h5><span>(<%=parameterID%>)</span>
           </div> 
             <div class="form-group">
                 <label for="inputParameter">Sub-Parameter</label>
@@ -28,7 +28,13 @@
               <input type="text" class="form-control" id="inputIndex" name="inputIndex" placeholder="">
           </div>
             <div class="form-group">
-              <input type="text" class="form-control" id="idParameter" name="idParameter" value="<%=data%>" hidden>
+              <input type="text" class="form-control" id="inputParameter" name="inputParameter" value="<%=parameterID%>" hidden>
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" id="inputAspek" name="inputAspek" value="<%=idAspek%>" hidden>
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" id="inputIndikator" name="inputIndikator" value="<%=idIndikator%>" hidden>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

@@ -16,3 +16,6 @@ mongoose.connect(process.env.DB_CONNECT, {
 
 require('./Quisioner/Parameter.model.js');
 require('./Quisioner/subParameter.model.js');
+require('./Quisioner/faktor.model.js');
+require('./Quisioner/Indikator.model.js');
+require('./Quisioner/Aspek.model.js');

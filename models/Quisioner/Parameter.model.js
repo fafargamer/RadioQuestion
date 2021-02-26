@@ -11,6 +11,9 @@ var parameterSchema = new mongoose.Schema({
     indikator: {
         type: Number
     },
+    index: {
+        type: Number
+    },
     IDPertanyaan:{
         type: String
     },
@@ -22,6 +25,9 @@ var parameterSchema = new mongoose.Schema({
     },
     jumlahSubParameter:{
         type: Number
+    },
+    catatan:{
+        type: String
     }
 });
 

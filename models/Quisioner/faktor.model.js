@@ -1,15 +1,15 @@
 const mongoose = require('mongoose');
 
-var subParameterSchema = new mongoose.Schema({
-    subParameter: {
+var faktorSchema = new mongoose.Schema({
+    faktor: {
         type: String,
         required: 'This field is required.'
     },
-    aspek: {
-        type: Number
+    aspek:{
+        type:Number
     },
-    indikator: {
-        type: Number
+    indikator:{
+        type:Number
     },
     IDParameter:{
         type: String
@@ -17,15 +17,12 @@ var subParameterSchema = new mongoose.Schema({
     IndexSubParameter:{
         type: Number
     },
-    nilai: {
+    skor: {
         type: Number
     },
     buktiPemenuhan:{
         type: String
-    },
-    jumlahFaktor:{
-        type: Number
     }
 });
 
-mongoose.model('SubParameter', subParameterSchema);
+mongoose.model('FaktorSchema', faktorSchema);
