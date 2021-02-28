@@ -12,9 +12,27 @@
 
   <body>
     <div class="container-fluid mt-5" style="max-width: 1920px; width: 100%;">
-      <a class="btn btn-danger" href="/<%=idAspek%>/" role="button" style="float: left;">Back</a>
+      <div class="d-flex justify-content-center row question bg-white p-3 border-bottom">
+
         <div class="d-flex justify-content-center row">
         <form action="/addIndikator" method="POST"  style="width: 800px;">
+          <div class="d-flex flex-row align-items-center question-title justify-content-center">
+            <!-- <h3 class="text-danger">Q.</h3> -->
+            <h2 class="">Tambah Indikator</h2>     
+          </div>         
+          <div>
+            <h1>
+
+            </h1>
+          </div>
+          <div class="d-flex flex-row align-items-center question-title"> 
+            <h6 class="">Aspek : <%=idAspek%></h6>    
+          </div>
+          <div class="row top-buffer">
+            <h1>
+              
+            </h1>
+          </div>  
             <div class="form-group">
                 <label for="inputParameter">Judul Indikator</label>
                 <input type="text" class="form-control" id="inputIndikator" name="inputIndikator" placeholder="Mohon judul Indikator">
@@ -30,8 +48,10 @@
                 <label for="exampleInputEmail1">Bobot</label>
                 <input type="text" class="form-control" id="inputBobot" name="inputBobot" placeholder="Mohon input Bobot">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <a class="btn btn-danger" href="/<%=idAspek%>/" role="button" style="float: left;">Back</a>
+            <button type="submit" class="btn btn-primary" style="float: right;">Submit</button>
         </form>
+        </div>
         </div>
     </div>
 

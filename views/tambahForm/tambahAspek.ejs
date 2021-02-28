@@ -12,7 +12,8 @@
 
   <body>
     <div class="container-fluid mt-5">
-      <a class="btn btn-danger" href="/" role="button" style="float: left;">Back</a>
+      <div class="d-flex justify-content-center row question bg-white p-3 border-bottom">
+
         <div class="d-flex justify-content-center row">
         <form class="span12" action="/addAspek" method="POST"  style="width: 800px;">
             <div class="form-group">
@@ -27,9 +28,11 @@
                 <label for="exampleInputEmail1">Bobot</label>
                 <input type="text" class="form-control" id="inputBobot" name="inputBobot" placeholder="Mohon input Bobot">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary" style="float: right;">Submit</button>
+            <a class="btn btn-danger" href="/" role="button" style="float: left;">Back</a>
         </form>
         </div>
+      </div>
     </div>
 
 

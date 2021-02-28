@@ -143,6 +143,23 @@ app.get('/:idAspek/:idIndikator/:idparams/:idsubparameter/', (req,res) =>{
     // res.send(dataSubFaktor)
 })
 
+//Post penilaian Faktor
+app.post('/postPenilaian', (req,res) => {
+    faktor = req.body.inputID
+    buktiPemenuhan = req.body.inputPemenuhan
+    skor = req.body.inputNilai
+
+    FaktorSchema.findOneAndUpdate({faktor} , {buktiPemenuhan, skor}, {upsert:true}, (err,result) => {
+        if(err){
+            res.send(err)
+        }
+        else{
+            console.log(result)
+            res.redirect('back')
+        }
+    })
+})
+
 //Get Faktor Tambah (HTML)
 app.get('/:idAspek/:idIndikator/:idParams/:idSubParams/addFaktor/', (req,res) =>{
     aspek = req.params.idAspek
@@ -176,7 +193,7 @@ app.post('/addFaktor', (req,res) => {
     addFaktors(req,res, Faktor, aspek, indikator, idParameter, idSubParameter, IndexFaktor)
 })
 
-//Delete Sub-Parameter dan lainnya
+//Delete Faktor
 app.get('/:idAspek/:idIndikator/:idParameter/:idSubParameter/hapusFaktor/:idFaktor/', (req,res) => {
     parameterT = req.params.idParameter
     subParameterT = req.params.idSubParameter
@@ -187,6 +204,30 @@ app.get('/:idAspek/:idIndikator/:idParameter/:idSubParameter/hapusFaktor/:idFakt
     deleteFaktor(aspekT, indikatorT, parameterT,subParameterT, IDFaktor)
     res.redirect('/'+req.params.idAspek+'/'+req.params.idIndikator+'/'+req.params.idParameter+'/'+req.params.idSubParameter+'/')
 })
+
+//Get faktor form
+app.get('/:idAspek/:idIndikator/:idParams/:idSubParams/:idFaktor/fillForm/', (req,res) => {
+    IDParameter = req.params.idParams
+    IndexSubParameter = req.params.idSubParams
+    aspek = req.params.idAspek
+    indikator = req.params.idIndikator
+    IDFaktor = req.params.idFaktor
+
+    FaktorSchema.findOne({aspek, indikator, IDParameter, IndexSubParameter, IDFaktor}, (err,result) =>{
+        if(err)
+        {
+            res.send(err)
+        }
+        else if(!res){
+            res.send('Faktor tidak ada')
+        }
+        else{
+            res.render('isiSubFaktor', {data:result})
+        }
+    })
+})
+
+
 
 
 

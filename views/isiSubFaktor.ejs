@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>The HTML5 Herald</title>
+  <title>Peniliaian Sub-Faktor</title>
   <meta name="description" content="The HTML5 Herald">
   <meta name="author" content="SitePoint">
 
@@ -21,15 +21,16 @@
                 <div class="border">
                     <div class="question bg-white p-3 border-bottom">
                         <div class="d-flex flex-row justify-content-between align-items-center mcq">
-                            <h4>Aspek </h4> <span>Indikator </span>
+                            <h4>Aspek <%=data.aspek%></h4> <span>Indikator <%=data.indikator%></span>
                         </div>
                     </div>  
                     <div class="question bg-white p-3 border-bottom">
                         <div class="d-flex flex-row align-items-center question-title">
                             <!-- <h3 class="text-danger">Q.</h3> -->
-                            <h5 class="mt-1 ml-2"></h5>
+                            <h3 class="mt-1 ml-2"><%=data.faktor%></h3>
                         </div> 
-                        <form class="question bg-white p-3 border-bottom" action="/GCGData/postHasil" method="POST">
+                        <form class="question bg-white p-3 border-bottom" action="/postPenilaian" method="POST">
+                            <input type="text" id="inputID" name="inputID" value="<%=data.faktor%>" hidden readonly>
                             <div class="ans ml-2">   
                                 <input class="form-check-input" type="radio" value="D" id="inputPemenuhan" name="inputPemenuhan">
                                 <label class="form-check-label" for="flexCheckDefault">
@@ -60,14 +61,23 @@
                                     </div>
                                         <!-- <input type="text" class="form-control" id="inputNilai" name="inputNilai" placeholder="Nilai dari Sub-Parameter (0 - 1)"> -->
                                         <select class="form-select form-select-sm form-control" id="inputNilai" name="inputNilai">
-                                            <option selected>Nilai Faktor</option>
+                                            <option selected disabled>Nilai Faktor</option>
                                             <option value="0.0">0</option>
                                             <option value="0.25">0.25</option>
                                             <option value="0.5">0.5</option>
                                             <option value="0.75">0.75</option>
                                             <option value="1.0">1</option>
                                     </select>
+                                    <div class="question bg-white p-3">
+                                        <h1></h1>
+                                    </div>
+                                    <a class="btn btn-danger" href="/<%=data.aspek%>/<%=data.indikator%>/<%=data.IDParameter%>/<%=data.IndexSubParameter%>/" role="button" style="float: left;">Back</a> 
+                                    <button type="submit" class="btn btn-success" style="float: right;">Submit</button>
+                                    <div class="question bg-white p-3">
+                                        <h1></h1>
+                                    </div>
                                 </div> 
+
                         </form>
 
 
