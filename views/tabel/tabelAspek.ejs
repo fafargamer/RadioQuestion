@@ -43,7 +43,7 @@
             <tbody>
                 <% result.forEach(function(row, i) { %> 
                 <tr>
-                    <td><%=i+1%></td>
+                    <td><%=row.index%></td>
                     <td><%=row.aspek%></td>
                     <td><%=row.jumlahIndikator%></td>
                     <td><%=row.bobot%></td>
@@ -51,6 +51,33 @@
                     <td>nilai Individu</td>
                     <td>
                         <a class="btn btn-primary" href="/<%=row.index%>/" role="button">Detail</a>
+                    </td>
+                    <td>
+                        <!-- Button trigger modal -->
+                      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalAspek<%=i+1%>">
+                        Hapus
+                      </button>
+
+                      <!-- Modal -->
+                      <div class="modal fade" id="modalAspek<%=i+1%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Yakin hapus data berikut:</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              Aspek <%=row.index%> : <%=row.aspek%>
+                            </div>
+                            <div class="modal-footer">
+                              <a type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                              <a type="button" class="btn btn-danger" href="/hapusAspek/<%=row.index%>">Hapus data</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </td>
                 </tr>
                 <% }); %> 

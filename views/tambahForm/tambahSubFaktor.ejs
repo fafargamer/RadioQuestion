@@ -12,25 +12,57 @@
 
   <body>
     <div class="container-fluid mt-5" style="max-width: 1920px; width: 100%;">
-        <div class="d-flex justify-content-center row question bg-white p-3 border-bottom">
+      <div class="d-flex justify-content-center row question bg-white p-3 border-bottom">
 
-        <form class="question bg-white p-3 border-bottom" action="/Parameter/addSubParameter" method="POST"  style="width: 800px;">
-          <div class="d-flex flex-row align-items-center question-title">
+        <form class="question bg-white p-3 border-bottom" action="/addFaktor" method="POST"  style="width: 800px;">
+          <div class="d-flex flex-row align-items-center question-title justify-content-center">
             <!-- <h3 class="text-danger">Q.</h3> -->
-            <h5 class="mt-1 ml-2">Tambah Sub-Parameter</h5><span>(<%=parameterID%>)</span>
+            <h2 class="">Tambah Faktor</h2>     
           </div> 
+          <div>
+            <h1>
+
+            </h1>
+          </div>
+          <div class="d-flex flex-row align-items-center question-title"> 
+            <h6 class="">Aspek : <%=aspek%></h6>    
+          </div>
+          <div class="d-flex flex-row align-items-center question-title"> 
+            <h6 class="">Indikator : <%=indikator%></h6>    
+          </div>
+          <div class="d-flex flex-row align-items-center question-title"> 
+            <h6 class="">Parameter : <%=IDParameter%></h6>  
+          </div>
+          <div class="d-flex flex-row align-items-center question-title border-bottom"> 
+            <h6 class="">Sub-Parameter : <%=result.subParameter%></h6>
+          </div>
+          <div class="row top-buffer">
+            <h1>
+              
+            </h1>
+          </div>               
             <div class="form-group">
-                <label for="inputParameter">Sub-Parameter</label>
-                <input type="text" class="form-control" id="inputSubParameter" name="inputSubParameter" placeholder="">
+                <label for="inputFaktor">Faktor</label>
+                <input type="text" class="form-control" id="inputFaktor" name="inputFaktor" placeholder="">
             </div>
             <div class="form-group">
-              <label for="inputParameter">Index Sub-Parameter</label><span>
+              <label for="inputIndex">Index Faktor</label><span>
               <input type="text" class="form-control" id="inputIndex" name="inputIndex" placeholder="">
           </div>
+          <div class="form-group">
+            <input type="text" class="form-control" id="inputAspek" name="inputAspek" value="<%=aspek%>" hidden>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" id="inputIndikator" name="inputIndikator" value="<%=indikator%>" hidden>
+          </div>
             <div class="form-group">
-              <input type="text" class="form-control" id="idParameter" name="idParameter" value="<%=parameterID%>" hidden>
+              <input type="text" class="form-control" id="idParameter" name="idParameter" value="<%=IDParameter%>" hidden>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="form-group">
+              <input type="text" class="form-control" id="idSubParameter" name="idSubParameter" value="<%=result.IndexSubParameter%>" hidden>
+            </div>
+            <a class="btn btn-danger" href="/<%=aspek%>/<%=indikator%>/<%=IDParameter%>/<%=result.IndexSubParameter%>/" role="button" style="float: left;">Back</a> 
+            <button type="submit" class="btn btn-primary" style="float: right;">Submit</button>
         </form>
         </div>
     </div>

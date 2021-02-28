@@ -17,6 +17,10 @@ var faktorSchema = new mongoose.Schema({
     IndexSubParameter:{
         type: Number
     },
+    IDFaktor:{
+        type: String,
+        required: 'This field is required'
+    },
     skor: {
         type: Number
     },

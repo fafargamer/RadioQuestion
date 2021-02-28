@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 // parse application/json
 app.use(bodyParser.json())
 
-const parameterController = require('./controllers/parameterController.js');
+const parameterController = require('./controllers/CGCDataController.js');
 const { response } = require('express');
 
 

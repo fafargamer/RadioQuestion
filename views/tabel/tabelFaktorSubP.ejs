@@ -9,50 +9,113 @@
   <meta name="author" content="SitePoint">
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" crossorigin="anonymous">
+  <link href="  https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css" crossorigin="anonymous">
   <link href="/css/style.css" rel="stylesheet" type="text/css" crossorigin>
 
   <style>
-      body {
-            background-color: rgb(255, 255, 255)
-        }
-  </style>
+    body {
+          background-color: rgb(255, 255, 255)
+      }
+      .dataTables_filter {
+        float: right;
+      }
+</style>
 
 </head>
 
 
 <body>
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item"><a href="/<%=idAspek%>">Aspek <%=idAspek%></a></li>
+          <li class="breadcrumb-item"><a href="/<%=idAspek%>/<%=idIndikator%>">Indikator <%=idIndikator%></a></li>
+          <li class="breadcrumb-item"><a href="/<%=idAspek%>/<%=idIndikator%>/<%=idParameter%>">Parameter <%=idParameter%></a></li>          
+          <li class="breadcrumb-item active"><a aria-current="/<%=idAspek%>/<%=idIndikator%>/<%=idParameter%>/<%=subParameter.IndexSubParameter%>">Sub-Parameter <%=subParameter.IndexSubParameter%></a></li>
+        </ol>
+      </nav>
+
         <div class="container mt-5">
-            <h2>Tabel Sub-Faktor</h2>  <a class="btn btn-success" href="" role="button" style="float: right;">+</a>
-            <p>Parameter: </p>
-            <p>Sub-Parameter: </p>
+            <h5><%=subParameter.subParameter%></h5>  <a class="btn btn-success" href="/<%=idAspek%>/<%=idIndikator%>/<%=idParameter%>/<%=subParameter.IndexSubParameter%>/addFaktor/" role="button" style="float: right;">+</a>
+            <p>Parameter: <%=subParameter.IDParameter%></p>
+            <p>Sub-Parameter: <%=subParameter.IndexSubParameter%></p>
             <p>Bobot: </p>
             <p>Nilai: </p>            
-            <table class="table table-condensed">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Bukti Pemenuhan</th>
-                    <th>Nilai</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% data.forEach(function(row, i) { %> 
-                <tr>
-                    <td><%=i%></td>
-                    <td><%=row.buktiPemenuhan%></td>
-                    <td><%=row.nilai%></td>
-                    <td>
-                        <a class="btn btn-primary" href="/" role="button">Detail</a>
-                    </td>
-                </tr>
-                <% }); %> 
-            </tbody>
+            <table id="tabel" class="table table-condensed">
+
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>ID Faktor</th>
+                        <th>Sub-Faktor</th>
+                        <th>Bukti Pemenuhan</th>
+                        <th>Nilai</th>
+                        <th> </th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% result.forEach(function(row, i) { %> 
+                    <tr>
+                        <td><%=i+1%></td>
+                        <td><%=row.IDFaktor%></td>
+                        <td><%=row.faktor%></td>
+                        <td><%=row.buktiPemenuhan%></td>
+                        <td><%=row.nilai%></td>
+                        <td>
+                            <a class="btn btn-primary" href="/" role="button">Detail</a>
+                        </td>
+                        <td>
+                            <!-- Button trigger modal -->
+                          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalAspek<%=i+1%>">
+                            Hapus
+                          </button>
+  
+                          <!-- Modal -->
+                          <div class="modal fade" id="modalAspek<%=i+1%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Yakin hapus data berikut:</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                    <%=row.IDFaktor%> : <%=row.faktor%>
+                                </div>
+                                <div class="modal-footer">
+                                  <a type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                                  <a type="button" class="btn btn-danger" href="/<%=row.aspek%>/<%=row.indikator%>/<%=row.IDParameter%>/<%=row.IndexSubParameter%>/hapusFaktor/<%=row.IDFaktor%>/">Hapus data</a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                    </tr>
+                    <% }); %> 
+                </tbody>
             </table>
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+        <script>
+            $(document).ready(function() {
+                $('#tabel').DataTable({
+                    "lengthChange": false,
+                    "paginate": false,
+                    "info": false,
+                });
+                
+            } );
+        </script>  
+
       
         <!-- <script>
             $(document).ready(function() {

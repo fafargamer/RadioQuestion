@@ -15,10 +15,29 @@
         <div class="d-flex justify-content-center row question bg-white p-3 border-bottom">
 
         <form class="question bg-white p-3 border-bottom" action="/addSubParameter" method="POST"  style="width: 800px;">
-          <div class="d-flex flex-row align-items-center question-title">
+          <div class="d-flex flex-row align-items-center question-title justify-content-center">
             <!-- <h3 class="text-danger">Q.</h3> -->
-            <h5 class="mt-1 ml-2">Tambah Sub-Parameter</h5><span>(<%=parameterID%>)</span>
+            <h2 class="">Tambah Sub-Parameter</h2>     
           </div> 
+          <div>
+            <h1>
+
+            </h1>
+          </div>
+          <div class="d-flex flex-row align-items-center question-title"> 
+            <h6 class="">Aspek : <%=idAspek%></h6>    
+          </div>
+          <div class="d-flex flex-row align-items-center question-title"> 
+            <h6 class="">Indikator : <%=idIndikator%></h6>    
+          </div>
+          <div class="d-flex flex-row align-items-center question-title"> 
+            <h6 class="">Parameter : <%=parameterID%></h6>  
+          </div>
+          <div class="row top-buffer">
+            <h1>
+              
+            </h1>
+          </div>   
             <div class="form-group">
                 <label for="inputParameter">Sub-Parameter</label>
                 <input type="text" class="form-control" id="inputSubParameter" name="inputSubParameter" placeholder="">
@@ -36,7 +55,8 @@
             <div class="form-group">
               <input type="text" class="form-control" id="inputIndikator" name="inputIndikator" value="<%=idIndikator%>" hidden>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <a class="btn btn-danger" href="/<%=idAspek%>/<%=idIndikator%>/<%=parameterID%>/" role="button" style="float: left;">Back</a> 
+            <button type="submit" class="btn btn-primary" style="float: right;">Submit</button>
         </form>
         </div>
     </div>

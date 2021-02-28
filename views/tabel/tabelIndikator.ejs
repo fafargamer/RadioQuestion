@@ -15,6 +15,9 @@
       body {
             background-color: rgb(255, 255, 255)
         }
+        .dataTables_filter {
+          float: right;
+        }
   </style>
 
 </head>
@@ -29,7 +32,7 @@
       </nav>
 
         <div class="container mt-5">
-            <h2>Tabel Indikator</h2>  <a class="btn btn-success" href="/<%=idAspek%>/addIndikator" role="button" style="float: right;">+</a>
+            <h2><%=resAsp.aspek%></h2>  <a class="btn btn-success" href="/<%=idAspek%>/addIndikator" role="button" style="float: right;">+</a>
             <p>Aspek: <%=idAspek%></p>
             <p>Bobot: </p>
             <p>Nilai: </p>
@@ -47,7 +50,7 @@
             <tbody>
                 <% result.forEach(function(row, i) { %> 
                 <tr>
-                    <td><%=i+1%></td>
+                    <td><%=row.index%></td>
                     <td><%=row.indikator%></td>
                     <td><%=row.jumlahParameter%></td>
                     <td><%=row.bobot%></td>
@@ -55,6 +58,33 @@
                     <td>
                         <a class="btn btn-primary" href="/<%=idAspek%>/<%=row.index%>/" role="button">Detail</a>
                     </td>
+                    <td>
+                        <!-- Button trigger modal -->
+                      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalAspek<%=i+1%>">
+                        Hapus
+                      </button>
+
+                      <!-- Modal -->
+                      <div class="modal fade" id="modalAspek<%=i+1%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Yakin hapus data berikut:</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              Indikator <%=row.index%> : <%=row.indikator%>
+                            </div>
+                            <div class="modal-footer">
+                              <a type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                              <a type="button" class="btn btn-danger" href="/<%=idAspek%>/hapusIndikator/<%=row.index%>">Hapus data</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </td>
                 </tr>
                 <% }); %> 
             </tbody>
