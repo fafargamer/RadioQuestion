@@ -111,7 +111,7 @@ app.get('/:idAspek/:idIndikator/:idparams/addSubParameter', (req,res) =>{
     ParameterID = req.params.idparams
     idAspek = req.params.idAspek
     idIndikator = req.params.idIndikator
-    res.render('tambahForm/tambahSubParameter', {parameterID: ParameterID, idAspek:idAspek, idIndikator:idIndikator})
+    res.render('tambahForm/tambahSubParameter', {parameterID: ParameterID, idAspek:idAspek, idIndikator:idIndikator, errMsg: req.flash('infoFailAddSP')})
 })
 
 //Tambah sub-parameter (Post)
@@ -143,23 +143,6 @@ app.get('/:idAspek/:idIndikator/:idparams/:idsubparameter/', (req,res) =>{
     // res.send(dataSubFaktor)
 })
 
-//Post penilaian Faktor
-app.post('/postPenilaian', (req,res) => {
-    faktor = req.body.inputID
-    buktiPemenuhan = req.body.inputPemenuhan
-    skor = req.body.inputNilai
-
-    FaktorSchema.findOneAndUpdate({faktor} , {buktiPemenuhan, skor}, {upsert:true}, (err,result) => {
-        if(err){
-            res.send(err)
-        }
-        else{
-            console.log(result)
-            res.redirect('back')
-        }
-    })
-})
-
 //Get Faktor Tambah (HTML)
 app.get('/:idAspek/:idIndikator/:idParams/:idSubParams/addFaktor/', (req,res) =>{
     aspek = req.params.idAspek
@@ -174,8 +157,9 @@ app.get('/:idAspek/:idIndikator/:idParams/:idSubParams/addFaktor/', (req,res) =>
             res.send('Sub-Parameter tidak ada')
         }
         else{
-            console.log(result)
-            res.render('tambahForm/tambahSubFaktor', {aspek, indikator, IDParameter, result:result})
+            // console.log(result)
+            // console.log(req.flash('subFaktorAddStatus'))
+            res.render('tambahForm/tambahSubFaktor', {aspek, indikator, IDParameter, result:result, message:req.flash('infoFailAddFaktor')})
         }
     })
 })
@@ -223,6 +207,23 @@ app.get('/:idAspek/:idIndikator/:idParams/:idSubParams/:idFaktor/fillForm/', (re
         }
         else{
             res.render('isiSubFaktor', {data:result})
+        }
+    })
+})
+
+//Post penilaian Faktor
+app.post('/postPenilaian', (req,res) => {
+    faktor = req.body.inputID
+    buktiPemenuhan = req.body.inputPemenuhan
+    skor = req.body.inputNilai
+
+    FaktorSchema.findOneAndUpdate({faktor} , {buktiPemenuhan, skor}, {upsert:true}, (err,result) => {
+        if(err){
+            res.send(err)
+        }
+        else{
+            console.log(result)
+            res.redirect('/'+result.aspek+'/'+result.indikator+'/'+result.IDParameter+'/'+result.IndexSubParameter+'/')
         }
     })
 })
@@ -677,7 +678,9 @@ function addSubParameter(req, res) {
             res.send(err)
         }
         else if(result){
-            res.send("Sub-Parameter sudah ada")
+            console.log("Sub-Parameter sudah ada")
+            req.flash('infoFailAddSP', 'Sub-Parameter sudah ada');
+            res.redirect('back')
         }
         else{
             subParameter.save((error,doc) =>{
@@ -776,6 +779,7 @@ function getFaktors(req, res, aspekT, indikatorT, IDParameterT, IndexSubParamete
 }
 
 function addFaktors(req,res, FaktorT, aspekT, indikatorT, IDParameterT, IndexSubParameterT, IndexFaktor){
+    
     faktor = FaktorT
     aspek = aspekT
     indikator = indikatorT
@@ -786,32 +790,55 @@ function addFaktors(req,res, FaktorT, aspekT, indikatorT, IDParameterT, IndexSub
     
     IDFaktor = createFaktorID(IDParameter, IndexSubParameter, IndexFaktor)
 
-    FaktorSchema.findOneAndUpdate(
-        {IDFaktor}, 
-        {faktor, aspek, indikator, IDParameter, IndexSubParameter, IDFaktor, skor, buktiPemenuhan}, 
-        {upsert:true}
-        ,(err, result) =>{
-            if(err){
-                res.send(err)
-            }
-            else{
-                console.log(result)
-                SubParameter.findOneAndUpdate(
-                    {IDParameter, IndexSubParameter},
-                    {$inc: {'jumlahFaktor':1}},
-                    {upsert:true},
-                    (error,resultS) =>{
-                        if(error)
-                        {
-                            res.send(error)
-                        }
-                        else{
-                            console.log(resultS)
-                        }
-                    })
-                res.redirect('/'+ aspek +'/'+ indikator + '/' + IDParameter + '/' + IndexSubParameter + '/')
-            }
-        })
+    faktorIns = new FaktorSchema();
+    faktorIns.faktor = FaktorT
+    faktorIns.aspek = aspekT
+    faktorIns.indikator = indikatorT
+    faktorIns.IDParameter = IDParameterT
+    faktorIns.IndexSubParameter = IndexSubParameterT
+    faktorIns.skor = 0
+    faktorIns.buktiPemenuhan = ''
+    faktorIns.IDFaktor = IDFaktor
+
+    FaktorSchema.findOne({IDFaktor}, (errFind,resFind) =>{
+        if(errFind){
+            res.send(errFind)
+        }
+        else if(resFind){
+            console.log('Faktor sudah ada')
+            // req.session.save( function(){ 
+                req.flash('infoFailAddFaktor', 'Faktor sudah ada');
+                res.redirect('back')
+            // })
+
+        }
+        else{
+            faktorIns.save((errSave,resSave) =>{
+                if(errSave){
+                    res.send(errSave)
+                }
+                else{
+                    console.log(resSave)
+                    SubParameter.findOneAndUpdate(
+                        {IDParameter, IndexSubParameter},
+                        {$inc: {'jumlahFaktor':1}},
+                        {upsert:true},
+                        (error,resultS) =>{
+                            if(error)
+                            {
+                                res.send(error)
+                            }
+                            else{
+                                console.log(resultS)
+                            }
+                        })
+                    res.redirect('/'+ aspek +'/'+ indikator + '/' + IDParameter + '/' + IndexSubParameter + '/')
+                }
+            })
+        }
+    })
+
+
 
 }
 
@@ -856,6 +883,17 @@ function createFaktorID(parameterID, SubParameterID, IndexFaktor){
     var id = ""
     s = "SF" + '-' + parameterID.toString() + "-" + SubParameterID.toString() + "-" + IndexFaktor.toString()
     return s
+}
+
+function countScore(data, pembilang) {
+    
+    // Getting sum of numbers
+    var sum = data.reduce(function(a, b){
+        return a + b;
+    }, 0);
+    
+    var result = sum/pembilang
+    return result
 }
 
 module.exports = app;
