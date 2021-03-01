@@ -56,7 +56,7 @@ app.get('/:idAspek', (req,res) =>{
 //Tambah Indikator (HTML)
 app.get('/:idAspek/addIndikator', (req,res) =>{
     var idAspek = req.params.idAspek
-    res.render('tambahForm/tambahIndikator', {idAspek: idAspek})
+    res.render('tambahForm/tambahIndikator', {idAspek: idAspek, errMsg: req.flash('infoFailAddI')})
 })
 
 app.post('/addIndikator', (req,res) =>{
@@ -81,7 +81,7 @@ app.get('/:idAspek/:idIndikator', (req,res) =>{
 app.get('/:idAspek/:idIndikator/addParameter', (req,res) =>{
     var idAspek = req.params.idAspek
     var idIndikator = req.params.idIndikator
-    res.render('tambahForm/tambahParameterFix', {idAspek: idAspek, idIndikator: idIndikator})
+    res.render('tambahForm/tambahParameterFix', {idAspek: idAspek, idIndikator: idIndikator, errMsg: req.flash('infoFailAddP')})
 })
 
 //Tambah parameter (Post)
@@ -390,23 +390,36 @@ function addIndikator(req,res) {
     indikator.bobot = req.body.inputBobot
     indikator.nilai = 0
     indikator.jumlahParameter = 0
-    indikator.save((error,indikator) =>{
-        if(error){
-            res.send(error)
+    Indikator.findOne({aspek: indikator.aspek, index:indikator.index}, (errFind,resFind) =>{
+        if(errFind){
+            res.send(errFind)
+        }
+        else if(resFind){
+            console.log('Indikator dengan ID yang sama sudah ada')
+            req.flash('infoFailAddI', 'Indikator sudah ada');
+            res.redirect('back')
         }
         else{
-            Aspek.findOneAndUpdate( {index:req.body.inputAspek}, 
-                {$inc:{jumlahIndikator: 1}}, {upsert: true}, (errUpdAsp,resUpdAsp) =>{
-                    if(errUpdAsp){
-                        res.send(errUpdAsp)
-                    }
-                    else{
-                        console.log(resUpdAsp)
-                    }
-                });
-            res.redirect('/'+req.body.inputAspek)
+            indikator.save((error,indikator) =>{
+                if(error){
+                    res.send(error)
+                }
+                else{
+                    Aspek.findOneAndUpdate( {index:req.body.inputAspek}, 
+                        {$inc:{jumlahIndikator: 1}}, {upsert: true}, (errUpdAsp,resUpdAsp) =>{
+                            if(errUpdAsp){
+                                res.send(errUpdAsp)
+                            }
+                            else{
+                                console.log(resUpdAsp)
+                            }
+                        });
+                    res.redirect('/'+req.body.inputAspek)
+                }
+            })
         }
     })
+
 }
 
 //Delete Indikator
@@ -532,7 +545,9 @@ function insertQuestion(req, res) {
             res.send(errorFind)
         }
         else if(hasilFind){
-            res.send('Parameter dengan ID yang sama sudah ada')
+            console.log('Parameter dengan ID yang sama sudah ada')
+            req.flash('infoFailAddP', 'Parameter sudah ada');
+            res.redirect('back')
         }else{
             parameter.save((err, doc) => {
                 if (!err){

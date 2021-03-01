@@ -33,6 +33,13 @@
               
             </h1>
           </div>  
+
+          <% if (errMsg.length > 0) { %>
+            <div class="alert alert-danger" role="alert">
+              <%=errMsg%>
+            </div>
+  
+            <% }; %>
             <div class="form-group">
                 <label for="inputParameter">Judul Indikator</label>
                 <input type="text" class="form-control" id="inputIndikator" name="inputIndikator" placeholder="Mohon judul Indikator">
