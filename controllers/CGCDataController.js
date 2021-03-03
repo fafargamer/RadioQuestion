@@ -10,6 +10,7 @@ const Indikator = mongoose.model('Indikator')
 const Aspek = mongoose.model('Aspek')
 const toPercent = require('decimal-to-percent');
 const e = require('express');
+const { reset } = require('nodemon');
 
 mongoose.set('useFindAndModify', false);
 
@@ -213,11 +214,11 @@ app.get('/:idAspek/:idIndikator/:idParams/:idSubParams/:idFaktor/fillForm/', (re
 
 //Post penilaian Faktor
 app.post('/postPenilaian', (req,res) => {
-    faktor = req.body.inputID
+    IDFaktor = req.body.inputID
     buktiPemenuhan = req.body.inputPemenuhan
     skor = req.body.inputNilai
 
-    FaktorSchema.findOneAndUpdate({faktor} , {buktiPemenuhan, skor}, {upsert:true}, (err,result) => {
+    FaktorSchema.findOneAndUpdate({IDFaktor} , {buktiPemenuhan, skor}, {upsert:true}, (err,result) => {
         if(err){
             res.send(err)
         }
@@ -646,7 +647,9 @@ function getSubParameters(req, res) {
                 }
                 else{
                     console.log(result)
-                    res.render('tabel/tabelSubParameter', {data:result, dataParameter:resultParameter, idAspek:idAspek, idIndikator:idIndikator, header:result[0]})
+
+                    var percentData = toPercentageData(result)
+                    res.render('tabel/tabelSubParameter', {data:result, dataParameter:resultParameter, idAspek:idAspek, idIndikator:idIndikator, header:result[0], percentData:percentData})
                 }
             })
         }
@@ -780,12 +783,36 @@ function getFaktors(req, res, aspekT, indikatorT, IDParameterT, IndexSubParamete
                 }
                 else{
                 console.log(result)
+                var totalSkor = []
+
+                // skorArray = {}
+                // skorArray = result.skor
+
+
+
+                if(result.length > 0){
+                    var totalSkor = countScoreFaktor(result)
+                    SubParameter.findOneAndUpdate({aspek, indikator, IDParameter, IndexSubParameter}, {nilai:totalSkor}, {upsert:true}, (errUpdSub,resUpdSub) =>{
+                        if(errUpdSub){
+                            console.log(errUpdSub)
+                        }
+                        else{
+                           console.log(resUpdSub)
+                        }
+                    })
+                }
+                else{
+                    var totalSkor = 0
+                }
+
                 res.render('tabel/tabelFaktorSubP', {
                     result:result, 
                     idAspek:aspekT, 
                     idIndikator:indikatorT, 
                     idParameter:IDParameterT, 
-                    subParameter: resultSub})
+                    subParameter: resultSub,
+                    totalSkor: totalSkor
+                })
                 }
             })
         }
@@ -900,15 +927,42 @@ function createFaktorID(parameterID, SubParameterID, IndexFaktor){
     return s
 }
 
-function countScore(data, pembilang) {
+function countScoreFaktor(data) {
     
-    // Getting sum of numbers
-    var sum = data.reduce(function(a, b){
-        return a + b;
-    }, 0);
+    var totalSkor = 0
+    for (var i=data.length; i--;) {
+      totalSkor+=data[i].skor;
+    }
+    totalSkor = totalSkor/data.length
     
-    var result = sum/pembilang
-    return result
+    return totalSkor
+}
+
+function countScore(data) {
+    
+    var totalSkor = 0
+    for (var i=data.length; i--;) {
+      totalSkor+=data[i].nilai;
+    }
+    totalSkor = totalSkor/data.length
+    
+    return totalSkor
+}
+
+function toPercentageData(data) {
+    percentageArr = []
+
+    for(var i=data.length; i--;) {
+        percentageArr[i] = toPercentage(data[i].nilai) + '%'
+    }
+
+    return percentageArr
+}
+
+function toPercentage(data) {
+
+    data = data * 100
+    return data
 }
 
 module.exports = app;
