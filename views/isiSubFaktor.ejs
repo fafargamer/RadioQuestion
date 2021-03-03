@@ -31,6 +31,7 @@
                         </div> 
                         <form class="question bg-white p-3 border-bottom" action="/postPenilaian" method="POST">
                             <input type="text" id="inputID" name="inputID" value="<%=data.IDFaktor%>" hidden readonly>
+                            <h5>Bukti Pemenuhan</h5>
                             <div class="ans ml-2">   
                                 <input class="form-check-input" type="radio" value="D" id="inputPemenuhan" name="inputPemenuhan">
                                 <label class="form-check-label" for="flexCheckDefault">
@@ -55,11 +56,51 @@
                                     Observasi
                                 </label>
                             </div>
+
+                            <h1>
+
+                            </h1>
+                            <h5>Nilai Faktor</h5>
+                            <h1>
+
+                            </h1>
+
+
+                            <div class="ans ml-2">   
+                                <input class="form-check-input" type="radio" value="0.0" id="inputNilai" name="inputNilai">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    0
+                                </label>
+                            </div>
+                            <div class="ans ml-2">   
+                                <input class="form-check-input" type="radio" value="0.25" id="inputNilai" name="inputNilai">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    0.25
+                                </label>
+                            </div>
+                            <div class="ans ml-2">   
+                                <input class="form-check-input" type="radio" value="0.5" id="inputNilai" name="inputNilai">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    0.5
+                                </label>
+                            </div>
+                            <div class="ans ml-2">   
+                                <input class="form-check-input" type="radio" value="0.75" id="inputNilai" name="inputNilai">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    0.75
+                                </label>
+                            </div>
+                            <div class="ans ml-2">   
+                                <input class="form-check-input" type="radio" value="1" id="inputNilai" name="inputNilai">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    1
+                                </label>
+                            </div>
                                 <div class="ans ml-2 form-group ">  
                                     <div class="question bg-white p-3 border-bottom">
                                         <h1></h1>
                                     </div>
-                                        <!-- <input type="text" class="form-control" id="inputNilai" name="inputNilai" placeholder="Nilai dari Sub-Parameter (0 - 1)"> -->
+                                        <!-- <input type="text" class="form-control" id="inputNilai" name="inputNilai" placeholder="Nilai dari Sub-Parameter (0 - 1)">
                                         <select class="form-select form-select-sm form-control" id="inputNilai" name="inputNilai">
                                             <option selected disabled>Nilai Faktor</option>
                                             <option value="0.0">0</option>
@@ -67,7 +108,7 @@
                                             <option value="0.5">0.5</option>
                                             <option value="0.75">0.75</option>
                                             <option value="1">1</option>
-                                    </select>
+                                    </select> -->
                                     <div class="question bg-white p-3">
                                         <h1></h1>
                                     </div>
@@ -106,9 +147,10 @@
 
     <script>
         $(document).ready(function() {
-            $("#inputNilai").find('option[value="<%=data.skor%>"]').attr('selected','selected')
+            // $("#inputNilai").find('option[value="<%=data.skor%>"]').attr('selected','selected')
             $(function() {
                 $('[name="inputPemenuhan"]').val(['<%=data.buktiPemenuhan%>'])
+                $('[name="inputNilai"]').val(['<%=data.skor%>'])
             });
         });
     </script>
