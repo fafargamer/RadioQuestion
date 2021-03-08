@@ -26,13 +26,18 @@
 
 
 <body>      
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
+
+      <nav class="navbar navbar-light" style="background-color: #2290bb;">
+        <a class="navbar-brand" href="#">
+          <img src="/img/LOGO-TWCT.png" width="60" height="40" alt=""><span style="color: rgb(214, 214, 214); font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">GCG TWC</span>
+        </a>
+      </nav>
+      
+        <div class="breadcrumb">
           <li class="breadcrumb-item"><a href="/">Home</a></li>
           <li class="breadcrumb-item"><a href="/<%=idAspek%>">Aspek <%=idAspek%></a></li>
           <li class="breadcrumb-item active"><a aria-current="/<%=idAspek%>/<%=idIndikator%>">Indikator <%=idIndikator%></a></li>
-        </ol>
-      </nav>
+        </div>
 
         <div class="container mt-5">
             <h5><%=resInd.indikator%></h5>  <a class="btn btn-success" href="/<%=idAspek%>/<%=idIndikator%>/addParameter" role="button" style="float: right;">+</a>

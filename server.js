@@ -31,6 +31,10 @@ app.use(session({
 
 app.use(flash());
 
+// app.get('/', (req,res) =>{
+//   res.redirect('/GCGData/')
+// })
+
 
 // use res.render to load up an ejs view file
 
