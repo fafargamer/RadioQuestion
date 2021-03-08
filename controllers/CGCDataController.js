@@ -647,6 +647,29 @@ function getSubParameters(req, res) {
                     res.send('SubParameter belum ada')
                 }
                 else{
+
+                    var totalSkor = []
+
+                    // skorArray = {}
+                    // skorArray = result.skor
+    
+    
+    
+                    if(result.length > 0){
+                        var totalSkor = countScore(result)
+                        totalSkor = totalSkor * resultParameter.bobot
+                        Parameter.findOneAndUpdate({IDPertanyaan: IDParameter}, {nilai:totalSkor}, {upsert:true}, (errUpdSub,resUpdSub) =>{
+                            if(errUpdSub){
+                                console.log(errUpdSub)
+                            }
+                            else{
+                               console.log(resUpdSub)
+                            }
+                        })
+                    }
+                    else{
+                        var totalSkor = 0
+                    }
                     console.log(result)
 
                     var percentData = toPercentageData(result)
