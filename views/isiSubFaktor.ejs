@@ -113,10 +113,11 @@
                                         <!-- <span style="white-space: "> -->
                                 
                                     </h1>
-
+                                    <% if(data.catatan != null) { %>
                                     <div>
                                         <h6><%-data.catatan.replace('\n', '<br>')%></h6>
                                     </div>
+                                    <% } %>
                                         <!-- <input type="text" class="form-control" id="inputNilai" name="inputNilai" placeholder="Nilai dari Sub-Parameter (0 - 1)">
                                         <select class="form-select form-select-sm form-control" id="inputNilai" name="inputNilai">
                                             <option selected disabled>Nilai Faktor</option>
