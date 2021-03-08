@@ -173,9 +173,10 @@ app.post('/addFaktor', (req,res) => {
     indikator = req.body.inputIndikator
     Faktor = req.body.inputFaktor
     IndexFaktor = req.body.inputIndex
+    catatanFaktor = req.body.inputCatatan
 
     
-    addFaktors(req,res, Faktor, aspek, indikator, idParameter, idSubParameter, IndexFaktor)
+    addFaktors(req,res, Faktor, aspek, indikator, idParameter, idSubParameter, IndexFaktor, catatanFaktor)
 })
 
 //Delete Faktor
@@ -820,13 +821,14 @@ function getFaktors(req, res, aspekT, indikatorT, IDParameterT, IndexSubParamete
 
 }
 
-function addFaktors(req,res, FaktorT, aspekT, indikatorT, IDParameterT, IndexSubParameterT, IndexFaktor){
+function addFaktors(req,res, FaktorT, aspekT, indikatorT, IDParameterT, IndexSubParameterT, IndexFaktor, catatanFaktor){
     
     faktor = FaktorT
     aspek = aspekT
     indikator = indikatorT
     IDParameter = IDParameterT
     IndexSubParameter = IndexSubParameterT
+    catatan = catatanFaktor
     skor = 0
     buktiPemenuhan = ''
     
@@ -841,6 +843,7 @@ function addFaktors(req,res, FaktorT, aspekT, indikatorT, IDParameterT, IndexSub
     faktorIns.skor = 0
     faktorIns.buktiPemenuhan = ''
     faktorIns.IDFaktor = IDFaktor
+    faktorIns.catatan = catatan
 
     FaktorSchema.findOne({IDFaktor}, (errFind,resFind) =>{
         if(errFind){
@@ -860,6 +863,7 @@ function addFaktors(req,res, FaktorT, aspekT, indikatorT, IDParameterT, IndexSub
                     res.send(errSave)
                 }
                 else{
+                    console.log('Hasil input Faktor : \n')
                     console.log(resSave)
                     SubParameter.findOneAndUpdate(
                         {IDParameter, IndexSubParameter},

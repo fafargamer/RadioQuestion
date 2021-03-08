@@ -24,6 +24,9 @@ var faktorSchema = new mongoose.Schema({
     skor: {
         type: Number
     },
+    catatan: {
+        type: String
+    },
     buktiPemenuhan:{
         type: String
     }
