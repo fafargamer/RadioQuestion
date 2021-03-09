@@ -491,15 +491,34 @@ function getParameters(req, res) {
             res.send('Indikator belum ada')
         }
         else{
+            Parameter.find({aspek: idAspek, indikator: idIndikator}, (err,result) => {
+                if(err){
+                    res.send(err)
+                }
+                else{
+                    var totalSkor = []
+    
+                    // skorArray = {}
+                    // skorArray = result.skor
+    
+    
+    
+                    if(result.length > 0){
+                        var totalSkor = countScore(result)
+                        totalSkor = totalSkor * resInd.bobot
+                        Indikator.findOneAndUpdate({aspek:idAspek, index:idIndikator}, {nilai:totalSkor}, {upsert:true}, (errUpdSub,resUpdSub) =>{
+                            if(errUpdSub){
+                                console.log(errUpdSub)
+                            }
+                            else{
+                               console.log(resUpdSub)
+                            }
+                        })
+                    }
+                    res.render('tabel/tabelParameter', {result: result, idAspek: idAspek, idIndikator: idIndikator, resInd:resInd})
+                }
+            })
         }
-        Parameter.find({aspek: idAspek, indikator: idIndikator}, (err,result) => {
-            if(err){
-                res.send(err)
-            }
-            else{
-                res.render('tabel/tabelParameter', {result: result, idAspek: idAspek, idIndikator: idIndikator, resInd:resInd})
-            }
-        })
     })
 }
 
