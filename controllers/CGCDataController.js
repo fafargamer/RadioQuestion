@@ -25,7 +25,7 @@ app.get('/', (req,res) =>{
             res.send(err)
         }
         else{
-            res.render('tabel/tabelAspek', {result:result})
+            res.render('admin/adminLTE', {result:result})
         }
     })
 })

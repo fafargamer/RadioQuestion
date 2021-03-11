@@ -19,6 +19,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json())
 
 const parameterController = require('./controllers/CGCDataController.js');
+const adminLTEController = require('./controllers/adminLTEController.js');
 const { response } = require('express');
 
 app.set('trust proxy', 1) // trust first proxy
@@ -44,4 +45,11 @@ app.listen(process.env.PORT || 3000, () => {
     console.log('Express server started at port : 3000');
 });
 
-app.use('/', parameterController);
+app.get('/TestAdminLTE', (req,res) =>{
+  res.render('admin/adminLTE')
+})
+
+
+
+app.use('/GCGData', parameterController);
+app.use('/test', adminLTEController);
