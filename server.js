@@ -115,7 +115,7 @@ function isLoggedIn(req, res, next) {
 //   console.log(req.body)
 // })
 
-app.get('/', (req,res) =>{
+app.get('/', isLoggedIn, (req,res) =>{
   // console.log(req.body)
   res.render('admin/homePage')
 })
