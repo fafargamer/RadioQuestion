@@ -1,6 +1,6 @@
 const { response } = require('express');
 const express = require('express');
-var adminLTE = express.Router();
+var app = express.Router();
 const mongoose = require('mongoose');
 
 const Parameter = mongoose.model('Parameter');
@@ -13,21 +13,45 @@ const e = require('express');
 const { reset } = require('nodemon');
 
 
-adminLTE.get('/index1', (req,res) =>{
-    res.render('admin/index')
+app.get('/', (req,res) =>{
+  Aspek.find({}, (err,result) =>{
+      if(err){
+          res.send(err)
+      }
+      else{
+          res.render('admin/adminLTE')
+      }
   })
+})
 
   
-  adminLTE.get('/index2', (req,res) =>{
+  app.get('/index2/', isLoggedIn, (req,res) =>{
     res.render('admin/index2')
   })
   
-  adminLTE.get('/index3', (req,res) =>{
+  app.get('/index3/', (req,res) =>{
     res.render('admin/index3')
   })
 
-  adminLTE.get('/test', (req,res) =>{
-    res.render('admin/adminLTE')
+  app.get('/login/', (req,res) =>{
+    res.render('admin/login')
   })
 
-module.exports = adminLTE;
+  app.get('/register/', (req,res) =>{
+    res.render('admin/register')
+  })
+
+  app.get('/error404/', (req,res) =>{
+    res.render('admin/404')
+  })
+
+  function isLoggedIn(req, res, next) {
+    console.log('Loggin in....')
+    if (req.isAuthenticated()) {
+      return next();
+    }
+    else {
+      res.redirect('/login');
+    }
+  }
+module.exports = app;

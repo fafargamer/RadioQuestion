@@ -19,3 +19,4 @@ require('./Quisioner/subParameter.model.js');
 require('./Quisioner/faktor.model.js');
 require('./Quisioner/Indikator.model.js');
 require('./Quisioner/Aspek.model.js');
+require('./User/user.model.js');

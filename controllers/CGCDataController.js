@@ -19,20 +19,20 @@ mongoose.set('useFindAndModify', false);
 //     res.render('isiParameter')
 // })
 
-app.get('/', (req,res) =>{
+app.get('/', isLoggedIn, (req,res) =>{
     Aspek.find({}, (err,result) =>{
         if(err){
             res.send(err)
         }
         else{
-            res.render('admin/adminLTE', {result:result})
+            res.render('admin/GCG/tabelAspek', {result:result})
         }
     })
 })
 
 //Get tambah Aspek
 app.get('/addAspek', (req,res) =>{
-    res.render('tambahForm/tambahAspek')
+    res.render('admin/GCG/tambah/tambahAspek')
 })
 
 //Post Aspek
@@ -44,24 +44,53 @@ app.post('/addAspek', (req,res) =>{
 app.get('/hapusAspek/:idAspek', (req,res) => {
     aspekT = req.params.idAspek
     deleteAspek(aspekT)
-    res.redirect('/')
+    res.redirect('/GCGData')
 })
 
 
 
 //Get Indikators
-app.get('/:idAspek', (req,res) =>{
-    getIndikators(req,res)
+app.get('/:idAspek', isLoggedIn, (req,res) =>{
+    if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
+        getIndikators(req,res)
+    }
+    else if(req.user.aspekUser == req.params.idAspek){
+        getIndikators(req,res)
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
 })
 
 //Tambah Indikator (HTML)
-app.get('/:idAspek/addIndikator', (req,res) =>{
-    var idAspek = req.params.idAspek
-    res.render('tambahForm/tambahIndikator', {idAspek: idAspek, errMsg: req.flash('infoFailAddI')})
+app.get('/:idAspek/addIndikator', isLoggedIn, (req,res) =>{
+    if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
+        var idAspek = req.params.idAspek
+        res.render('admin/GCG/tambah/tambahIndikator', {idAspek: idAspek, errMsg: req.flash('infoFailAddI')})
+    }
+    else if(req.user.aspekUser == req.params.idAspek){
+        var idAspek = req.params.idAspek
+        res.render('admin/GCG/tambah/tambahIndikator', {idAspek: idAspek, errMsg: req.flash('infoFailAddI')})
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
 })
 
-app.post('/addIndikator', (req,res) =>{
-    addIndikator(req,res)
+app.post('/addIndikator', isLoggedIn, (req,res) =>{
+    if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
+        addIndikator(req,res)
+    }
+    else if(req.user.aspekUser == req.params.idAspek){
+        addIndikator(req,res)
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
+    
 })
 
 //Hapus Indikator dan lainnya
@@ -69,7 +98,7 @@ app.get('/:idAspek/hapusIndikator/:idIndikator', (req,res) => {
     indikatorT = req.params.idIndikator
     aspekT = req.params.idAspek
     deleteIndikator(indikatorT, aspekT)
-    res.redirect('/'+req.params.idAspek)
+    res.redirect('/GCGData/'+req.params.idAspek)
 })
 
 
@@ -82,7 +111,7 @@ app.get('/:idAspek/:idIndikator', (req,res) =>{
 app.get('/:idAspek/:idIndikator/addParameter', (req,res) =>{
     var idAspek = req.params.idAspek
     var idIndikator = req.params.idIndikator
-    res.render('tambahForm/tambahParameterFix', {idAspek: idAspek, idIndikator: idIndikator, errMsg: req.flash('infoFailAddP')})
+    res.render('admin/GCG/tambah/tambahParameter', {idAspek: idAspek, idIndikator: idIndikator, errMsg: req.flash('infoFailAddP')})
 })
 
 //Tambah parameter (Post)
@@ -97,7 +126,7 @@ app.get('/:idAspek/:idIndikator/hapusParameter/:idParameter', (req,res) => {
     indikatorT = req.params.idIndikator
     aspekT = req.params.idAspek
     deleteParameter(parameterT, indikatorT, aspekT)
-    res.redirect('/'+req.params.idAspek+'/'+req.params.idIndikator)
+    res.redirect('/GCGData/'+req.params.idAspek+'/'+req.params.idIndikator)
 })
 
 
@@ -112,7 +141,7 @@ app.get('/:idAspek/:idIndikator/:idparams/addSubParameter', (req,res) =>{
     ParameterID = req.params.idparams
     idAspek = req.params.idAspek
     idIndikator = req.params.idIndikator
-    res.render('tambahForm/tambahSubParameter', {parameterID: ParameterID, idAspek:idAspek, idIndikator:idIndikator, errMsg: req.flash('infoFailAddSP')})
+    res.render('admin/GCG/tambah/tambahSubParameter', {parameterID: ParameterID, idAspek:idAspek, idIndikator:idIndikator, errMsg: req.flash('infoFailAddSP')})
 })
 
 //Tambah sub-parameter (Post)
@@ -126,7 +155,7 @@ app.get('/:idAspek/:idIndikator/:idParameter/hapusSubParameter/:idSubParameter/'
     subParameterT = req.params.idSubParameter
 
     deleteSubParameter(parameterT,subParameterT)
-    res.redirect('/'+req.params.idAspek+'/'+req.params.idIndikator+'/'+req.params.idParameter+'/')
+    res.redirect('/GCGData/'+req.params.idAspek+'/'+req.params.idIndikator+'/'+req.params.idParameter+'/')
 })
 
 
@@ -160,7 +189,7 @@ app.get('/:idAspek/:idIndikator/:idParams/:idSubParams/addFaktor/', (req,res) =>
         else{
             // console.log(result)
             // console.log(req.flash('subFaktorAddStatus'))
-            res.render('tambahForm/tambahSubFaktor', {aspek, indikator, IDParameter, result:result, message:req.flash('infoFailAddFaktor')})
+            res.render('admin/GCG/tambah/tambahFaktor', {aspek, indikator, IDParameter, result:result, message:req.flash('infoFailAddFaktor')})
         }
     })
 })
@@ -188,7 +217,7 @@ app.get('/:idAspek/:idIndikator/:idParameter/:idSubParameter/hapusFaktor/:idFakt
     IDFaktor = req.params.idFaktor
 
     deleteFaktor(aspekT, indikatorT, parameterT,subParameterT, IDFaktor)
-    res.redirect('/'+req.params.idAspek+'/'+req.params.idIndikator+'/'+req.params.idParameter+'/'+req.params.idSubParameter+'/')
+    res.redirect('/GCGData/'+req.params.idAspek+'/'+req.params.idIndikator+'/'+req.params.idParameter+'/'+req.params.idSubParameter+'/')
 })
 
 //Get faktor form
@@ -208,7 +237,7 @@ app.get('/:idAspek/:idIndikator/:idParams/:idSubParams/:idFaktor/fillForm/', (re
             res.send('Faktor tidak ada')
         }
         else{
-            res.render('isiSubFaktor', {data:result})
+            res.render('admin/GCG/isiFaktor/isi', {data:result})
         }
     })
 })
@@ -225,7 +254,7 @@ app.post('/postPenilaian', (req,res) => {
         }
         else{
             console.log(result)
-            res.redirect('/'+result.aspek+'/'+result.indikator+'/'+result.IDParameter+'/'+result.IndexSubParameter+'/')
+            res.redirect('/GCGData/'+result.aspek+'/'+result.indikator+'/'+result.IDParameter+'/'+result.IndexSubParameter+'/')
         }
     })
 })
@@ -296,7 +325,7 @@ function addAspek(req,res) {
                 }
                 else{
                     console.log(doc)
-                    res.redirect('/')
+                    res.redirect('/GCG/Data')
                 }
             })
         }
@@ -368,7 +397,9 @@ function getIndikators(req,res) {
             res.send(errAsp)
         }
         else if(!resAsp){
-            res.send('Aspek belum ada')
+            // res.send('Aspek belum ada')
+            req.flash('notFoundMsg', 'Aspek tidak ditemukan');
+            res.render('admin/notFound.ejs', {message: req.flash('notFoundMsg')})
         }
         else{
             Indikator.find({aspek:aspek}, (errIndikator, resultIndikator) => {
@@ -376,7 +407,7 @@ function getIndikators(req,res) {
                     res.send(errIndikator)
                 }
                 else{
-                    res.render('tabel/tabelIndikator', {result:resultIndikator, idAspek:aspek, resAsp})
+                    res.render('admin/GCG/tabelIndikator.ejs', {result:resultIndikator, idAspek:aspek, resAsp})
                 }
             })
         }
@@ -416,7 +447,7 @@ function addIndikator(req,res) {
                                 console.log(resUpdAsp)
                             }
                         });
-                    res.redirect('/'+req.body.inputAspek)
+                    res.redirect('/GCGData/'+req.body.inputAspek)
                 }
             })
         }
@@ -505,7 +536,10 @@ function getParameters(req, res) {
     
                     if(result.length > 0){
                         var totalSkor = countScore(result)
-                        totalSkor = totalSkor * resInd.bobot
+                        console.log("total skor = " + totalSkor)
+                        console.log("bobot = " + resInd.bobot)
+                        // totalSkor = totalSkor * resInd.bobot
+                        console.log("final skor = " + totalSkor)
                         Indikator.findOneAndUpdate({aspek:idAspek, index:idIndikator}, {nilai:totalSkor}, {upsert:true}, (errUpdSub,resUpdSub) =>{
                             if(errUpdSub){
                                 console.log(errUpdSub)
@@ -515,7 +549,7 @@ function getParameters(req, res) {
                             }
                         })
                     }
-                    res.render('tabel/tabelParameter', {result: result, idAspek: idAspek, idIndikator: idIndikator, resInd:resInd})
+                    res.render('admin/GCG/tabelParameter', {result: result, idAspek: idAspek, idIndikator: idIndikator, resInd:resInd})
                 }
             })
         }
@@ -581,7 +615,7 @@ function insertQuestion(req, res) {
                                 console.log(resUpdInd)
                             }
                         });
-                    res.redirect('/'+ req.body.inputAspek + '/' + req.body.inputIndikator);
+                    res.redirect('/GCGData/'+ req.body.inputAspek + '/' + req.body.inputIndikator);
                 }
                 else {
                     if (err.name == 'ValidationError') {
@@ -675,7 +709,7 @@ function getSubParameters(req, res) {
     
     
                     if(result.length > 0){
-                        var totalSkor = countScore(result)
+                        var totalSkor = countScoreParameter(result)
                         totalSkor = totalSkor * resultParameter.bobot
                         Parameter.findOneAndUpdate({IDPertanyaan: IDParameter}, {nilai:totalSkor}, {upsert:true}, (errUpdSub,resUpdSub) =>{
                             if(errUpdSub){
@@ -692,7 +726,7 @@ function getSubParameters(req, res) {
                     console.log(result)
 
                     var percentData = toPercentageData(result)
-                    res.render('tabel/tabelSubParameter', {data:result, dataParameter:resultParameter, idAspek:idAspek, idIndikator:idIndikator, header:result[0], percentData:percentData})
+                    res.render('admin/GCG/tabelSubParameter', {data:result, dataParameter:resultParameter, idAspek:idAspek, idIndikator:idIndikator, header:result[0], percentData:percentData})
                 }
             })
         }
@@ -763,7 +797,7 @@ function addSubParameter(req, res) {
                             }
                         });
                     console.log(doc)
-                    res.redirect('/'+ subParameter.aspek +'/'+ subParameter.indikator + '/' + subParameter.IDParameter + '/')
+                    res.redirect('/GCGData/'+ subParameter.aspek +'/'+ subParameter.indikator + '/' + subParameter.IDParameter + '/')
                 }
             })
         }
@@ -848,7 +882,7 @@ function getFaktors(req, res, aspekT, indikatorT, IDParameterT, IndexSubParamete
                     var totalSkor = 0
                 }
 
-                res.render('tabel/tabelFaktorSubP', {
+                res.render('admin/GCG/tabelFaktor', {
                     result:result, 
                     idAspek:aspekT, 
                     idIndikator:indikatorT, 
@@ -920,7 +954,7 @@ function addFaktors(req,res, FaktorT, aspekT, indikatorT, IDParameterT, IndexSub
                                 console.log(resultS)
                             }
                         })
-                    res.redirect('/'+ aspek +'/'+ indikator + '/' + IDParameter + '/' + IndexSubParameter + '/')
+                    res.redirect('/GCGData/'+ aspek +'/'+ indikator + '/' + IDParameter + '/' + IndexSubParameter + '/')
                 }
             })
         }
@@ -988,9 +1022,24 @@ function countScore(data) {
     
     var totalSkor = 0
     for (var i=data.length; i--;) {
+      console.log("nilai : " + data[i].nilai)
       totalSkor+=data[i].nilai;
     }
+    
+    
+    return totalSkor
+}
+
+function countScoreParameter(data) {
+    
+    var totalSkor = 0
+    for (var i=data.length; i--;) {
+      console.log("nilai : " + data[i].nilai)
+      totalSkor+=data[i].nilai;
+    }
+
     totalSkor = totalSkor/data.length
+    
     
     return totalSkor
 }
@@ -1010,6 +1059,16 @@ function toPercentage(data) {
     data = data * 100
     return data
 }
+
+function isLoggedIn(req, res, next) {
+    console.log('Loggin in....')
+    if (req.isAuthenticated()) {
+      return next();
+    }
+    else {
+      res.redirect('/login');
+    }
+  }
 
 module.exports = app;
 

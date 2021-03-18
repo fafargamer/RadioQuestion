@@ -6,23 +6,24 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>srtdash - SEO Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">  
     <link href="  https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css" crossorigin="anonymous">
-    <link rel="shortcut icon" type="image/png" href="assets/images/icon/favicon.ico">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/themify-icons.css">
-    <link rel="stylesheet" href="assets/css/metisMenu.css">
-    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="assets/css/slicknav.min.css">
+    <link rel="shortcut icon" type="image/png" href="/assets/images/icon/favicon.ico">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/themify-icons.css">
+    <link rel="stylesheet" href="/assets/css/metisMenu.css">
+    <link rel="stylesheet" href="/assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/assets/css/slicknav.min.css">
     <!-- amchart css -->
     <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
     <!-- others css -->
-    <link rel="stylesheet" href="assets/css/typography.css">
-    <link rel="stylesheet" href="assets/css/default-css.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="/assets/css/typography.css">
+    <link rel="stylesheet" href="/assets/css/default-css.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/responsive.css">
     <!-- modernizr css -->
-    <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
+    <script src="/assets/js/vendor/modernizr-2.8.3.min.js"></script>
 
     <style>
           .dataTables_filter {
@@ -46,7 +47,7 @@
         <div class="sidebar-menu">
             <div class="sidebar-header">
                 <div class="logo">
-                    <a href="index.html"><img src="/img/LOGO-TWCT.png" alt="logo"><h5 style="color: white;">GCG TWC</h5></a>
+                    <a href="/"><img src="/img/LOGO-TWCT.png" alt="logo"><h5 style="color: white;">GCG TWC</h5></a>
                 </div>
             </div>
             <div class="main-menu">
@@ -54,11 +55,23 @@
                     <nav>
                         <ul class="metismenu" id="menu">
                             <li class="active">
-                                <a href="javascript:void(0)" aria-expanded="true"><i class="ti-dashboard"></i><span>dashboard</span></a>
+                                <a href="javascript:void(0)" aria-expanded="true"><p class="glyphicon glyphicon-list-alt" style="color:white;"></p><span>GCG</span></a>
                                 <ul class="collapse">
-                                    <li><a href="index.html">Aspek 1</a></li>
-                                    <li><a href="index2.html">Aspek 2</a></li>
-                                    <li class="active"><a href="index3.html">Aspek 3</a></li>
+                                    <li><a href="/GCGdata/">Data GCG</a></li>
+                                    <li><a href="/GCGdata/1/">Aspek 1</a></li>
+                                    <li><a href="/GCGdata/2/">Aspek 2</a></li>
+                                    <li><a href="/GCGdata/3/">Aspek 3</a></li>
+                                    <li><a href="/GCGdata/4/">Aspek 4</a></li>
+                                    <li><a href="/GCGdata/5/">Aspek 5</a></li>
+                                    <li><a href="/GCGdata/6/">Aspek 6</a></li>   
+                                    <li><a href="/GCGdata/7/">Aspek 7</a></li>                                                                                                                                             
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" aria-expanded="true"><p class="glyphicon glyphicon-user" style="color:white;"></p><span>User Management</span></a>
+                                <ul class="collapse">
+                                    <li><a href="/UserManagement/">Daftar User</a></li>
+                                    <li><a href="/UserManagement/TambahUser/">Tambah User</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -79,12 +92,12 @@
                             <span></span>
                             <span></span>
                         </div>
-                        <div class="search-box pull-left">
+                        <!-- <div class="search-box pull-left">
                             <form action="#">
                                 <input type="text" name="search" placeholder="Search..." required>
                                 <i class="ti-search"></i>
                             </form>
-                        </div>
+                        </div> -->
                     </div>
                     <!-- profile info & task notification -->
                     <div class="col-md-6 col-sm-4 clearfix">
@@ -104,14 +117,14 @@
                         <div class="breadcrumbs-area clearfix">
                             <h4 class="page-title pull-left">Dashboard</h4>
                             <ul class="breadcrumbs pull-left">
-                                <li><a href="index.html">Home</a></li>
-                                <li><span>Dashboard</span></li>
+                                <li><a href="/">Home</a></li>
+                                <li><span>GCG</span></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-sm-6 clearfix">
                         <div class="user-profile pull-right">
-                            <img class="avatar user-thumb" src="assets/images/author/avatar.png" alt="avatar">
+                            <img class="avatar user-thumb" src="/assets/images/author/avatar.png" alt="avatar">
                             <h4 class="user-name dropdown-toggle" data-toggle="dropdown">Kumkum Rai <i class="fa fa-angle-down"></i></h4>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="#">Message</a>
@@ -128,26 +141,60 @@
                     <div class="col-12 mt-5">
                         <div class="card">
                             <div class="card-body">
+                                <h2>Daftar Aspek</h2>
+                                <a class="btn btn-success" href="/GCGData/addAspek" role="button" style="float: right;">+</a>
                                 <table class="table table-condensed" id="tabel">
-                                    <thead>
+                                    <thead style="height: 100px; background-color: lightskyblue;">
                                         <tr>
                                             <th>No</th>
                                             <th>Aspek</th>
                                             <th>Jumlah Indikator</th>                    
                                             <th>Bobot</th>
                                             <th>Nilai</th>
-                                            <th>Individu</th>
+                                            <th> </th>
+                                            <th> </th>
                                         </tr>
                                     </thead>    
                                     <tbody>
+                                        <% result.forEach(function(row, i) { %> 
                                         <tr>
-                                            <td>1</td>
-                                            <td>1</td>
-                                            <td>1</td>
-                                            <td>1</td>
-                                            <td>1</td>
-                                            <td>1</td>
+                                            <td><%=row.index%></td>
+                                            <td><%=row.aspek%></td>
+                                            <td><%=row.jumlahIndikator%></td>
+                                            <td><%=row.bobot%></td>
+                                            <td><%=row.nilai%></td>
+                                            <td>
+                                                <a class="btn btn-primary" href="/GCGData/<%=row.index%>/" role="button" style="text-align: center;">Detail</a>
+                                            </td>
+                                            <td class="justify-content-center">
+                                                <!-- Button trigger modal -->
+                                              <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalAspek<%=i+1%>">
+                                                Hapus
+                                              </button>
+                        
+                                              <!-- Modal -->
+                                              <div class="modal fade" id="modalAspek<%=i+1%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h5 class="modal-title" id="exampleModalLabel">Yakin hapus data berikut:</h5>
+                                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                      </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                      Aspek <%=row.index%> : <%=row.aspek%>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                      <a type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                                                      <a type="button" class="btn btn-danger" href="/GCGData/hapusAspek/<%=row.index%>">Hapus data</a>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </td>
                                         </tr>
+                                        <% }); %> 
                                     </tbody>
                                 </table>
                             </div>
@@ -172,14 +219,14 @@
     <!-- offset area start -->
     <!-- offset area end -->
     <!-- jquery latest version -->
-    <script src="assets/js/vendor/jquery-2.2.4.min.js"></script>
+    <script src="/assets/js/vendor/jquery-2.2.4.min.js"></script>
     <!-- bootstrap 4 js -->
-    <script src="assets/js/popper.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/owl.carousel.min.js"></script>
-    <script src="assets/js/metisMenu.min.js"></script>
-    <script src="assets/js/jquery.slimscroll.min.js"></script>
-    <script src="assets/js/jquery.slicknav.min.js"></script>
+    <script src="/assets/js/popper.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/owl.carousel.min.js"></script>
+    <script src="/assets/js/metisMenu.min.js"></script>
+    <script src="/assets/js/jquery.slimscroll.min.js"></script>
+    <script src="/assets/js/jquery.slicknav.min.js"></script>
 
     <!-- start chart js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
@@ -195,16 +242,16 @@
     <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
     <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
     <!-- all line chart activation -->
-    <script src="assets/js/line-chart.js"></script>
+    <script src="/assets/js/line-chart.js"></script>
     <!-- all pie chart -->
-    <script src="assets/js/pie-chart.js"></script>
+    <script src="/assets/js/pie-chart.js"></script>
     <!-- all bar chart -->
-    <script src="assets/js/bar-chart.js"></script>
+    <script src="/assets/js/bar-chart.js"></script>
     <!-- all map chart -->
-    <script src="assets/js/maps.js"></script>
+    <script src="/assets/js/maps.js"></script>
     <!-- others plugins -->
-    <script src="assets/js/plugins.js"></script>
-    <script src="assets/js/scripts.js"></script>
+    <script src="/assets/js/plugins.js"></script>
+    <script src="/assets/js/scripts.js"></script>
     <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
 
@@ -214,6 +261,9 @@
                 "lengthChange": false,
                 "paginate": false,
                 "info": false,
+                "columnDefs": [
+                    { "width": "40%", "targets": 1 }
+                ]
             });
             
         } );
