@@ -95,6 +95,11 @@ app.post('/login', passport.authenticate('local',{failureRedirect: '/login'}), (
     delete req.session.returnTo;
 });
 
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
+
 function isLoggedIn(req, res, next) {
   console.log('Loggin in....')
   if (req.isAuthenticated()) {
@@ -110,16 +115,10 @@ function isLoggedIn(req, res, next) {
 //   console.log(req.body)
 // })
 
-app.get('/', isLoggedIn, (req,res) =>{
+app.get('/', (req,res) =>{
   // console.log(req.body)
   res.render('admin/homePage')
 })
-
-
-app.get('/TestAdminLTE', (req,res) =>{
-  res.render('admin/adminLTE')
-})
-
 
 
 app.use('/GCGData', parameterController);
