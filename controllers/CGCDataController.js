@@ -31,20 +31,42 @@ app.get('/', isLoggedIn, (req,res) =>{
 })
 
 //Get tambah Aspek
-app.get('/addAspek', (req,res) =>{
-    res.render('admin/GCG/tambah/tambahAspek')
+app.get('/addAspek', isLoggedIn, (req,res) =>{
+    if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
+        res.render('admin/GCG/tambah/tambahAspek')
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
 })
 
 //Post Aspek
-app.post('/addAspek', (req,res) =>{
-    addAspek(req,res)
+app.post('/addAspek', isLoggedIn, (req,res) =>{
+    
+    if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
+        addAspek(req,res)
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
 })
 
 //Hapus Aspek
-app.get('/hapusAspek/:idAspek', (req,res) => {
-    aspekT = req.params.idAspek
-    deleteAspek(aspekT)
-    res.redirect('/GCGData')
+app.get('/hapusAspek/:idAspek', isLoggedIn, (req,res) => {
+
+    if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
+        aspekT = req.params.idAspek
+        deleteAspek(aspekT)
+        res.redirect('/GCGData')
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
+
+
 })
 
 
@@ -83,7 +105,7 @@ app.post('/addIndikator', isLoggedIn, (req,res) =>{
     if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
         addIndikator(req,res)
     }
-    else if(req.user.aspekUser == req.params.idAspek){
+    else if(req.user.aspekUser == req.body.inputAspek){
         addIndikator(req,res)
     }
     else {
@@ -94,39 +116,90 @@ app.post('/addIndikator', isLoggedIn, (req,res) =>{
 })
 
 //Hapus Indikator dan lainnya
-app.get('/:idAspek/hapusIndikator/:idIndikator', (req,res) => {
+app.get('/:idAspek/hapusIndikator/:idIndikator', isLoggedIn, (req,res) => {
     indikatorT = req.params.idIndikator
     aspekT = req.params.idAspek
-    deleteIndikator(indikatorT, aspekT)
-    res.redirect('/GCGData/'+req.params.idAspek)
+
+    if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
+        deleteIndikator(indikatorT, aspekT)
+        res.redirect('/GCGData/'+req.params.idAspek)
+    }
+    else if(req.user.aspekUser == req.params.idAspek){
+        deleteIndikator(indikatorT, aspekT)
+        res.redirect('/GCGData/'+req.params.idAspek)
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
 })
 
 
 //Get parameters
-app.get('/:idAspek/:idIndikator', (req,res) =>{
-    getParameters(req, res)
+app.get('/:idAspek/:idIndikator', isLoggedIn, (req,res) =>{
+    if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
+        getParameters(req, res)
+    }
+    else if(req.user.aspekUser == req.params.idAspek){
+        getParameters(req, res)
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
 })
 
 //Tambah Parameter (HTML)
-app.get('/:idAspek/:idIndikator/addParameter', (req,res) =>{
+app.get('/:idAspek/:idIndikator/addParameter', isLoggedIn, (req,res) =>{
     var idAspek = req.params.idAspek
     var idIndikator = req.params.idIndikator
-    res.render('admin/GCG/tambah/tambahParameter', {idAspek: idAspek, idIndikator: idIndikator, errMsg: req.flash('infoFailAddP')})
+
+    if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
+        res.render('admin/GCG/tambah/tambahParameter', {idAspek: idAspek, idIndikator: idIndikator, errMsg: req.flash('infoFailAddP')})
+    }
+    else if(req.user.aspekUser == req.params.idAspek){
+        res.render('admin/GCG/tambah/tambahParameter', {idAspek: idAspek, idIndikator: idIndikator, errMsg: req.flash('infoFailAddP')})
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
 })
 
 //Tambah parameter (Post)
-app.post('/addParameter', (req, res) => {
-    insertQuestion(req, res);
+app.post('/addParameter', isLoggedIn, (req, res) => {
+    if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
+        insertQuestion(req, res);
+    }
+    else if(req.user.aspekUser == req.body.inputAspek){
+        insertQuestion(req, res);
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
     // res.send('Parameter sudah ada')
 });
 
 //Delete Parameter dan lainnya
-app.get('/:idAspek/:idIndikator/hapusParameter/:idParameter', (req,res) => {
+app.get('/:idAspek/:idIndikator/hapusParameter/:idParameter', isLoggedIn, (req,res) => {
     parameterT = req.params.idParameter
     indikatorT = req.params.idIndikator
     aspekT = req.params.idAspek
-    deleteParameter(parameterT, indikatorT, aspekT)
-    res.redirect('/GCGData/'+req.params.idAspek+'/'+req.params.idIndikator)
+
+    if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
+        deleteParameter(parameterT, indikatorT, aspekT)
+        res.redirect('/GCGData/'+req.params.idAspek+'/'+req.params.idIndikator)
+    }
+    else if(req.user.aspekUser == req.body.inputAspek){
+        deleteParameter(parameterT, indikatorT, aspekT)
+        res.redirect('/GCGData/'+req.params.idAspek+'/'+req.params.idIndikator)
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
+
 })
 
 

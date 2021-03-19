@@ -19,8 +19,8 @@ passport.use('local', new LocalStrategy(
         function (req, username, password, done){
             password = password.toString();
             // password = bcrypt.hashSync(password, salt);
-            console.log('Password = ' + password)
-            console.log('Logggggiiiiinggg.......')
+            // console.log('Password = ' + password)
+            // console.log('Logggggiiiiinggg.......')
             User.findOne({username: username, password: password}, function(err, result){
                 if(err) return done(err)
                 if(!result){

@@ -62,7 +62,7 @@ app.get('/hapusUser/:username', isLoggedIn, (req,res) => {
 
 
 function GetAllUsers(req,res) {
-    resultUsers = User.find({}, (errDB,resultUser) =>{
+    resultUsers = User.find({$or: [{typeUser: "User"}, {typeUser:"Super-user"}]}, (errDB,resultUser) =>{
         if(errDB) {
             req.flash('failDBUser', 'Gagal koneksi Database');
             res.render('admin/notFound', {message:req.flash('failDBUser')})
@@ -70,6 +70,13 @@ function GetAllUsers(req,res) {
         else{
             // console.log(resultUser)
             // console.log(resultUser.length)
+            resultUser = resultUser.map(function(obj) {
+                return {
+                  username: obj.username,
+                  typeUser: obj.typeUser,
+                  aspekUser: obj.aspekUser
+                }
+            });
             console.log(resultUser)
             res.render('admin/user/tabelUser', {result:resultUser})
         }
@@ -100,7 +107,8 @@ function AddUser(req,res, callback) {
                     res.redirect('back')
                 }
                 else{
-                    console.log(resUpdAsp)
+                    console.log('Added/Updated User')
+                    // console.log(resUpdAsp)
                 }
             });
         return req.body
@@ -116,6 +124,7 @@ function deleteUser(req,res,username) {
             res.render('admin/notFound', {message:req.flash('delUserErr')})
         }
         else {
+            console.log('Deleted User')
             res.redirect('back')
         }
     })
