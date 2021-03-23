@@ -398,7 +398,7 @@ function addAspek(req,res) {
                 }
                 else{
                     console.log(doc)
-                    res.redirect('/GCG/Data')
+                    res.redirect('/GCGdata/')
                 }
             })
         }
