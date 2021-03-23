@@ -25,6 +25,7 @@ app.use(bodyParser.json())
 const parameterController = require('./controllers/CGCDataController.js');
 const adminLTEController = require('./controllers/adminLTEController.js');
 const userManagementController = require('./controllers/userManagementController.js');
+const testControllers = require('./controllers/testController.js');
 
 
 require('./config/passport.js')
@@ -124,3 +125,4 @@ app.get('/', isLoggedIn, (req,res) =>{
 app.use('/GCGData', parameterController);
 app.use('/LTE', adminLTEController);
 app.use('/UserManagement', userManagementController);
+app.use('/test', testControllers);

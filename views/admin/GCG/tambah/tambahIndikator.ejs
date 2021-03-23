@@ -168,18 +168,18 @@
                                         <% }; %>
                                         <div class="form-group">
                                             <label for="inputParameter">Judul Indikator</label>
-                                            <input type="text" class="form-control" id="inputIndikator" name="inputIndikator" placeholder="Mohon judul Indikator">
+                                            <input type="text" class="form-control" id="inputIndikator" name="inputIndikator" placeholder="Mohon judul Indikator" required>
                                         </div>
                                         <div class="form-group">
                                           <label for="inputParameter">Index Indikator</label>
-                                          <input type="text" class="form-control" id="inputNoIndikator" name="inputNoIndikator" placeholder="Mohon input index indikator">
+                                          <input type="text" class="form-control" id="inputNoIndikator" name="inputNoIndikator" placeholder="Mohon input index indikator" required>
                                         </div>         
                                         <div class="form-group">
                                           <input type="text" class="form-control" id="inputAspek" name="inputAspek" value="<%=idAspek%>" hidden readonly>
                                         </div>        
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Bobot</label>
-                                            <input type="text" class="form-control" id="inputBobot" name="inputBobot" placeholder="Mohon input Bobot">
+                                            <input type="text" class="form-control" id="inputBobot" name="inputBobot" placeholder="Mohon input Bobot" required>
                                         </div>
                                         <a class="btn btn-danger" href="/GCGData/<%=idAspek%>/" role="button" style="float: left;">Back</a>
                                         <button type="submit" class="btn btn-success" style="float: right;">Submit</button>

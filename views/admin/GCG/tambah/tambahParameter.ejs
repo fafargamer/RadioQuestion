@@ -173,11 +173,11 @@
                             
                                         <div class="form-group">
                                             <label for="inputParameter">Parameter</label>
-                                            <input type="text" class="form-control" id="inputParameter" name="inputParameter" placeholder="Mohon input parameter">
+                                            <input type="text" class="form-control" id="inputParameter" name="inputParameter" placeholder="Mohon input parameter" required>
                                         </div>
                                         <div class="form-group">
                                           <label for="inputParameter">Nomor Parameter</label>
-                                          <input type="text" class="form-control" id="inputNoParameter" name="inputNoParameter" placeholder="Mohon input nomor parameter">
+                                          <input type="text" class="form-control" id="inputNoParameter" name="inputNoParameter" placeholder="Mohon input nomor parameter" required>
                                         </div>         
                                         <div class="form-group">
                                           <input type="text" class="form-control" id="inputIndikator" name="inputIndikator" value="<%=idIndikator%>" hidden readonly>
@@ -187,7 +187,7 @@
                                         </div>        
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Bobot</label>
-                                            <input type="text" class="form-control" id="inputBobot" name="inputBobot" placeholder="Mohon input Bobot">
+                                            <input type="text" class="form-control" id="inputBobot" name="inputBobot" placeholder="Mohon input Bobot" required>
                                         </div>
                                         <a class="btn btn-danger" href="/GCGData/<%=idAspek%>/<%=idIndikator%>/" role="button" style="float: left;">Back</a>
                                         <button type="submit" class="btn btn-success" style="float: right;">Submit</button>
