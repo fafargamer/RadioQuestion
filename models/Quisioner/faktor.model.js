@@ -28,7 +28,10 @@ var faktorSchema = new mongoose.Schema({
         type: String
     },
     buktiPemenuhan:{
-        type: String
+        type: []
+    },
+    catatanBukti:{
+        type:String
     }
 });
 

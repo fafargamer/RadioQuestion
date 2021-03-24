@@ -321,6 +321,10 @@ app.post('/postPenilaian', (req,res) => {
     buktiPemenuhan = req.body.inputPemenuhan
     skor = req.body.inputNilai
 
+    console.log(req.body)
+
+    
+
     FaktorSchema.findOneAndUpdate({IDFaktor} , {buktiPemenuhan, skor}, {upsert:true}, (err,result) => {
         if(err){
             res.send(err)
@@ -980,6 +984,7 @@ function addFaktors(req,res, FaktorT, aspekT, indikatorT, IDParameterT, IndexSub
     catatan = catatanFaktor
     skor = 0
     buktiPemenuhan = ''
+    catatanBukti = ''
     
     IDFaktor = createFaktorID(IDParameter, IndexSubParameter, IndexFaktor)
 
@@ -993,6 +998,7 @@ function addFaktors(req,res, FaktorT, aspekT, indikatorT, IDParameterT, IndexSub
     faktorIns.buktiPemenuhan = ''
     faktorIns.IDFaktor = IDFaktor
     faktorIns.catatan = catatan
+    faktorIns.catatanBukti = catatanBukti
 
     FaktorSchema.findOne({IDFaktor}, (errFind,resFind) =>{
         if(errFind){

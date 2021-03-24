@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>srtdash - SEO Dashboard</title>
+    <title>srtdash - Faktor <%=data.IDFaktor%></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">  
     <link href="  https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css" crossorigin="anonymous">
@@ -309,22 +309,22 @@
                                         <form class="question bg-white p-3 border-bottom" action="/GCGData/postPenilaian" method="POST">
                                             <input type="text" id="inputID" name="inputID" value="<%=data.IDFaktor%>" hidden readonly>
                                             <h2>Bukti Pemenuhan</h2>
-                                            <label class="radio">Dokumen
-                                                <input type="radio" name="inputPemenuhan" id="inputPemenuhan" value="D">
-                                                <span class="checkround"></span>
-                                              </label>
-                                              <label class="radio">Wawancara
-                                                <input type="radio" name="inputPemenuhan" id="inputPemenuhan" value="W">
-                                                <span class="checkround"></span>
-                                              </label>
-                                              <label class="radio">Kuisioner
-                                                <input type="radio" name="inputPemenuhan" id="inputPemenuhan" value="K">
-                                                <span class="checkround"></span>
-                                              </label>
-                                              <label class="radio">Observasi
-                                                <input type="radio" name="inputPemenuhan" id="inputPemenuhan" value="O">
-                                                <span class="checkround"></span>
-                                              </label>
+                                                <label class="radio">Dokumen
+                                                    <input type="checkbox" name="inputPemenuhan[]" id="inputPemenuhanD" value="D">
+                                                    <span class="checkround"></span>
+                                                </label>
+                                                <label class="radio">Kusioner
+                                                  <input type="checkbox" name="inputPemenuhan[]" id="inputPemenuhanK" value="K">
+                                                  <span class="checkround"></span>
+                                                </label>                                                
+                                                <label class="radio">Wawancara
+                                                    <input type="checkbox" name="inputPemenuhan[]" id="inputPemenuhanW" value="W">
+                                                    <span class="checkround"></span>
+                                                </label>
+                                                <label class="radio">Observasi
+                                                    <input type="checkbox" name="inputPemenuhan[]" id="inputPemenuhanO" value="O">
+                                                    <span class="checkround"></span>
+                                                </label>
 
                                               <h2>Nilai Faktor</h2>
                                               <label class="radio">0
@@ -375,7 +375,7 @@
                                                     <div class="question bg-white p-3">
                                                         <h1></h1>
                                                     </div>
-                                                    <a class="btn btn-danger" href="/<%=data.aspek%>/<%=data.indikator%>/<%=data.IDParameter%>/<%=data.IndexSubParameter%>/" role="button" style="float: left;">Back</a> 
+                                                    <a class="btn btn-danger" href="/GCGData/<%=data.aspek%>/<%=data.indikator%>/<%=data.IDParameter%>/<%=data.IndexSubParameter%>/" role="button" style="float: left;">Back</a> 
                                                     <button type="submit" class="btn btn-success" style="float: right;">Submit</button>
                                                     <div class="question bg-white p-3">
                                                         <h1></h1>
@@ -458,11 +458,26 @@
     <script>
         $(document).ready(function() {
             // $("#inputNilai").find('option[value="<%=data.skor%>"]').attr('selected','selected')
+            var FileTypes = '<%-data.buktiPemenuhan%>';
             $(function() {
-                $('[name="inputPemenuhan"]').val(['<%=data.buktiPemenuhan%>'])
+                // $('[name="inputPemenuhan"]').val(['<%=data.buktiPemenuhan%>'])
+                if(FileTypes.includes('D')==true){
+                    $("#inputPemenuhanD").attr("checked", "checked");
+                }
+                if(FileTypes.includes('K')==true){
+                    $("#inputPemenuhanK").attr("checked", "checked");
+                }  
+                if(FileTypes.includes('W')==true){
+                    $("#inputPemenuhanW").attr("checked", "checked");
+                }
+                if(FileTypes.includes('O')==true){
+                    $("#inputPemenuhanO").attr("checked", "checked");
+                }                                              
                 $('[name="inputNilai"]').val(['<%=data.skor%>'])
+
+                
             });
-        });9
+        });
     </script>  
 </body>
 

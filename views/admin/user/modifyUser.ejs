@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>GCG - Parameter <%=dataParameter.IDPertanyaan%></title>
+    <title>Ubah User</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">  
     <link href="  https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css" crossorigin="anonymous">
@@ -54,7 +54,7 @@
                 <div class="menu-inner">
                     <nav>
                         <ul class="metismenu" id="menu">
-                            <li class="active">
+                            <li>
                                 <a href="javascript:void(0)" aria-expanded="true"><p class="glyphicon glyphicon-list-alt" style="color:white;"></p><span>GCG</span></a>
                                 <ul class="collapse">
                                     <li><a href="/GCGdata/">Data GCG</a></li>
@@ -67,7 +67,7 @@
                                     <li><a href="/GCGdata/7/">Aspek 7</a></li>                                                                                                                                             
                                 </ul>
                             </li>
-                            <li>
+                            <li  class="active">
                                 <a href="javascript:void(0)" aria-expanded="true"><p class="glyphicon glyphicon-user" style="color:white;"></p><span>User Management</span></a>
                                 <ul class="collapse">
                                     <li><a href="/UserManagement/">Daftar User</a></li>
@@ -118,10 +118,8 @@
                             <h4 class="page-title pull-left">Dashboard</h4>
                             <ul class="breadcrumbs pull-left">
                                 <li><a href="/">Home</a></li>
-                                <li><a href="/GCGData/">GCG</a></li>
-                                <li><a href="/GCGData/<%=idAspek%>/">Aspek <%=idAspek%></a></li>
-                                <li><a href="/GCGData/<%=idAspek%>/<%=idIndikator%>/">Indikator <%=idIndikator%></a></li>                                   
-                                <li><span>Parameter <%=dataParameter.IDPertanyaan%></span></li>                                                        
+                                <li><a href="/UserManagement/">User</a></li>
+                                <li><span>Tambah User</span></li>
                             </ul>
                         </div>
                     </div>
@@ -141,62 +139,73 @@
                     <div class="col-12 mt-5">
                         <div class="card">
                             <div class="card-body">
-                                <h2>Daftar Sub-Parameter</h2>
-                                <a class="btn btn-success" href="/GCGData/<%=idAspek%>/<%=idIndikator%>/<%=dataParameter.IDPertanyaan%>/addSubParameter/" role="button" style="float: right;">+</a>
-                                <table class="table table-condensed" id="tabel">
-                                    <thead style="height: 100px; background-color: lightskyblue;">
-                                        <tr>
-                                            <th>Index</th>
-                                            <th>Sub-Parameter</th>
-                                            <th>Jumlah Faktor</th>
-                                            <th>Nilai</th>
-                                            <th>Individu</th>
-                                            <th> </th>
-                                            <th> </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% data.forEach(function(row, i) { %> 
-                                        <tr>
-                                            <td><%=row.IndexSubParameter%></td>
-                                            <td><%=row.subParameter%></td>
-                                            <td><%=row.jumlahFaktor%></td>
-                                            <td><%=row.nilai%></td>
-                                            <td><%=percentData[i]%></td>
-                                            <td>
-                                                <a class="btn btn-primary" href="/GCGData/<%=row.aspek%>/<%=row.indikator%>/<%=row.IDParameter%>/<%=row.IndexSubParameter%>/" role="button">Detail</a>
-                                            </td>
-                                            <td class="justify-content-center">
-                                                <!-- Button trigger modal -->
-                                              <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalAspek<%=i+1%>">
-                                                Hapus
-                                              </button>
-                        
-                                              <!-- Modal -->
-                                              <div class="modal fade" id="modalAspek<%=i+1%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                  <div class="modal-content">
-                                                    <div class="modal-header">
-                                                      <h5 class="modal-title" id="exampleModalLabel">Yakin hapus data berikut:</h5>
-                                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                      </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        Sub-Parameter <%=row.IndexSubParameter%> : <%=row.subParameter%>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                      <a type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
-                                                      <a type="button" class="btn btn-danger" href="/GCGData/<%=idAspek%>/<%=idIndikator%>/<%=dataParameter.IDPertanyaan%>/hapusSubParameter/<%=row.IndexSubParameter%>/">Hapus data</a>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </td>
-                                        </tr>
-                                        <% }); %> 
-                                    </tbody>
-                                </table>
+                                <!-- <div class="d-flex justify-content-center row"> -->
+                                    <form action="/userManagement/tambahUser/" method="POST">
+                                      <div class="d-flex flex-row align-items-center question-title justify-content-center">
+                                        <!-- <h3 class="text-danger">Q.</h3> -->
+                                        <h2 class="">Tambah User</h2>     
+                                      </div>         
+                                      <div>
+                                        <h1>
+                            
+                                        </h1>
+                                      </div>
+                                      <!-- <div class="d-flex flex-row align-items-center question-title"> 
+                                        <h6 class="">Aspek : idAspek</h6>    
+                                      </div> -->
+                                      <div class="row top-buffer">
+                                        <h1>
+                                          
+                                        </h1>
+                                      </div>  
+                            
+                                      <% if (message.length > 0) { %>
+                                        <div class="alert alert-danger" role="alert">
+                                          <%=message%>
+                                        </div>
+                              
+                                        <% }; %>
+                            
+                            
+                                        <div class="form-group">
+                                            <label for="inputFaktor">Username</label>
+                                            <input type="text" class="form-control" id="inputUsername" name="inputUsername" placeholder="" required>
+                                        </div>
+                                        <div class="form-group">
+                                          <label for="inputIndex">Password</label><span>
+                                          <input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="" required>
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="inputIndex">Confirm Password</label><span>
+                                        <input type="password" class="form-control" id="inputConfPass" name="inputConfPass" placeholder="" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputRole">Role</label>
+                                            <select class="form-control" name="inputRole" id="inputRole"  style="height: 40px;">
+                                                <option selected disabled value="0">Pilih role user</option>
+                                                <option value="User">User</option>
+                                                <option value="Super-user">Super-user</option>
+                                                <option value="Admin">Admin</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputAspekUser">Aspek yang dapat diisi</label>
+                                            <select class="form-control" name="inputAspekUser" id="inputAspekUser" style="height: 40px;">
+                                                <option selected disabled>Pilih aspek user</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="99" hidden>-</option>                                                                                        
+                                            </select>
+                                        </div>
+                                        <a class="btn btn-danger" href="/UserManagement/" role="button" style="float: left;">Back</a>
+                                        <button type="submit" class="btn btn-primary" style="float: right;">Tambah</button>
+                                    </form>
+                                <!-- </div> -->
                             </div>
                         </div>
                     </div>
@@ -265,7 +274,12 @@
                     { "width": "40%", "targets": 1 }
                 ]
             });
-            
+
+            $(function(){
+                $("#inputRole").change(function(){
+                    $("#inputAspekUser").prop('disabled', $(this).val() != 'User');
+                });
+            });
         } );
     </script>  
 </body>
