@@ -167,17 +167,21 @@
                                         <% }; %>
                             
                             
+                                        <div class="form-group" hidden>
+                                            <label for="inputFaktor">Original Username</label>
+                                            <input type="text" class="form-control" id="inputOrigUsername" name="inputOrigUsername" value="<%=data.username%>" required hidden readonly>
+                                        </div>
                                         <div class="form-group">
                                             <label for="inputFaktor">Username</label>
-                                            <input type="text" class="form-control" id="inputUsername" name="inputUsername" placeholder="" required>
+                                            <input type="text" class="form-control" id="inputUsername" name="inputUsername" value="<%=data.username%>" required>
                                         </div>
                                         <div class="form-group">
                                           <label for="inputIndex">Password</label><span>
-                                          <input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="" required>
+                                          <input type="text" class="form-control" id="inputPassword" name="inputPassword" value="<%=data.password%>" required>
                                       </div>
                                       <div class="form-group">
                                         <label for="inputIndex">Confirm Password</label><span>
-                                        <input type="password" class="form-control" id="inputConfPass" name="inputConfPass" placeholder="" required>
+                                        <input type="text" class="form-control" id="inputConfPass" name="inputConfPass" value="<%=data.password%>" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputRole">Role</label>
@@ -203,7 +207,7 @@
                                             </select>
                                         </div>
                                         <a class="btn btn-danger" href="/UserManagement/" role="button" style="float: left;">Back</a>
-                                        <button type="submit" class="btn btn-primary" style="float: right;">Tambah</button>
+                                        <button type="submit" class="btn btn-primary" style="float: right;">Ubah</button>
                                     </form>
                                 <!-- </div> -->
                             </div>
@@ -276,7 +280,10 @@
             });
 
             $(function(){
+                $('[name="inputRole"]').val(['<%=data.typeUser%>'])
+                $('[name="inputAspekUser"]').val(['<%=data.aspekUser%>'])
                 $("#inputRole").change(function(){
+                    $("#inputAspekUser").val=('', $(this).val() != 'User');
                     $("#inputAspekUser").prop('disabled', $(this).val() != 'User');
                 });
             });

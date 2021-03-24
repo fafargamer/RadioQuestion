@@ -173,11 +173,11 @@
                                         </div>
                                         <div class="form-group">
                                           <label for="inputIndex">Password</label><span>
-                                          <input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="" required>
+                                          <input type="text" class="form-control" id="inputPassword" name="inputPassword" placeholder="" required>
                                       </div>
                                       <div class="form-group">
                                         <label for="inputIndex">Confirm Password</label><span>
-                                        <input type="password" class="form-control" id="inputConfPass" name="inputConfPass" placeholder="" required>
+                                        <input type="text" class="form-control" id="inputConfPass" name="inputConfPass" placeholder="" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputRole">Role</label>
@@ -277,6 +277,7 @@
 
             $(function(){
                 $("#inputRole").change(function(){
+                    $("#inputAspekUser").val=('', $(this).val() != 'User');
                     $("#inputAspekUser").prop('disabled', $(this).val() != 'User');
                 });
             });

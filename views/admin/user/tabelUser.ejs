@@ -147,6 +147,7 @@
                                             <th>Role</th>                    
                                             <th>Aspek</th>
                                             <th></th>
+                                            <th></th>
                                         </tr>
                                     </thead>    
                                     <tbody>
@@ -156,6 +157,9 @@
                                             <td><%=row.username%></td>
                                             <td><%=row.typeUser%></td>
                                             <td><%=row.aspekUser%></td>
+                                            <td>
+                                                <a class="btn btn-primary" href="/userManagement/modifyUser/<%=row.username%>/" role="button" style="text-align: center;">Ubah</a>
+                                            </td>                                            
                                             <td class="justify-content-center">
                                                 <!-- Button trigger modal -->
                                               <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalAspek-<%i+1%>">

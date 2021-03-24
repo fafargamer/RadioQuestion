@@ -48,6 +48,16 @@ app.post('/TambahUser/', isLoggedIn, (req,res) =>{
     }
 })
 
+app.get('/modifyUser/:username', isLoggedIn, (req,res) =>{
+    if (req.user.typeUser == 'Admin') {
+        modifyUser(req,res)
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
+})
+
 app.get('/hapusUser/:username', isLoggedIn, (req,res) => {
     if (req.user.typeUser == 'Admin') {
         deleteUser(req,res,req.params.username)
@@ -85,7 +95,17 @@ function GetAllUsers(req,res) {
 
 function AddUser(req,res, callback) {
 
-    var username = req.body.inputUsername
+    var teUser = req.body.inputOrigUsername
+    console.log(teUser)
+    if(teUser.length > 0) {
+        var username = req.body.inputOrigUsername
+        console.log('Existing user')
+    }
+    else {
+        var username = req.body.inputUsername
+        console.log('user is new')
+    }
+    var newUsername = req.body.inputUsername
     var password = req.body.inputPassword
     var confirmPassword = req.body.inputConfPass
     var typeUser = req.body.inputRole
@@ -101,7 +121,7 @@ function AddUser(req,res, callback) {
         // console.log('passbefore = '+ password)
         // password = bcrypt.hashSync(password, salt);
         // console.log('pass after : ' + password)
-        User.findOneAndUpdate( {username}, {username, password, typeUser, aspekUser}, {upsert: true}, (errUpdAsp,resUpdAsp) =>{
+        User.findOneAndUpdate( {username}, {username: newUsername, password, typeUser, aspekUser}, {upsert: true}, (errUpdAsp,resUpdAsp) =>{
                 if(errUpdAsp){
                     req.flash('addUserErr', errUpdAsp);
                     res.redirect('back')
@@ -126,6 +146,23 @@ function deleteUser(req,res,username) {
         else {
             console.log('Deleted User')
             res.redirect('back')
+        }
+    })
+}
+
+function modifyUser(req,res) {
+    username = req.params.username
+    User.findOne({username}, (err,data) =>{
+        if(err){
+            req.flash('delUserErr', err);
+            res.render('admin/notFound', {message:req.flash('delUserErr')})
+        }
+        else if(!data) {
+            req.flash('addUserErr', 'Username tidak ditemukan');
+            res.render('admin/notFound', {message:req.flash('addUserErr')})
+        }
+        else{
+            res.render('admin/user/modifyUser', {data:data, message:req.flash('addUserErr')})
         }
     })
 }
