@@ -26,7 +26,7 @@ app.get('/', isLoggedIn, (req,res) => {
 
 app.get('/TambahUser/', isLoggedIn, (req,res) => {
     if (req.user.typeUser == 'Admin') {
-        res.render('admin/user/tambahUser', {message:req.flash('addUserErr')})
+        res.render('admin/user/tambahUser', {user:req.user, message:req.flash('addUserErr')})
     }
     else {
         req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
@@ -88,7 +88,7 @@ function GetAllUsers(req,res) {
                 }
             });
             console.log(resultUser)
-            res.render('admin/user/tabelUser', {result:resultUser})
+            res.render('admin/user/tabelUser', {user:req.user, result:resultUser})
         }
     })
 }
@@ -162,13 +162,13 @@ function modifyUser(req,res) {
             res.render('admin/notFound', {message:req.flash('addUserErr')})
         }
         else{
-            res.render('admin/user/modifyUser', {data:data, message:req.flash('addUserErr')})
+            res.render('admin/user/modifyUser', {data:data, user:req.user, message:req.flash('addUserErr')})
         }
     })
 }
 
 function isLoggedIn(req, res, next) {
-    console.log('Loggin in....')
+    // console.log('Loggin in....')
     if (req.isAuthenticated()) {
       return next();
     }

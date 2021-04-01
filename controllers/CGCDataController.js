@@ -25,7 +25,7 @@ app.get('/', isLoggedIn, (req,res) =>{
             res.send(err)
         }
         else{
-            res.render('admin/GCG/tabelAspek', {result:result})
+            res.render('admin/GCG/tabelAspek', {result:result, user:req.user})
         }
     })
 })
@@ -33,7 +33,7 @@ app.get('/', isLoggedIn, (req,res) =>{
 //Get tambah Aspek
 app.get('/addAspek', isLoggedIn, (req,res) =>{
     if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
-        res.render('admin/GCG/tambah/tambahAspek')
+        res.render('admin/GCG/tambah/tambahAspek', {user:req.user})
     }
     else {
         req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
@@ -69,6 +69,35 @@ app.get('/hapusAspek/:idAspek', isLoggedIn, (req,res) => {
 
 })
 
+//Update Aspek
+app.get('/updateAspek/:idAspek', isLoggedIn, (req,res) => {
+
+    if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
+        updateAspekGet(req,res)
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
+
+
+})
+
+//Post Update Aspek
+app.post('/updateAspek', isLoggedIn, (req,res) => {
+    if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
+        updateAspek(req,res)
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
+
+
+})
+
+
+
 
 
 //Get Indikators
@@ -89,11 +118,11 @@ app.get('/:idAspek', isLoggedIn, (req,res) =>{
 app.get('/:idAspek/addIndikator', isLoggedIn, (req,res) =>{
     if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
         var idAspek = req.params.idAspek
-        res.render('admin/GCG/tambah/tambahIndikator', {idAspek: idAspek, errMsg: req.flash('infoFailAddI')})
+        res.render('admin/GCG/tambah/tambahIndikator', {idAspek: idAspek, user:req.user, errMsg: req.flash('infoFailAddI')})
     }
     else if(req.user.aspekUser == req.params.idAspek){
         var idAspek = req.params.idAspek
-        res.render('admin/GCG/tambah/tambahIndikator', {idAspek: idAspek, errMsg: req.flash('infoFailAddI')})
+        res.render('admin/GCG/tambah/tambahIndikator', {idAspek: idAspek, user:req.user, errMsg: req.flash('infoFailAddI')})
     }
     else {
         req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
@@ -134,6 +163,33 @@ app.get('/:idAspek/hapusIndikator/:idIndikator', isLoggedIn, (req,res) => {
     }
 })
 
+//Update Indikator
+app.get('/:idAspek/updateIndikator/:idIndikator', isLoggedIn, (req,res) => {
+
+    if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
+        updateIndikatorGet(req,res)
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
+
+
+})
+
+//Post Update Indikator
+app.post('/updateIndikator', isLoggedIn, (req,res) => {
+    if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
+        updateIndikator(req,res)
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
+
+
+})
+
 
 //Get parameters
 app.get('/:idAspek/:idIndikator', isLoggedIn, (req,res) =>{
@@ -155,10 +211,10 @@ app.get('/:idAspek/:idIndikator/addParameter', isLoggedIn, (req,res) =>{
     var idIndikator = req.params.idIndikator
 
     if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
-        res.render('admin/GCG/tambah/tambahParameter', {idAspek: idAspek, idIndikator: idIndikator, errMsg: req.flash('infoFailAddP')})
+        res.render('admin/GCG/tambah/tambahParameter', {idAspek: idAspek, idIndikator: idIndikator, user:req.user, errMsg: req.flash('infoFailAddP')})
     }
     else if(req.user.aspekUser == req.params.idAspek){
-        res.render('admin/GCG/tambah/tambahParameter', {idAspek: idAspek, idIndikator: idIndikator, errMsg: req.flash('infoFailAddP')})
+        res.render('admin/GCG/tambah/tambahParameter', {idAspek: idAspek, idIndikator: idIndikator, user:req.user, errMsg: req.flash('infoFailAddP')})
     }
     else {
         req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
@@ -202,19 +258,66 @@ app.get('/:idAspek/:idIndikator/hapusParameter/:idParameter', isLoggedIn, (req,r
 
 })
 
+//Update Parameter
+app.get('/:idAspek/:idIndikator/updateParameter/:idParameter', isLoggedIn, (req,res) => {
+
+    if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
+        updateParameterGet(req,res)
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
+
+
+})
+
+//Post Update Parameter
+app.post('/updateParameter', isLoggedIn, (req,res) => {
+    if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
+        updateParameter(req,res)
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
+
+
+})
+
 
 
 //Tabel sub-parameter (HTML)
-app.get('/:idAspek/:idIndikator/:idparams', (req,res) =>{
-    getSubParameters(req, res)
+app.get('/:idAspek/:idIndikator/:idparams', isLoggedIn, (req,res) =>{
+    if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
+        getSubParameters(req, res)
+    }
+    else if(req.user.aspekUser == req.body.inputAspek){
+        getSubParameters(req, res)
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
+    
 })
 
 //Tambah sub-parameter (HTML)
-app.get('/:idAspek/:idIndikator/:idparams/addSubParameter', (req,res) =>{
+app.get('/:idAspek/:idIndikator/:idparams/addSubParameter', isLoggedIn, (req,res) =>{
     ParameterID = req.params.idparams
     idAspek = req.params.idAspek
     idIndikator = req.params.idIndikator
-    res.render('admin/GCG/tambah/tambahSubParameter', {parameterID: ParameterID, idAspek:idAspek, idIndikator:idIndikator, errMsg: req.flash('infoFailAddSP')})
+    if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
+        res.render('admin/GCG/tambah/tambahSubParameter', {parameterID: ParameterID, idAspek:idAspek, idIndikator:idIndikator, user:req.user, errMsg: req.flash('infoFailAddSP')})
+    }
+    else if(req.user.aspekUser == req.body.inputAspek){
+        res.render('admin/GCG/tambah/tambahSubParameter', {parameterID: ParameterID, idAspek:idAspek, idIndikator:idIndikator, user:req.user, errMsg: req.flash('infoFailAddSP')})
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
+ 
 })
 
 //Tambah sub-parameter (Post)
@@ -223,52 +326,123 @@ app.post('/addSubParameter', (req,res) =>{
 })
 
 //Delete Sub-Parameter dan lainnya
-app.get('/:idAspek/:idIndikator/:idParameter/hapusSubParameter/:idSubParameter/', (req,res) => {
+app.get('/:idAspek/:idIndikator/:idParameter/hapusSubParameter/:idSubParameter/', isLoggedIn, (req,res) => {
     parameterT = req.params.idParameter
     subParameterT = req.params.idSubParameter
 
-    deleteSubParameter(parameterT,subParameterT)
-    res.redirect('/GCGData/'+req.params.idAspek+'/'+req.params.idIndikator+'/'+req.params.idParameter+'/')
+    if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
+        deleteSubParameter(parameterT,subParameterT)
+        res.redirect('/GCGData/'+req.params.idAspek+'/'+req.params.idIndikator+'/'+req.params.idParameter+'/')
+    }
+    else if(req.user.aspekUser == req.body.inputAspek){
+        deleteSubParameter(parameterT,subParameterT)
+        res.redirect('/GCGData/'+req.params.idAspek+'/'+req.params.idIndikator+'/'+req.params.idParameter+'/')
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
+
+
+})
+
+//Update Sub-Parameter
+app.get('/:idAspek/:idIndikator/:idParameter/updateSubParameter/:idSubParameter/', isLoggedIn, (req,res) => {
+
+    if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
+        updateSubParameterGet(req,res)
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
+
+
+})
+
+//Post Update Sub-Parameter
+app.post('/updateSubParameter', isLoggedIn, (req,res) => {
+    if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
+        updateSubParameter(req,res)
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
+
+
 })
 
 
-
 //Get Faktor (HTML)
-app.get('/:idAspek/:idIndikator/:idparams/:idsubparameter/', (req,res) =>{
+app.get('/:idAspek/:idIndikator/:idparams/:idsubparameter/', isLoggedIn, (req,res) =>{
     idAspek = req.params.idAspek
     idIndikator = req.params.idIndikator
     idparams = req.params.idparams
     idsubparameter = req.params.idsubparameter
 
-    getFaktors(req, res, idAspek, idIndikator, idparams, idsubparameter)
+    if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
+        getFaktors(req, res, idAspek, idIndikator, idparams, idsubparameter)
+    }
+    else if(req.user.aspekUser == req.body.inputAspek){
+        getFaktors(req, res, idAspek, idIndikator, idparams, idsubparameter)
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
+
+    
 
     // console.log(dataSubFaktor)
     // res.send(dataSubFaktor)
 })
 
 //Get Faktor Tambah (HTML)
-app.get('/:idAspek/:idIndikator/:idParams/:idSubParams/addFaktor/', (req,res) =>{
+app.get('/:idAspek/:idIndikator/:idParams/:idSubParams/addFaktor/', isLoggedIn, (req,res) =>{
     aspek = req.params.idAspek
     indikator = req.params.idIndikator
     IDParameter = req.params.idParams
     IndexSubParameter = req.params.idSubParams
-    SubParameter.findOne({aspek, indikator, IDParameter, IndexSubParameter}, (error, result) =>{
-        if(error){
-            res.send(error)
-        }
-        else if(!result){
-            res.send('Sub-Parameter tidak ada')
-        }
-        else{
-            // console.log(result)
-            // console.log(req.flash('subFaktorAddStatus'))
-            res.render('admin/GCG/tambah/tambahFaktor', {aspek, indikator, IDParameter, result:result, message:req.flash('infoFailAddFaktor')})
-        }
-    })
+
+    if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
+        SubParameter.findOne({aspek, indikator, IDParameter, IndexSubParameter}, (error, result) =>{
+            if(error){
+                res.send(error)
+            }
+            else if(!result){
+                res.send('Sub-Parameter tidak ada')
+            }
+            else{
+                // console.log(result)
+                // console.log(req.flash('subFaktorAddStatus'))
+                res.render('admin/GCG/tambah/tambahFaktor', {aspek, indikator, IDParameter, result:result, user:req.user, message:req.flash('infoFailAddFaktor')})
+            }
+        })
+    }
+    else if(req.user.aspekUser == req.body.inputAspek){
+        SubParameter.findOne({aspek, indikator, IDParameter, IndexSubParameter}, (error, result) =>{
+            if(error){
+                res.send(error)
+            }
+            else if(!result){
+                res.send('Sub-Parameter tidak ada')
+            }
+            else{
+                // console.log(result)
+                // console.log(req.flash('subFaktorAddStatus'))
+                res.render('admin/GCG/tambah/tambahFaktor', {aspek, indikator, IDParameter, result:result, user:req.user, message:req.flash('infoFailAddFaktor')})
+            }
+        })
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
 })
 
 //Add Faktor
-app.post('/addFaktor', (req,res) => {
+app.post('/addFaktor', isLoggedIn, (req,res) => {
     idSubParameter = req.body.idSubParameter
     idParameter = req.body.idParameter
     aspek = req.body.inputAspek
@@ -277,31 +451,51 @@ app.post('/addFaktor', (req,res) => {
     IndexFaktor = req.body.inputIndex
     catatanFaktor = req.body.inputCatatan
 
-    
-    addFaktors(req,res, Faktor, aspek, indikator, idParameter, idSubParameter, IndexFaktor, catatanFaktor)
+    if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
+        addFaktors(req,res, Faktor, aspek, indikator, idParameter, idSubParameter, IndexFaktor, catatanFaktor)
+    }
+    else if(req.user.aspekUser == aspek){
+        addFaktors(req,res, Faktor, aspek, indikator, idParameter, idSubParameter, IndexFaktor, catatanFaktor)
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
 })
 
 //Delete Faktor
-app.get('/:idAspek/:idIndikator/:idParameter/:idSubParameter/hapusFaktor/:idFaktor/', (req,res) => {
+app.get('/:idAspek/:idIndikator/:idParameter/:idSubParameter/hapusFaktor/:Index/', isLoggedIn, (req,res) => {
     parameterT = req.params.idParameter
     subParameterT = req.params.idSubParameter
     aspekT = req.params.idAspek
     indikatorT = req.params.idIndikator
-    IDFaktor = req.params.idFaktor
+    Index = req.params.Index
 
-    deleteFaktor(aspekT, indikatorT, parameterT,subParameterT, IDFaktor)
-    res.redirect('/GCGData/'+req.params.idAspek+'/'+req.params.idIndikator+'/'+req.params.idParameter+'/'+req.params.idSubParameter+'/')
+    if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
+        deleteFaktor(aspekT, indikatorT, parameterT,subParameterT, Index)
+        res.redirect('/GCGData/'+req.params.idAspek+'/'+req.params.idIndikator+'/'+req.params.idParameter+'/'+req.params.idSubParameter+'/')
+    }
+    else if(req.user.aspekUser == req.body.inputAspek){
+        deleteFaktor(aspekT, indikatorT, parameterT,subParameterT, Index)
+        res.redirect('/GCGData/'+req.params.idAspek+'/'+req.params.idIndikator+'/'+req.params.idParameter+'/'+req.params.idSubParameter+'/')
+    }
+    else {
+        req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
+        res.render('admin/notFound', {message:req.flash('errDeclined')})
+    }
+
+   
 })
 
 //Get faktor form
-app.get('/:idAspek/:idIndikator/:idParams/:idSubParams/:idFaktor/fillForm/', (req,res) => {
+app.get('/:idAspek/:idIndikator/:idParams/:idSubParams/:Index/fillForm/', isLoggedIn, (req,res) => {
     IDParameter = req.params.idParams
     IndexSubParameter = req.params.idSubParams
     aspek = req.params.idAspek
     indikator = req.params.idIndikator
-    IDFaktor = req.params.idFaktor
+    Index = req.params.Index
 
-    FaktorSchema.findOne({aspek, indikator, IDParameter, IndexSubParameter, IDFaktor}, (err,result) =>{
+    FaktorSchema.findOne({aspek, indikator, IDParameter, IndexSubParameter, Index}, (err,result) =>{
         if(err)
         {
             res.send(err)
@@ -310,14 +504,41 @@ app.get('/:idAspek/:idIndikator/:idParams/:idSubParams/:idFaktor/fillForm/', (re
             res.send('Faktor tidak ada')
         }
         else{
-            res.render('admin/GCG/isiFaktor/isi', {data:result})
+            res.render('admin/GCG/isiFaktor/isi', {data:result, user:req.user})
         }
     })
 })
 
+app.post('/PostCatatan', isLoggedIn, (req,res) =>{
+    // Index = req.body.Index
+    // catatan = req.body.catatan
+    IndexSubParameter = req.body.idSubParameter
+    IDParameter = req.body.idParameter
+    aspek = req.body.inputAspek
+    indikator = req.body.inputIndikator
+    Index = req.body.inputIndex
+    catatanBukti = req.body.catatan
+
+    FaktorSchema.findOneAndUpdate({aspek, indikator, IDParameter, IndexSubParameter, Index}, {catatanBukti}, (err, result) =>{
+        if(err){
+            res.send(err)
+        }
+        else{
+            console.log(catatanBukti)
+            console.log("Catatan terupdate")
+            res.redirect('/GCGData/'+ aspek +'/'+ indikator + '/' + IDParameter + '/' + IndexSubParameter + '/')
+        }
+    })
+    // console.log(req.originalUrl)
+})
+
 //Post penilaian Faktor
-app.post('/postPenilaian', (req,res) => {
-    IDFaktor = req.body.inputID
+app.post('/postPenilaian', isLoggedIn, (req,res) => {
+    Index = req.body.inputID
+    aspek = req.body.inputAspek
+    indikator = req.body.inputIndikator
+    IDParameter = req.body.idParameter
+    IndexSubParameter = req.body.idSubParameter
     buktiPemenuhan = req.body.inputPemenuhan
     skor = req.body.inputNilai
 
@@ -325,7 +546,7 @@ app.post('/postPenilaian', (req,res) => {
 
     
 
-    FaktorSchema.findOneAndUpdate({IDFaktor} , {buktiPemenuhan, skor}, {upsert:true}, (err,result) => {
+    FaktorSchema.findOneAndUpdate({aspek, indikator, IDParameter, IndexSubParameter, Index} , {buktiPemenuhan, skor}, {upsert:true}, (err,result) => {
         if(err){
             res.send(err)
         }
@@ -461,6 +682,85 @@ function deleteAspek(aspekT){
 
 }
 
+function updateAspekGet(req,res) {
+    Aspek.findOne({index:req.params.idAspek}, (err,result) =>{
+        if(err) {
+            res.send(err)
+        }
+        else if(!result) {
+            req.flash('notFoundMsg', 'Aspek tidak ditemukan');
+            res.render('admin/notFound.ejs', {message: req.flash('notFoundMsg')})
+        }
+        else {
+            res.render('admin/GCG/ubah/Aspek', {data:result, user:req.user, errMsg: req.flash('infoFailAddA')})
+        }
+    })
+}
+
+function updateAspek(req,res) {
+    prevIndex = req.body.prevIndex
+    aspek = req.body.inputAspek
+    index = req.body.inputNoAspek
+    bobot = req.body.inputBobot
+
+    Aspek.findOne({index}, (err,result) =>  {
+        if(err) {
+            res.send(err)
+        }
+        else if (result && (prevIndex != index)) {
+            console.log('Aspek dengan ID yang sama sudah ada')
+            req.flash('infoFailAddA', 'Aspek sudah ada');
+            res.redirect('back')
+        }
+        else {
+            FaktorSchema.updateMany({aspek:prevIndex}, {aspek:index}, (errIndi,resIndi) => {
+                if(errIndi) {
+                    res.send(errIndi)
+                }
+                else {
+                    console.log('Updated Faktors')
+                }
+            })
+    
+            SubParameter.updateMany({aspek:prevIndex}, {aspek:index}, (errIndi,resIndi) => {
+                if(errIndi) {
+                    res.send(errIndi)
+                }
+                else {
+                    console.log('Updated SubParameters')
+                }
+            })
+    
+            Parameter.updateMany({aspek:prevIndex}, {aspek:index}, (errIndi,resIndi) => {
+                if(errIndi) {
+                    res.send(errIndi)
+                }
+                else {
+                    console.log('Updated Parameters')
+                }
+            })
+    
+            Indikator.updateMany({aspek:prevIndex}, {aspek:index}, (errIndi,resIndi) => {
+                if(errIndi) {
+                    res.send(errIndi)
+                }
+                else {
+                    console.log('Updated Indikators')
+                }
+            })
+    
+            Aspek.findOneAndUpdate({index : prevIndex}, {index, aspek, bobot}, (errAs,resAs) =>{
+                if(errAs){
+                    res.send(errAs)
+                }
+                else{
+                    console.log(resAs)
+                    res.redirect('/GCGdata/')
+                }
+            })
+        }
+    })
+}
 
 //////////////
 //Indikator//
@@ -484,7 +784,7 @@ function getIndikators(req,res) {
                     res.send(errIndikator)
                 }
                 else{
-                    res.render('admin/GCG/tabelIndikator.ejs', {result:resultIndikator, idAspek:aspek, resAsp})
+                    res.render('admin/GCG/tabelIndikator.ejs', {result:resultIndikator, idAspek:aspek, user:req.user, resAsp})
                 }
             })
         }
@@ -536,7 +836,7 @@ function addIndikator(req,res) {
 function deleteIndikator(indikatorT, aspekT){
     indikator = indikatorT
     aspek = aspekT
-    FaktorSchema.deleteMany({indikator}, (err,res) =>{
+    FaktorSchema.deleteMany({aspek, indikator}, (err,res) =>{
         if(err){
             console.log('Gagal menghapus Sub-Faktor')
         }
@@ -545,7 +845,7 @@ function deleteIndikator(indikatorT, aspekT){
         }
         
     })
-    SubParameter.deleteMany({indikator}, (err,res) =>{
+    SubParameter.deleteMany({aspek, indikator}, (err,res) =>{
         if(err){
             console.log('Gagal menghapus Sub-Parameter')
         }
@@ -554,7 +854,7 @@ function deleteIndikator(indikatorT, aspekT){
         }
         
     })
-    Parameter.deleteMany({indikator}, (err,res) =>{
+    Parameter.deleteMany({aspek, indikator}, (err,res) =>{
         if(err){
             console.log('Gagal menghapus Parameter')
         }
@@ -584,6 +884,78 @@ function deleteIndikator(indikatorT, aspekT){
 
 }
 
+function updateIndikatorGet(req,res) {
+    idAspek = req.params.idAspek
+    Indikator.findOne({aspek:req.params.idAspek, index:req.params.idIndikator}, (err,result) =>{
+        if(err) {
+            res.send(err)
+        }
+        else if(!result) {
+            req.flash('notFoundMsg', 'Aspek tidak ditemukan');
+            res.render('admin/notFound.ejs', {message: req.flash('notFoundMsg')})
+        }
+        else {
+            res.render('admin/GCG/ubah/Indikator', {idAspek:idAspek, data:result, user:req.user, errMsg: req.flash('infoFailAddI')})
+        }
+    })
+}
+
+
+function updateIndikator(req,res) {
+    prevIndex = req.body.prevIndex
+    aspek = req.body.inputAspek
+    indikator = req.body.inputIndikator
+    index = req.body.inputNoIndikator
+    bobot = req.body.inputBobot
+
+    Indikator.findOne({aspek,index}, (err,result) =>  {
+        if(err) {
+            res.send(err)
+        }
+        else if (result && (prevIndex != index)) {
+            console.log('Indikator dengan ID yang sama sudah ada')
+            req.flash('infoFailAddI', 'Indikator sudah ada');
+            res.redirect('back')
+        }
+        else {
+            FaktorSchema.updateMany({aspek,indikator:prevIndex}, {indikator:index}, (errIndi,resIndi) => {
+                if(errIndi) {
+                    res.send(errIndi)
+                }
+                else {
+                    console.log('Updated Faktors')
+                }
+            })
+    
+            SubParameter.updateMany({aspek,indikator:prevIndex}, {indikator:index}, (errIndi,resIndi) => {
+                if(errIndi) {
+                    res.send(errIndi)
+                }
+                else {
+                    console.log('Updated SubParameters')
+                }
+            })
+    
+            Parameter.updateMany({aspek,indikator:prevIndex}, {indikator:index}, (errIndi,resIndi) => {
+                if(errIndi) {
+                    res.send(errIndi)
+                }
+                else {
+                    console.log('Updated Parameters')
+                }
+            })
+            Indikator.findOneAndUpdate({aspek, index:prevIndex}, {index, indikator, bobot}, (errAs,resAs) =>{
+                if(errAs){
+                    res.send(errAs)
+                }
+                else{
+                    console.log(resAs)
+                    res.redirect('/GCGdata/'+aspek+'/')
+                }
+            })
+        }
+    })
+}
 
 //////////////
 //Parameters//
@@ -626,37 +998,9 @@ function getParameters(req, res) {
                             }
                         })
                     }
-                    res.render('admin/GCG/tabelParameter', {result: result, idAspek: idAspek, idIndikator: idIndikator, resInd:resInd})
+                    res.render('admin/GCG/tabelParameter', {result: result, idAspek: idAspek, idIndikator: idIndikator, user:req.user, resInd:resInd})
                 }
             })
-        }
-    })
-}
-
-function getParameter(req, res) {
-    var IDParameter = req.params.idparams;
-
-    Parameter.findOne({IDPertanyaan: IDParameter }, (err,result) =>{
-        if(err){
-            res.send(err)
-        }
-        else{
-            res.render('isiParameter.ejs', {dataParameter:result})
-        }
-    })
-}
-
-function getParameterbyID(req, res, next) {
-    var IDParameter = req.params.idparams;
-
-    Parameter.findOne({IDPertanyaan: IDParameter }, (err,result) =>{
-        if(err){
-            res.send(err)
-        }
-        else{
-            // global.getParameterbyIDRes = result;
-            // return getParameterbyIDRes
-            return result
         }
     })
 }
@@ -670,9 +1014,9 @@ function insertQuestion(req, res) {
     parameter.index = req.body.inputNoParameter
     parameter.jumlahSubParameter = 0;
     parameter.nilai = 0;
-    parameter.IDPertanyaan = createID(req.body.inputAspek, req.body.inputIndikator, req.body.inputNoParameter)
+    parameter.IDPertanyaan = req.body.inputNoParameter
     
-    Parameter.findOne({IDPertanyaan: parameter.IDPertanyaan}, (errorFind, hasilFind) =>{
+    Parameter.findOne({aspek:req.body.inputAspek, indikator:req.body.inputIndikator, index:req.body.inputNoParameter}, (errorFind, hasilFind) =>{
         if(errorFind){
             res.send(errorFind)
         }
@@ -755,6 +1099,73 @@ function deleteParameter(parameterT, indikatorT, aspekT){
     })
 }
 
+function updateParameterGet(req,res) {
+    IDPertanyaan = req.params.idParameter
+    Parameter.findOne({aspek:req.params.idAspek, indikator:req.params.idIndikator, IDPertanyaan}, (err,result) =>{
+        if(err) {
+            res.send(err)
+        }
+        else if(!result) {
+            req.flash('notFoundMsg', 'Aspek tidak ditemukan');
+            res.render('admin/notFound.ejs', {message: req.flash('notFoundMsg')})
+        }
+        else {
+            res.render('admin/GCG/ubah/Parameter', {idAspek:req.params.idAspek, idIndikator:req.params.idIndikator, data:result, user:req.user, errMsg: req.flash('infoFailAddP')})
+        }
+    })
+}
+
+
+function updateParameter(req,res) {
+    prevIndex = req.body.prevIndex
+    aspek = req.body.inputAspek
+    pertanyaan = req.body.inputParameter
+    indikator = req.body.inputIndikator
+    index = req.body.inputNoIndikator
+    bobot = req.body.inputBobot
+    index = req.body.inputNoParameter
+    IDPertanyaan = index
+
+    Parameter.findOne({aspek,indikator,index}, (err,result) =>  {
+        if(err) {
+            res.send(err)
+        }
+        else if (result && (prevIndex != index)) {
+            console.log('Parameter dengan ID yang sama sudah ada')
+            req.flash('infoFailAddP', 'Parameter sudah ada');
+            res.redirect('back')
+        }
+        else {
+            FaktorSchema.updateMany({aspek,indikator,IDParameter:prevIndex}, {index, IDParameter:IDPertanyaan}, (errIndi,resIndi) => {
+                if(errIndi) {
+                    res.send(errIndi)
+                }
+                else {
+                    console.log('Updated Faktors')
+                }
+            })
+    
+            SubParameter.updateMany({aspek,indikator,IDParameter:prevIndex}, {index, IDParameter:IDPertanyaan}, (errIndi,resIndi) => {
+                if(errIndi) {
+                    res.send(errIndi)
+                }
+                else {
+                    console.log('Updated SubParameters')
+                }
+            })
+            Parameter.findOneAndUpdate({aspek, indikator, IDPertanyaan:prevIndex}, {index, IDPertanyaan, pertanyaan, bobot}, (errAs,resAs) =>{
+                if(errAs){
+                    res.send(errAs)
+                }
+                else{
+                    console.log(resAs)
+                    res.redirect('/GCGdata/'+aspek+'/'+indikator)
+                }
+            })
+        }
+    })
+}
+
 
 //////////////
 //Sub-Parameters//
@@ -803,31 +1214,7 @@ function getSubParameters(req, res) {
                     console.log(result)
 
                     var percentData = toPercentageData(result)
-                    res.render('admin/GCG/tabelSubParameter', {data:result, dataParameter:resultParameter, idAspek:idAspek, idIndikator:idIndikator, header:result[0], percentData:percentData})
-                }
-            })
-        }
-    })
-
-}
-
-function getSubParameter(req, res) {
-    var IDParameter = req.params.idparams;
-    Parameter.findOne({IDPertanyaan: IDParameter}, (errorParameter,resultParameter) =>{
-        if(errorParameter){
-            res.send(errorParameter)
-        }
-        else{
-            SubParameter.find({ IDParameter: IDParameter}, (err,result) =>{
-                if(err){
-                    res.send(err)
-                }
-                else if(!result){
-                    res.send('SubParameter belum ada')
-                }
-                else{
-                    console.log(result)
-                    res.render('tabelSubParameter', {data:result, dataParameter:resultParameter})
+                    res.render('admin/GCG/tabelSubParameter', {data:result, dataParameter:resultParameter, idAspek:idAspek, idIndikator:idIndikator, header:result[0], user:req.user, percentData:percentData})
                 }
             })
         }
@@ -916,6 +1303,77 @@ function deleteSubParameter(parameterT, subParameterT){
     })
 }
 
+function updateSubParameterGet(req,res) {
+    IndexSubParameter = req.params.idSubParameter
+    SubParameter.findOne({aspek:req.params.idAspek, indikator:req.params.idIndikator, IDParameter: req.params.idParameter, IndexSubParameter}, (err,result) =>{
+        if(err) {
+            res.send(err)
+        }
+        else if(!result) {
+            req.flash('notFoundMsg', 'Sub-Parameter tidak ditemukan');
+            res.render('admin/notFound.ejs', {message: req.flash('notFoundMsg')})
+        }
+        else {
+            res.render('admin/GCG/ubah/SubParameter', {idAspek:req.params.idAspek, idIndikator:req.params.idIndikator, parameterID:req.params.idParameter, data:result, user:req.user, errMsg: req.flash('infoFailAddP')})
+        }
+    })
+}
+
+
+function updateSubParameter(req,res) {
+    prevIndex = req.body.prevIndex
+    aspek = req.body.inputAspek
+    subParameter = req.body.inputSubParameter
+    indikator = req.body.inputIndikator
+    IDParameter = req.body.inputParameter
+    // bobot = req.body.inputBobot
+    IndexSubParameter = req.body.inputIndex
+    // IDPertanyaan = createID(req.body.inputAspek, req.body.inputIndikator, req.body.inputNoParameter)
+
+    // subParameter.subParameter = req.body.inputSubParameter
+    // subParameter.IDParameter = req.body.inputParameter
+    // subParameter.aspek = req.body.inputAspek
+    // subParameter.indikator = req.body.inputIndikator
+    // subParameter.IndexSubParameter = req.body.inputIndex
+
+    SubParameter.findOne({aspek,indikator,IDParameter,IndexSubParameter}, (err,result) =>  {
+        if(err) {
+            res.send(err)
+        }
+        else if (result && (prevIndex != IndexSubParameter)) {
+            console.log(IndexSubParameter)
+            console.log(prevIndex)
+            // console.log(result)
+            console.log('Sub-Parameter dengan ID yang sama sudah ada')
+            req.flash('infoFailAddP', 'Sub-Parameter sudah ada');
+            res.redirect('back')
+        }
+        else {
+            FaktorSchema.updateMany({aspek,indikator,IDParameter,IndexSubParameter:prevIndex}, {IndexSubParameter}, (errIndi,resIndi) => {
+                if(errIndi) {
+                    res.send(errIndi)
+                }
+                else {
+                    console.log('Updated Faktors')
+                }
+            })
+            SubParameter.findOneAndUpdate({aspek,indikator,IDParameter,IndexSubParameter:prevIndex}, {IndexSubParameter, subParameter}, (errAs,resAs) =>{
+                if(errAs){
+                    res.send(errAs)
+                }
+                else{
+                    console.log(resAs)
+                    res.redirect('/GCGdata/'+aspek+'/'+indikator+'/'+IDParameter)
+                }
+            })
+        }
+    })
+}
+
+///////////////////
+///Sub-Faktor//////
+///////////////////
+
 
 //Get Sub-Faktor
 function getFaktors(req, res, aspekT, indikatorT, IDParameterT, IndexSubParameterT) {
@@ -965,7 +1423,8 @@ function getFaktors(req, res, aspekT, indikatorT, IDParameterT, IndexSubParamete
                     idIndikator:indikatorT, 
                     idParameter:IDParameterT, 
                     subParameter: resultSub,
-                    totalSkor: totalSkor
+                    totalSkor: totalSkor,
+                    user:req.user
                 })
                 }
             })
@@ -974,7 +1433,7 @@ function getFaktors(req, res, aspekT, indikatorT, IDParameterT, IndexSubParamete
 
 }
 
-function addFaktors(req,res, FaktorT, aspekT, indikatorT, IDParameterT, IndexSubParameterT, IndexFaktor, catatanFaktor){
+function addFaktors(req,res, FaktorT, aspekT, indikatorT, IDParameterT, IndexSubParameterT, Index, catatanFaktor){
     
     faktor = FaktorT
     aspek = aspekT
@@ -986,7 +1445,7 @@ function addFaktors(req,res, FaktorT, aspekT, indikatorT, IDParameterT, IndexSub
     buktiPemenuhan = ''
     catatanBukti = ''
     
-    IDFaktor = createFaktorID(IDParameter, IndexSubParameter, IndexFaktor)
+    // Index = createFaktorID(IDParameter, IndexSubParameter, IndexFaktor)
 
     faktorIns = new FaktorSchema();
     faktorIns.faktor = FaktorT
@@ -996,11 +1455,11 @@ function addFaktors(req,res, FaktorT, aspekT, indikatorT, IDParameterT, IndexSub
     faktorIns.IndexSubParameter = IndexSubParameterT
     faktorIns.skor = 0
     faktorIns.buktiPemenuhan = ''
-    faktorIns.IDFaktor = IDFaktor
+    faktorIns.Index = Index
     faktorIns.catatan = catatan
     faktorIns.catatanBukti = catatanBukti
 
-    FaktorSchema.findOne({IDFaktor}, (errFind,resFind) =>{
+    FaktorSchema.findOne({Index}, (errFind,resFind) =>{
         if(errFind){
             res.send(errFind)
         }
@@ -1044,14 +1503,14 @@ function addFaktors(req,res, FaktorT, aspekT, indikatorT, IDParameterT, IndexSub
 }
 
 //Delete Sub-Parameter
-function deleteFaktor(aspekT, indikatorT, parameterT, subParameterT, idFaktor){
+function deleteFaktor(aspekT, indikatorT, parameterT, subParameterT, Index){
     aspek = aspekT
     indikator = indikatorT
     IDParameter = parameterT
     IndexSubParameter = subParameterT
-    IDFaktor = idFaktor
+    Index = Index
 
-    FaktorSchema.deleteOne({aspek, indikator, IDParameter, IndexSubParameter, IDFaktor}, (err,res) =>{
+    FaktorSchema.deleteOne({aspek, indikator, IDParameter, IndexSubParameter, Index}, (err,res) =>{
         if(err){
             console.log('Gagal menghapus Faktor')
         }
@@ -1140,7 +1599,7 @@ function toPercentage(data) {
 }
 
 function isLoggedIn(req, res, next) {
-    console.log('Loggin in....')
+    // console.log('Loggin in....')
     if (req.isAuthenticated()) {
       return next();
     }

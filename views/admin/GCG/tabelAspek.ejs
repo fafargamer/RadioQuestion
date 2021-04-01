@@ -124,7 +124,7 @@
                     </div>
                     <div class="col-sm-6 clearfix">
                         <div class="user-profile pull-right">
-                            <h4 class="user-name dropdown-toggle" data-toggle="dropdown">Username<i class="fa fa-angle-down"></i></h4>
+                            <h4 class="user-name dropdown-toggle" data-toggle="dropdown"><%=user.username%><i class="fa fa-angle-down"></i></h4>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="/logout">Log Out</a>
                             </div>
@@ -162,6 +162,9 @@
                                             <td><%=row.nilai%></td>
                                             <td>
                                                 <a class="btn btn-primary" href="/GCGData/<%=row.index%>/" role="button" style="text-align: center;">Detail</a>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-secondary" href="/GCGData/updateAspek/<%=row.index%>/" role="button" style="text-align: center;">Ubah</a>
                                             </td>
                                             <td class="justify-content-center">
                                                 <!-- Button trigger modal -->

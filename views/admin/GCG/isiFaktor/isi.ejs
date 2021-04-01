@@ -275,13 +275,13 @@
                                 <li><a href="/GCGData/<%=data.aspek%>/<%=data.indikator%>/">Indikator <%=data.indikator%></a></li>
                                 <li><a href="/GCGData/<%=data.aspek%>/<%=data.indikator%>/<%=data.IDParameter%>">Parameter <%=data.IDParameter%></a></li>  
                                 <li><a href="/GCGData/<%=data.aspek%>/<%=data.indikator%>/<%=data.IDParameter%>/<%=data.IndexSubParameter%>/">Sub-Parameter <%=data.IndexSubParameter%></a></li>                               
-                                <li><span>Faktor <%=IDFaktor%></span></li>
+                                <li><span>Faktor <%=Index%></span></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-sm-6 clearfix">
                         <div class="user-profile pull-right">
-                            <h4 class="user-name dropdown-toggle" data-toggle="dropdown">Username<i class="fa fa-angle-down"></i></h4>
+                            <h4 class="user-name dropdown-toggle" data-toggle="dropdown"><%=user.username%><i class="fa fa-angle-down"></i></h4>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="/logout">Log Out</a>
                             </div>
@@ -307,25 +307,28 @@
                                             <h3 class="mt-1 ml-2"><%=data.faktor%></h3>
                                         </div> 
                                         <form class="question bg-white p-3 border-bottom" action="/GCGData/postPenilaian" method="POST">
-                                            <input type="text" id="inputID" name="inputID" value="<%=data.IDFaktor%>" hidden readonly>
+                                            <input type="text" id="inputID" name="inputID" value="<%=data.Index%>" hidden readonly>
+                                                <input type="text" class="form-control" id="inputAspek" name="inputAspek" value="<%=data.aspek%>" hidden>
+                                                <input type="text" class="form-control" id="inputIndikator" name="inputIndikator" value="<%=data.indikator%>" hidden>
+                                                <input type="text" class="form-control" id="idParameter" name="idParameter" value="<%=data.IDParameter%>" hidden>
+                                                <input type="text" class="form-control" id="idSubParameter" name="idSubParameter" value="<%=data.IndexSubParameter%>" hidden>
                                             <h2>Bukti Pemenuhan</h2>
-                                                <label class="radio">Dokumen
+                                                <label class="check">Dokumen
                                                     <input type="checkbox" name="inputPemenuhan[]" id="inputPemenuhanD" value="D">
-                                                    <span class="checkround"></span>
+                                                    <span class="checkmark"></span>
                                                 </label>
-                                                <label class="radio">Kusioner
+                                                <label class="check">Kusioner
                                                   <input type="checkbox" name="inputPemenuhan[]" id="inputPemenuhanK" value="K">
-                                                  <span class="checkround"></span>
+                                                  <span class="checkmark"></span>
                                                 </label>                                                
-                                                <label class="radio">Wawancara
+                                                <label class="check">Wawancara
                                                     <input type="checkbox" name="inputPemenuhan[]" id="inputPemenuhanW" value="W">
-                                                    <span class="checkround"></span>
+                                                    <span class="checkmark"></span>
                                                 </label>
-                                                <label class="radio">Observasi
+                                                <label class="check">Observasi
                                                     <input type="checkbox" name="inputPemenuhan[]" id="inputPemenuhanO" value="O">
-                                                    <span class="checkround"></span>
+                                                    <span class="checkmark"></span>
                                                 </label>
-
                                               <h2>Nilai Faktor</h2>
                                               <label class="radio">0
                                                   <input type="radio" name="inputNilai" id="inputNilai" value="0">

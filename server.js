@@ -39,7 +39,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 60 * 60 * 1000 }
+  cookie: { maxAge: 2 * 60 * 60 * 1000 }
 }))
 
 
@@ -88,7 +88,7 @@ app.listen(process.env.PORT || 3000, () => {
 
 
 app.get('/login', (req,res) => {
-  res.render('admin/login', {message:req.flash('loginMessage')})
+  res.render('admin/login', {user:req.user, message:req.flash('loginMessage')})
 })
 
 app.post('/login', passport.authenticate('local',{failureRedirect: '/login'}), (req, res) => {
@@ -102,7 +102,7 @@ app.get('/logout', function(req, res){
 });
 
 function isLoggedIn(req, res, next) {
-  console.log('Loggin in....')
+  // console.log('Loggin in....')
   if (req.isAuthenticated()) {
 
     req.session.returnTo = req.originalUrl; 
@@ -118,7 +118,7 @@ function isLoggedIn(req, res, next) {
 
 app.get('/', isLoggedIn, (req,res) =>{
   // console.log(req.body)
-  res.render('admin/homePage')
+  res.render('admin/homePage', {user:req.user})
 })
 
 

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>GCG - Tambah Sub-Parameter</title>
+    <title>GCG - Tambah Faktor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">  
     <link href="  https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css" crossorigin="anonymous">
@@ -116,19 +116,20 @@
                     <div class="col-sm-6">
                         <div class="breadcrumbs-area clearfix">
                             <h4 class="page-title pull-left">Dashboard</h4>
-                            <ul class="breadcrumbs pull-left">
+                            <ul class="breadcrumbs pull-left" style="width: 800px;">
                                 <li><a href="/">Home</a></li>
                                 <li><a href="/GCGData/">GCG</a></li>
-                                <li><a href="/GCGData/<%=idAspek%>/">Aspek <%=idAspek%></a></li> 
-                                <li><a href="/GCGData/<%=idAspek%>/<%=idIndikator%>/">Indikator <%=idIndikator%></a></li>
-                                <li><a href="/GCGData/<%=idAspek%>/<%=idIndikator%>/<%=parameterID%>">Parameter <%=ParameterID%></a></li>                                 
-                                <li><span>Tambah Sub-Parameter</span></li>
+                                <li><a href="/GCGData/<%=aspek%>/">Aspek <%=aspek%></a></li> 
+                                <li><a href="/GCGData/<%=aspek%>/<%=indikator%>/">Indikator <%=indikator%></a></li>
+                                <li><a href="/GCGData/<%=aspek%>/<%=indikator%>/<%=IDParameter%>">Parameter <%=IDParameter%></a></li>  
+                                <li><a href="/GCGData/<%=aspek%>/<%=indikator%>/<%=IDParameter%>/<%=result.IndexSubParameter%>/">Sub-Parameter <%=result.IndexSubParameter%></a></li>                               
+                                <li><span>Tambah Sub-Faktor</span></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-sm-6 clearfix">
                         <div class="user-profile pull-right">
-                            <h4 class="user-name dropdown-toggle" data-toggle="dropdown"><%=user.username%><i class="fa fa-angle-down"></i></h4>
+                            <h4 class="user-name dropdown-toggle" data-toggle="dropdown">Username<i class="fa fa-angle-down"></i></h4>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="/logout">Log Out</a>
                             </div>
@@ -143,10 +144,10 @@
                         <div class="card">
                             <div class="card-body">
                                 <!-- <div class="d-flex justify-content-center row"> -->
-                                    <form action="/GCGData/addSubParameter/" method="POST">
+                                    <form action="/GCGData/addFaktor/" method="POST">
                                       <div class="d-flex flex-row align-items-center question-title justify-content-center">
                                         <!-- <h3 class="text-danger">Q.</h3> -->
-                                        <h2 class="">Tambah Sub-Parameter</h2>     
+                                        <h2 class="">Tambah Sub-Faktor</h2>     
                                       </div>         
                                       <div>
                                         <h1>
@@ -162,32 +163,39 @@
                                         </h1>
                                       </div>  
                             
-                                      <% if (errMsg.length > 0) { %>
+                                      <% if (message.length > 0) { %>
                                         <div class="alert alert-danger" role="alert">
-                                          <%=errMsg%>
+                                          <%=message%>
                                         </div>
                               
                                         <% }; %>
                             
                             
                                         <div class="form-group">
-                                            <label for="inputParameter">Sub-Parameter</label>
-                                            <input type="text" class="form-control" id="inputSubParameter" name="inputSubParameter" placeholder="" required>
+                                            <label for="inputFaktor">Faktor</label>
+                                            <input type="text" class="form-control" id="inputFaktor" name="inputFaktor" placeholder="" required>
                                         </div>
                                         <div class="form-group">
-                                          <label for="inputParameter">Index Sub-Parameter</label><span>
+                                          <label for="inputIndex">Index Faktor</label><span>
                                           <input type="text" class="form-control" id="inputIndex" name="inputIndex" placeholder="" required>
                                       </div>
+                                      <div class="form-group">
+                                          <label for="inputIndex">Catatan Faktor</label><span>
+                                          <textarea type="text" class="form-control" id="inputCatatan" name="inputCatatan" rows="3" placeholder="Contoh : Nilai 1 jika... dan 0 jika ..."></textarea>
+                                      </div>
+                                      <div class="form-group">
+                                        <input type="text" class="form-control" id="inputAspek" name="inputAspek" value="<%=aspek%>" hidden>
+                                      </div>
+                                      <div class="form-group">
+                                        <input type="text" class="form-control" id="inputIndikator" name="inputIndikator" value="<%=indikator%>" hidden>
+                                      </div>
                                         <div class="form-group">
-                                          <input type="text" class="form-control" id="inputParameter" name="inputParameter" value="<%=parameterID%>" hidden>
+                                          <input type="text" class="form-control" id="idParameter" name="idParameter" value="<%=IDParameter%>" hidden>
                                         </div>
                                         <div class="form-group">
-                                          <input type="text" class="form-control" id="inputAspek" name="inputAspek" value="<%=idAspek%>" hidden>
+                                          <input type="text" class="form-control" id="idSubParameter" name="idSubParameter" value="<%=result.IndexSubParameter%>" hidden>
                                         </div>
-                                        <div class="form-group">
-                                          <input type="text" class="form-control" id="inputIndikator" name="inputIndikator" value="<%=idIndikator%>" hidden>
-                                        </div>
-                                        <a class="btn btn-danger" href="/GCGData/<%=idAspek%>/<%=idIndikator%>/<%=parameterID%>/" role="button" style="float: left;">Back</a>
+                                        <a class="btn btn-danger" href="/GCGData/<%=aspek%>/<%=indikator%>/<%=IDParameter%>/<%=result.IndexSubParameter%>/" role="button" style="float: left;">Back</a>
                                         <button type="submit" class="btn btn-success" style="float: right;">Submit</button>
                                     </form>
                                 <!-- </div> -->

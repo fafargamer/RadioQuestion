@@ -127,7 +127,7 @@
                     </div>
                     <div class="col-sm-6 clearfix">
                         <div class="user-profile pull-right">
-                            <h4 class="user-name dropdown-toggle" data-toggle="dropdown">Username<i class="fa fa-angle-down"></i></h4>
+                            <h4 class="user-name dropdown-toggle" data-toggle="dropdown"><%=user.username%><i class="fa fa-angle-down"></i></h4>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="/logout">Log Out</a>
                             </div>
@@ -147,10 +147,10 @@
                                     <thead style="height: 100px; background-color: lightskyblue;">
                                         <tr>
                                             <th>No</th>
-                                            <th>ID Faktor</th>
                                             <th>Sub-Faktor</th>
                                             <th>Bukti Pemenuhan</th>
                                             <th>Nilai</th>
+                                            <th> </th>
                                             <th> </th>
                                             <th> </th>
                                         </tr>
@@ -158,14 +158,57 @@
                                     <tbody>
                                         <% result.forEach(function(row, i) { %> 
                                         <tr>
-                                            <td><%=i+1%></td>
-                                            <td><%=row.IDFaktor%></td>
+                                            <td><%=row.Index%></td>
                                             <td><%=row.faktor%></td>
                                             <td><%=row.buktiPemenuhan%></td>
                                             <td><%=row.skor%></td>
                                             <td>
-                                                <a class="btn btn-primary" href="/GCGData/<%=row.aspek%>/<%=row.indikator%>/<%=row.IDParameter%>/<%=row.IndexSubParameter%>/<%=row.IDFaktor%>/fillForm/" role="button">Beri Nilai</a>
+                                                <a class="btn btn-primary" href="/GCGData/<%=row.aspek%>/<%=row.indikator%>/<%=row.IDParameter%>/<%=row.IndexSubParameter%>/<%=row.Index%>/fillForm/" role="button">Beri Nilai</a>
                                             </td>
+                                            <td>
+                                                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modalCatatan<%=i+1%>">
+                                                    Beri Catatan
+                                                </button>
+                                                <div class="modal fade" id="modalCatatan<%=i+1%>" tabindex="-1" role="dialog" aria-labelledby="modalCatatan<%=i+1%>Label" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                      <div class="modal-content">
+                                                        <div class="modal-header">
+                                                          <h5 class="modal-title" id="modalCatatan<%=i+1%>Label">Beri Catatan Bukti Faktor</h5>
+                                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                          </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                          <form action="/GCGData/PostCatatan" method="POST" name="formCatatan<%=i+1%>" id="formCatatan<%=i+1%>">
+                                                            <div class="form-group">
+                                                              <label for="message-text" class="col-form-label">Catatan Bukti:</label>
+                                                              <textarea class="form-control" id="catatan" name="catatan" rows="4" ><%=row.catatanBukti%></textarea>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" id="inputIndex" name="inputIndex" value="<%=row.Index%>" hidden>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" id="inputAspek" name="inputAspek" value="<%=row.aspek%>" hidden>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" id="inputIndikator" name="inputIndikator" value="<%=row.indikator%>" hidden>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                  <input type="text" class="form-control" id="idParameter" name="idParameter" value="<%=row.IDParameter%>" hidden>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                  <input type="text" class="form-control" id="idSubParameter" name="idSubParameter" value="<%=row.IndexSubParameter%>" hidden>
+                                                            </div>
+                                                          </form>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                          <button form="formCatatan<%=i+1%>" type="submit" class="btn btn-primary">Submit</button>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                            </td>                                            
                                             <td class="justify-content-center">
                                                 <!-- Button trigger modal -->
                                               <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalAspek<%=i+1%>">
@@ -186,7 +229,7 @@
                                                         Faktor <%=row.IDFaktor%> : <%=row.faktor%>
                                                     <div class="modal-footer">
                                                       <a type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
-                                                      <a type="button" class="btn btn-danger" href="/GCGData/<%=row.aspek%>/<%=row.indikator%>/<%=row.IDParameter%>/<%=row.IndexSubParameter%>/hapusFaktor/<%=row.IDFaktor%>/">Hapus data</a>
+                                                      <a type="button" class="btn btn-danger" href="/GCGData/<%=row.aspek%>/<%=row.indikator%>/<%=row.IDParameter%>/<%=row.IndexSubParameter%>/hapusFaktor/<%=row.Index%>/">Hapus data</a>
                                                     </div>
                                                   </div>
                                                 </div>

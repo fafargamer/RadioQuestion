@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>GCG - Tambah Sub-Parameter</title>
+    <title>GCG - Update Indikator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">  
     <link href="  https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css" crossorigin="anonymous">
@@ -119,16 +119,14 @@
                             <ul class="breadcrumbs pull-left">
                                 <li><a href="/">Home</a></li>
                                 <li><a href="/GCGData/">GCG</a></li>
-                                <li><a href="/GCGData/<%=idAspek%>/">Aspek <%=idAspek%></a></li> 
-                                <li><a href="/GCGData/<%=idAspek%>/<%=idIndikator%>/">Indikator <%=idIndikator%></a></li>
-                                <li><a href="/GCGData/<%=idAspek%>/<%=idIndikator%>/<%=parameterID%>">Parameter <%=ParameterID%></a></li>                                 
-                                <li><span>Tambah Sub-Parameter</span></li>
+                                <li><a href="/GCGData/<%=idAspek%>">Aspek <%=idAspek%></a></li> 
+                                <li><span>Update Indikator</span></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-sm-6 clearfix">
                         <div class="user-profile pull-right">
-                            <h4 class="user-name dropdown-toggle" data-toggle="dropdown"><%=user.username%><i class="fa fa-angle-down"></i></h4>
+                            <h4 class="user-name dropdown-toggle" data-toggle="dropdown">Username<i class="fa fa-angle-down"></i></h4>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="/logout">Log Out</a>
                             </div>
@@ -143,10 +141,10 @@
                         <div class="card">
                             <div class="card-body">
                                 <!-- <div class="d-flex justify-content-center row"> -->
-                                    <form action="/GCGData/addSubParameter/" method="POST">
+                                    <form action="/GCGData/updateIndikator/" method="POST">
                                       <div class="d-flex flex-row align-items-center question-title justify-content-center">
                                         <!-- <h3 class="text-danger">Q.</h3> -->
-                                        <h2 class="">Tambah Sub-Parameter</h2>     
+                                        <h2 class="">Update Indikator</h2>     
                                       </div>         
                                       <div>
                                         <h1>
@@ -168,26 +166,25 @@
                                         </div>
                               
                                         <% }; %>
-                            
-                            
                                         <div class="form-group">
-                                            <label for="inputParameter">Sub-Parameter</label>
-                                            <input type="text" class="form-control" id="inputSubParameter" name="inputSubParameter" placeholder="" required>
+                                            <label for="inputParameter">Judul Indikator</label>
+                                            <input type="text" class="form-control" id="inputIndikator" name="inputIndikator" value="<%=data.indikator%>" required>
                                         </div>
                                         <div class="form-group">
-                                          <label for="inputParameter">Index Sub-Parameter</label><span>
-                                          <input type="text" class="form-control" id="inputIndex" name="inputIndex" placeholder="" required>
-                                      </div>
+                                          <label for="inputParameter">Index Indikator</label>
+                                          <input type="text" class="form-control" id="inputNoIndikator" name="inputNoIndikator" value="<%=data.index%>" required>
+                                        </div>       
+                                        <div class="form-group" hidden>
+                                            <input type="text" class="form-control" id="prevIndex" name="prevIndex" value="<%=data.index%>" required hidden readonly>
+                                          </div>  
                                         <div class="form-group">
-                                          <input type="text" class="form-control" id="inputParameter" name="inputParameter" value="<%=parameterID%>" hidden>
-                                        </div>
+                                          <input type="text" class="form-control" id="inputAspek" name="inputAspek" value="<%=idAspek%>" hidden readonly>
+                                        </div>        
                                         <div class="form-group">
-                                          <input type="text" class="form-control" id="inputAspek" name="inputAspek" value="<%=idAspek%>" hidden>
+                                            <label for="exampleInputEmail1">Bobot</label>
+                                            <input type="text" class="form-control" id="inputBobot" name="inputBobot" value="<%=data.bobot%>" required>
                                         </div>
-                                        <div class="form-group">
-                                          <input type="text" class="form-control" id="inputIndikator" name="inputIndikator" value="<%=idIndikator%>" hidden>
-                                        </div>
-                                        <a class="btn btn-danger" href="/GCGData/<%=idAspek%>/<%=idIndikator%>/<%=parameterID%>/" role="button" style="float: left;">Back</a>
+                                        <a class="btn btn-danger" href="/GCGData/<%=idAspek%>/" role="button" style="float: left;">Back</a>
                                         <button type="submit" class="btn btn-success" style="float: right;">Submit</button>
                                     </form>
                                 <!-- </div> -->

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>GCG - Tambah Sub-Parameter</title>
+    <title>GCG - Ubah Sub-Parameter</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">  
     <link href="  https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css" crossorigin="anonymous">
@@ -121,8 +121,8 @@
                                 <li><a href="/GCGData/">GCG</a></li>
                                 <li><a href="/GCGData/<%=idAspek%>/">Aspek <%=idAspek%></a></li> 
                                 <li><a href="/GCGData/<%=idAspek%>/<%=idIndikator%>/">Indikator <%=idIndikator%></a></li>
-                                <li><a href="/GCGData/<%=idAspek%>/<%=idIndikator%>/<%=parameterID%>">Parameter <%=ParameterID%></a></li>                                 
-                                <li><span>Tambah Sub-Parameter</span></li>
+                                <li><a href="/GCGData/<%=idAspek%>/<%=idIndikator%>/<%=parameterID%>">Parameter <%=parameterID%></a></li>                                 
+                                <li><span>Ubah Sub-Parameter</span></li>
                             </ul>
                         </div>
                     </div>
@@ -143,10 +143,10 @@
                         <div class="card">
                             <div class="card-body">
                                 <!-- <div class="d-flex justify-content-center row"> -->
-                                    <form action="/GCGData/addSubParameter/" method="POST">
+                                    <form action="/GCGData/updateSubParameter/" method="POST">
                                       <div class="d-flex flex-row align-items-center question-title justify-content-center">
                                         <!-- <h3 class="text-danger">Q.</h3> -->
-                                        <h2 class="">Tambah Sub-Parameter</h2>     
+                                        <h2 class="">Ubah Sub-Parameter</h2>     
                                       </div>         
                                       <div>
                                         <h1>
@@ -172,11 +172,14 @@
                             
                                         <div class="form-group">
                                             <label for="inputParameter">Sub-Parameter</label>
-                                            <input type="text" class="form-control" id="inputSubParameter" name="inputSubParameter" placeholder="" required>
+                                            <input type="text" class="form-control" id="inputSubParameter" name="inputSubParameter" value="<%=data.subParameter%>" required>
                                         </div>
                                         <div class="form-group">
                                           <label for="inputParameter">Index Sub-Parameter</label><span>
-                                          <input type="text" class="form-control" id="inputIndex" name="inputIndex" placeholder="" required>
+                                          <input type="text" class="form-control" id="inputIndex" name="inputIndex" value="<%=data.IndexSubParameter%>" required>
+                                      </div>
+                                      <div class="form-group" hidden>
+                                        <input type="text" class="form-control" id="prevIndex" name="prevIndex" value="<%=data.IndexSubParameter%>" required hidden readonly>
                                       </div>
                                         <div class="form-group">
                                           <input type="text" class="form-control" id="inputParameter" name="inputParameter" value="<%=parameterID%>" hidden>
