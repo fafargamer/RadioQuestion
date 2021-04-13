@@ -20,6 +20,9 @@ var subParameterSchema = new mongoose.Schema({
     nilai: {
         type: Number
     },
+    nilaiPersen: {
+        type:Number
+    },
     buktiPemenuhan:{
         type: String
     },

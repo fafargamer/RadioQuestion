@@ -489,24 +489,7 @@ app.get('/:idAspek/:idIndikator/:idParameter/:idSubParameter/hapusFaktor/:Index/
 
 //Get faktor form
 app.get('/:idAspek/:idIndikator/:idParams/:idSubParams/:Index/fillForm/', isLoggedIn, (req,res) => {
-    IDParameter = req.params.idParams
-    IndexSubParameter = req.params.idSubParams
-    aspek = req.params.idAspek
-    indikator = req.params.idIndikator
-    Index = req.params.Index
-
-    FaktorSchema.findOne({aspek, indikator, IDParameter, IndexSubParameter, Index}, (err,result) =>{
-        if(err)
-        {
-            res.send(err)
-        }
-        else if(!res){
-            res.send('Faktor tidak ada')
-        }
-        else{
-            res.render('admin/GCG/isiFaktor/isi', {data:result, user:req.user})
-        }
-    })
+    getFillForm(req,res)
 })
 
 app.post('/PostCatatan', isLoggedIn, (req,res) =>{
@@ -533,7 +516,48 @@ app.post('/PostCatatan', isLoggedIn, (req,res) =>{
 })
 
 //Post penilaian Faktor
-app.post('/postPenilaian', isLoggedIn, (req,res) => {
+// app.post('/postPenilaian', isLoggedIn, (req,res) => {
+//     Index = req.body.inputID
+//     aspek = req.body.inputAspek
+//     indikator = req.body.inputIndikator
+//     IDParameter = req.body.idParameter
+//     IndexSubParameter = req.body.idSubParameter
+//     buktiPemenuhan = req.body.inputPemenuhan
+//     skor = req.body.inputNilai
+
+//     console.log(req.body)
+
+    
+
+//     FaktorSchema.findOneAndUpdate({aspek, indikator, IDParameter, IndexSubParameter, Index} , {buktiPemenuhan, skor}, {upsert:true}, (err,result) => {
+//         if(err){
+//             res.send(err)
+//         }
+//         else{
+//             console.log(result)
+//             res.redirect('/GCGData/'+result.aspek+'/'+result.indikator+'/'+result.IDParameter+'/'+result.IndexSubParameter+'/')
+//         }
+//     })
+// })
+
+app.post('/postPenilaian', async function(req, res, next) {
+    try {    
+        const FaktorSchema = await berinilaiFaktor(req,res)
+        const SubParameterRes = await nilaiSP(req,res)
+        const ParameterRes = await nilaiPar(req,res)
+        const IndikatorRes = await nilaiIndi(req,res)
+        const AspekRes = await nilaiAspek(req,res)
+        // console.log(resInd)
+        // res.send(resInd[0].indikators)
+        res.redirect('/all/')
+        next();
+    } catch (err) { 
+        next(err)
+    }
+})
+
+
+async function berinilaiFaktor(req,res) {
     Index = req.body.inputID
     aspek = req.body.inputAspek
     indikator = req.body.inputIndikator
@@ -541,25 +565,71 @@ app.post('/postPenilaian', isLoggedIn, (req,res) => {
     IndexSubParameter = req.body.idSubParameter
     buktiPemenuhan = req.body.inputPemenuhan
     skor = req.body.inputNilai
+    nilaiPersen = toPercentage(skor)
 
-    console.log(req.body)
+    const resFaktor = await FaktorSchema.findOneAndUpdate({aspek, indikator, IDParameter, IndexSubParameter, Index} , {buktiPemenuhan, skor, nilaiPersen}, {upsert:true}).exec()
+    if(resFaktor) {
+        console.log('Faktor sudah diberi nilai')
+    }
 
-    
+    return resFaktor
+}
 
-    FaktorSchema.findOneAndUpdate({aspek, indikator, IDParameter, IndexSubParameter, Index} , {buktiPemenuhan, skor}, {upsert:true}, (err,result) => {
-        if(err){
-            res.send(err)
-        }
-        else{
-            console.log(result)
-            res.redirect('/GCGData/'+result.aspek+'/'+result.indikator+'/'+result.IDParameter+'/'+result.IndexSubParameter+'/')
-        }
-    })
-})
+async function nilaiSP(req,res) {
+    aspek = req.body.inputAspek
+    indikator = req.body.inputIndikator
+    IDParameter = req.body.idParameter
+    IndexSubParameter = req.body.idSubParameter
+
+    const resFaktors = await FaktorSchema.find({aspek, indikator, IDParameter, IndexSubParameter}).exec()
+    const nilaiSP = await countScoreFaktor(resFaktors)
+    const nilaiPersen = await toPercentage(nilaiSP)
+    const updSP = await SubParameter.findOneAndUpdate({aspek, indikator, IDParameter, IndexSubParameter}, {nilai:nilaiSP, nilaiPersen}).exec()
+
+    return updSP
+}
 
 
+async function nilaiPar(req,res) {
+    aspek = req.body.inputAspek
+    indikator = req.body.inputIndikator
+    IDParameter = req.body.idParameter
 
+    const resSP = await SubParameter.find({aspek, indikator, IDParameter}).exec()
+    const parRes = await Parameter.findOne({aspek, indikator, IDParameter}).exec()
+    var nilaiParBef = await countScoreParameter(resSP)
+    var nilaiPar = parseFloat(nilaiParBef*parRes.bobot).toFixed(3)
+    var nilaiPersen = parseFloat(nilaiPar/parRes.bobot).toFixed(3)
+    const nilaiIndividu = await toPercentage(nilaiPersen)
+    const updP = await Parameter.findOneAndUpdate({aspek, indikator, IDParameter}, {nilai:nilaiPar, nilaiIndividu}).exec()
 
+    return updP
+}
+
+async function nilaiIndi(req,res) {
+    aspek = req.body.inputAspek
+    indikator = req.body.inputIndikator
+
+    const resP = await Parameter.find({aspek, indikator}).exec()
+    const IndRes = await Indikator.findOne({aspek, index: indikator}).exec()
+    var nilaiIndBef = await countScore(resP)
+    var nilaiPersen = (parseFloat((nilaiIndBef/IndRes.bobot)*100).toFixed(0))
+    const updI = await Indikator.findOneAndUpdate({aspek, index: indikator}, {nilai:nilaiIndBef, nilaiIndividu:nilaiPersen}).exec()
+
+    return updI
+}
+
+async function nilaiAspek(req,res) {
+    aspek = req.body.inputAspek
+
+    const resI = await Indikator.find({aspek}).exec()
+    const AspRes = await Aspek.findOne({index: aspek}).exec()
+    var nilaiAspBef = await countScore(resI)
+    var nilaiPersen = (parseFloat(nilaiAspBef/AspRes.bobot).toFixed(2))*100
+    const updA = await Aspek.findOneAndUpdate({index: aspek}, {nilai:nilaiAspBef, nilaiIndividu:nilaiPersen}).exec()
+
+    return updA
+}
 
 
 
@@ -800,31 +870,45 @@ function addIndikator(req,res) {
     indikator.bobot = req.body.inputBobot
     indikator.nilai = 0
     indikator.jumlahParameter = 0
-    Indikator.findOne({aspek: indikator.aspek, index:indikator.index}, (errFind,resFind) =>{
-        if(errFind){
-            res.send(errFind)
+    Aspek.findOne({index:aspek}, (errAsp,resAsp) => {
+        if(errAsp) {
+            res.send(errAsp)
         }
-        else if(resFind){
-            console.log('Indikator dengan ID yang sama sudah ada')
-            req.flash('infoFailAddI', 'Indikator sudah ada');
+        else if(!resAsp) {
+            console.log('Aspek ga ada')
+            req.flash('infoFailAddI', 'Aspek tidak ada');
             res.redirect('back')
         }
-        else{
-            indikator.save((error,indikator) =>{
-                if(error){
-                    res.send(error)
+        else {
+            Indikator.findOne({aspek: indikator.aspek, index:indikator.index}, (errFind,resFind) =>{
+                if(errFind){
+                    res.send(errFind)
+                }
+                else if(resFind){
+                    console.log('Indikator dengan ID yang sama sudah ada')
+                    req.flash('infoFailAddI', 'Indikator sudah ada');
+                    res.redirect('back')
                 }
                 else{
-                    Aspek.findOneAndUpdate( {index:req.body.inputAspek}, 
-                        {$inc:{jumlahIndikator: 1}}, {upsert: true}, (errUpdAsp,resUpdAsp) =>{
-                            if(errUpdAsp){
-                                res.send(errUpdAsp)
-                            }
-                            else{
-                                console.log(resUpdAsp)
-                            }
-                        });
-                    res.redirect('/GCGData/'+req.body.inputAspek)
+                    indikator.aspekWritten = resAsp.aspek
+                    indikator.save((error,indikator) =>{
+                        if(error){
+                            res.send(error)
+                        }
+                        else{
+                            console.log(indikator)
+                            Aspek.findOneAndUpdate( {index:req.body.inputAspek}, 
+                                {$inc:{jumlahIndikator: 1}}, {upsert: true}, (errUpdAsp,resUpdAsp) =>{
+                                    if(errUpdAsp){
+                                        res.send(errUpdAsp)
+                                    }
+                                    else{
+                                        console.log(resUpdAsp)
+                                    }
+                                });
+                            res.redirect('/GCGData/'+req.body.inputAspek)
+                        }
+                    })
                 }
             })
         }
@@ -1534,6 +1618,59 @@ function deleteFaktor(aspekT, indikatorT, parameterT, subParameterT, Index){
     })
 }
 
+//Get fill Form
+
+function getFillForm(req,res) {
+    IDParameter = req.params.idParams
+    IndexSubParameter = req.params.idSubParams
+    aspek = req.params.idAspek
+    indikator = req.params.idIndikator
+    Index = req.params.Index
+
+    Indikator.findOne({aspek, index:indikator}, (errInd,resInd) =>{
+        if(errInd){
+            res.send(errInd)
+        }
+        else if(!resInd){
+            res.send('Indikator tdk ada')
+        }
+        else {
+            Parameter.findOne({aspek, indikator, IDParameter}, (errPar,resPar) => {
+                if(errPar){
+                    res.send(errPar)
+                }
+                else if(!resPar){
+                    res.send('Parameter tdk ada')
+                }
+                else {
+                    SubParameter.findOne({aspek, indikator, IDParameter, IndexSubParameter}, (errSubP,resSubP) => {
+                        if(errSubP){
+                            res.send(errSubP)
+                        }
+                        else if(!resSubP){
+                            res.send('Sub-Parameter tidak ada')
+                        }
+                        else {
+                            FaktorSchema.findOne({aspek, indikator, IDParameter, IndexSubParameter, Index}, (err,result) =>{
+                                if(err)
+                                {
+                                    res.send(err)
+                                }
+                                else if(!res){
+                                    res.send('Faktor tidak ada')
+                                }
+                                else{
+                                    res.render('admin/GCG/isiFaktor/isi', {data:result, user:req.user, subparameter:resSubP, parameter:resPar, indikator:resInd})
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
+    })
+}
+
 
 function createID(aspekID, indikatorID, NoParameter){
     var id = ""
@@ -1580,7 +1717,7 @@ function countScoreParameter(data) {
       totalSkor+=data[i].nilai;
     }
 
-    totalSkor = totalSkor/data.length
+    totalSkor = parseFloat(totalSkor/data.length).toFixed(2)
     
     
     return totalSkor

@@ -312,13 +312,14 @@
                                 <h2>GCG TWC 2020</h2>
                                 <!-- <a class="btn btn-success" href="/GCGData/addAspek" role="button" style="float: right;">+</a> -->
                                 <div>
-                                    <div>                                      
-                                        <table class="table table-bordered" id="tabel-header">
+                                    <div class="container">                                      
+                                        <table class="table table-striped" id="tabel-header">
                                             <tbody>
                                                 <tr class="accordion-toggle align-items-start">
                                                     <th class="col">Judul</th>
-                                                    <th class="col">Bobot</th>
                                                     <th class="col">Nilai</th>
+                                                    <th class="col">Bobot</th>
+                                                    <th class="col">Individu</th>
                                                 </tr>            
                                             </tbody>
                                         </table>
@@ -327,13 +328,14 @@
                                 </div>
                                 <% result.forEach(function(row, i) { %>  
                                 <div>
-                                    <div>                                      
-                                        <table class="table table-bordered" id="tabel-<%=i%>" style="background-color: #f9d5e5;">
+                                    <div class="container">                                      
+                                        <table class="table table-striped" id="tabel-<%=i%>" style="background-color: #f9d5e5;">
                                             <tbody>
                                                 <tr class="accordion-toggle">
-                                                    <td><a data-toggle="collapse" data-target="#demo-<%=i%>"><%=row.aspek%></a></td>
-                                                    <td style="float: right;"><%=row.bobot%></td>
-                                                    <td style="float: right;"><%=row.nilai%></td>
+                                                    <td class="col"><a data-toggle="collapse" data-target="#demo-<%=i%>"><%=row.aspek%></a></td>
+                                                    <td class="col"><%=row.bobot%></td>
+                                                    <td class="col"><%=row.nilai%></td>
+                                                    <td class="col"><%=row.nilaiIndividu%>%</td>
                                                 </tr>            
                                             </tbody>
                                         </table>
@@ -341,14 +343,15 @@
                                     </div>
                                 </div> 
                                 <div class="hiddenRow indikator-div">
-                                    <div class="accordian-body collapse" id="demo-<%=i%>">
+                                    <div class="accordian-body collapse container" id="demo-<%=i%>"  style="width: 110%;">
                                         <% row.indikators.forEach(function(rowI, j) { %>
                                         <table class="table table-condensed table-striped" id="tabel-<%=i%>"  style="background-color: #b7d7e8;">
                                             <tbody>
                                                 <tr class="accordion-toggle">
-                                                    <td class="col-sm-12"><a data-toggle="collapse" data-target="#demo-<%=i%>-<%=j%>"><%=rowI.indikator%></a></td>                                                      
-                                                    <td><%=rowI.bobot%></td>
-                                                    <td class="nilaiOverall col-3" style="width: 110%;"><%=rowI.nilai%></td>
+                                                    <td class="col"><a data-toggle="collapse" data-target="#demo-<%=i%>-<%=j%>"><%=rowI.indikator%></a></td>                                                      
+                                                    <td class="col"><%=rowI.bobot%></td>
+                                                    <td class="nilaiOverall col" style="width: 110%;"><%=rowI.nilai%></td>
+                                                    <td class="col"><%=rowI.nilaiIndividu%>%</td>
                                                 </tr>            
                                             </tbody>
                                         </table> 
@@ -358,10 +361,11 @@
                                                 <% rowI.parameters.forEach(function(rowP, k) { %>
                                                 <table class="table table-condensed table-striped" id="tabel-<%=i%>-<%=j%>"  style="background-color: #fbefcc;">
                                                     <tbody>
-                                                        <tr data-toggle="collapse" class="accordion-toggle" data-target="#demo-<%=i%>-<%=j%>-<%=k%>">
-                                                            <td class="col-12"><%=rowP.pertanyaan%></td>                                                                  
-                                                            <td><%=rowP.bobot%></td>
-                                                            <td class="nilaiOverall"><%=rowP.nilai%></td>
+                                                        <tr data-toggle="collapse" class="accordion-toggle" data-target="#demo-<%=i%>-<%=j%>-<%=k%>"  style="width: 110%;">
+                                                            <td class="col"><%=rowP.pertanyaan%></td>                                                                  
+                                                            <td class="col"><%=rowP.bobot%></td>
+                                                            <td class="col nilaiOverall"><%=rowP.nilai%></td>
+                                                            <td class="col"><%=rowP.nilaiIndividu%>%</td>
                                                         </tr>            
                                                     </tbody>
                                                 </table> 
@@ -372,8 +376,9 @@
                                                         <table class="table table-condensed table-striped" id="tabel-<%=i%>-<%=j%>-<%=k%>"  style="background-color: #ffffff;">
                                                             <tbody>
                                                                 <tr data-toggle="collapse" class="accordion-toggle" data-target="#demo-<%=i%>-<%=j%>-<%=k%>-<%=l%>">
-                                                                    <td class="col-5"> <a><%=rowSP.subParameter%></a></td>                                                                   
-                                                                    <td><%=rowSP.nilai%></td>
+                                                                    <td class="col"> <a><%=rowSP.subParameter%></a></td>                                                                   
+                                                                    <td class="col"><%=rowSP.nilai%></td>
+                                                                    <td class="col"><%=rowSP.nilaiPersen%>%</td>
                                                                 </tr>            
                                                             </tbody>
                                                         </table> 

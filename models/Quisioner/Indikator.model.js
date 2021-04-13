@@ -9,6 +9,9 @@ var indikatorSchema = new mongoose.Schema({
     aspek: {
         type: Number
     },
+    aspekWritten: {
+        type: String
+    },
     index: {
         type: Number
     },
