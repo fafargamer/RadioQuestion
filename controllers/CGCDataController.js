@@ -225,10 +225,10 @@ app.get('/:idAspek/:idIndikator/addParameter', isLoggedIn, (req,res) =>{
 //Tambah parameter (Post)
 app.post('/addParameter', isLoggedIn, (req, res) => {
     if (req.user.typeUser == 'Admin' || req.user.typeUser == 'Super-user') {
-        insertQuestion(req, res);
+        addParameter(req, res);
     }
     else if(req.user.aspekUser == req.body.inputAspek){
-        insertQuestion(req, res);
+        addParameter(req, res);
     }
     else {
         req.flash('errDeclined', 'Maaf Anda tidak berhak untuk mengakses fitur tersebut')
@@ -1005,18 +1005,17 @@ function getParameters(req, res) {
     })
 }
 
-function insertQuestion(req, res) {
+function addParameter(req, res) {
     var parameter = new Parameter();
     parameter.pertanyaan = req.body.inputParameter;
     parameter.aspek = req.body.inputAspek;
     parameter.indikator = req.body.inputIndikator;
     parameter.bobot = req.body.inputBobot;
-    parameter.index = req.body.inputNoParameter
     parameter.jumlahSubParameter = 0;
     parameter.nilai = 0;
-    parameter.IDPertanyaan = req.body.inputNoParameter
+    parameter.IDParameter = req.body.inputNoParameter
     
-    Parameter.findOne({aspek:req.body.inputAspek, indikator:req.body.inputIndikator, index:req.body.inputNoParameter}, (errorFind, hasilFind) =>{
+    Parameter.findOne({aspek:req.body.inputAspek, indikator:req.body.inputIndikator, IDParameter:req.body.inputNoParameter}, (errorFind, hasilFind) =>{
         if(errorFind){
             res.send(errorFind)
         }
@@ -1079,7 +1078,7 @@ function deleteParameter(parameterT, indikatorT, aspekT){
         }
         
     })
-    Parameter.deleteOne({IDPertanyaan: IDParameter}, (err,res) =>{
+    Parameter.deleteOne({IDParameter: IDParameter}, (err,res) =>{
         if(err){
             console.log('Gagal menghapus Parameter')
         }
@@ -1100,13 +1099,13 @@ function deleteParameter(parameterT, indikatorT, aspekT){
 }
 
 function updateParameterGet(req,res) {
-    IDPertanyaan = req.params.idParameter
-    Parameter.findOne({aspek:req.params.idAspek, indikator:req.params.idIndikator, IDPertanyaan}, (err,result) =>{
+    IDParameter = req.params.idParameter
+    Parameter.findOne({aspek:req.params.idAspek, indikator:req.params.idIndikator, IDParameter}, (err,result) =>{
         if(err) {
             res.send(err)
         }
         else if(!result) {
-            req.flash('notFoundMsg', 'Aspek tidak ditemukan');
+            req.flash('notFoundMsg', 'Parameter tidak ditemukan');
             res.render('admin/notFound.ejs', {message: req.flash('notFoundMsg')})
         }
         else {
@@ -1121,12 +1120,11 @@ function updateParameter(req,res) {
     aspek = req.body.inputAspek
     pertanyaan = req.body.inputParameter
     indikator = req.body.inputIndikator
-    index = req.body.inputNoIndikator
     bobot = req.body.inputBobot
     index = req.body.inputNoParameter
-    IDPertanyaan = index
+    IDParameter = index
 
-    Parameter.findOne({aspek,indikator,index}, (err,result) =>  {
+    Parameter.findOne({aspek,indikator,IDParameter}, (err,result) =>  {
         if(err) {
             res.send(err)
         }
@@ -1136,7 +1134,7 @@ function updateParameter(req,res) {
             res.redirect('back')
         }
         else {
-            FaktorSchema.updateMany({aspek,indikator,IDParameter:prevIndex}, {index, IDParameter:IDPertanyaan}, (errIndi,resIndi) => {
+            FaktorSchema.updateMany({aspek,indikator,IDParameter:prevIndex}, {index, IDParameter}, (errIndi,resIndi) => {
                 if(errIndi) {
                     res.send(errIndi)
                 }
@@ -1145,7 +1143,7 @@ function updateParameter(req,res) {
                 }
             })
     
-            SubParameter.updateMany({aspek,indikator,IDParameter:prevIndex}, {index, IDParameter:IDPertanyaan}, (errIndi,resIndi) => {
+            SubParameter.updateMany({aspek,indikator,IDParameter:prevIndex}, {index, IDParameter}, (errIndi,resIndi) => {
                 if(errIndi) {
                     res.send(errIndi)
                 }
@@ -1153,7 +1151,7 @@ function updateParameter(req,res) {
                     console.log('Updated SubParameters')
                 }
             })
-            Parameter.findOneAndUpdate({aspek, indikator, IDPertanyaan:prevIndex}, {index, IDPertanyaan, pertanyaan, bobot}, (errAs,resAs) =>{
+            Parameter.findOneAndUpdate({aspek, indikator, IDParameter:prevIndex}, {index, IDParameter, pertanyaan, bobot}, (errAs,resAs) =>{
                 if(errAs){
                     res.send(errAs)
                 }
@@ -1175,7 +1173,7 @@ function getSubParameters(req, res) {
     var IDParameter = req.params.idparams;
     var idAspek = req.params.idAspek
     var idIndikator = req.params.idIndikator
-    Parameter.findOne({IDPertanyaan: IDParameter}, (errorParameter,resultParameter) =>{
+    Parameter.findOne({IDParameter}, (errorParameter,resultParameter) =>{
         if(errorParameter){
             res.send(errorParameter)
         }
@@ -1197,9 +1195,13 @@ function getSubParameters(req, res) {
     
     
                     if(result.length > 0){
+
+                        //Fungsi untuk menghitung skor
                         var totalSkor = countScoreParameter(result)
                         totalSkor = totalSkor * resultParameter.bobot
-                        Parameter.findOneAndUpdate({IDPertanyaan: IDParameter}, {nilai:totalSkor}, {upsert:true}, (errUpdSub,resUpdSub) =>{
+
+                        //Query buat update skor
+                        Parameter.findOneAndUpdate({IDParameter: IDParameter}, {nilai:totalSkor}, {upsert:true}, (errUpdSub,resUpdSub) =>{
                             if(errUpdSub){
                                 console.log(errUpdSub)
                             }
@@ -1249,7 +1251,7 @@ function addSubParameter(req, res) {
                 else{
                     Parameter.findOneAndUpdate( {aspek:req.body.inputAspek, 
                                                 indikator:req.body.inputIndikator, 
-                                                IDPertanyaan:req.body.inputParameter}, 
+                                                IDParameter:req.body.inputParameter}, 
                         {$inc:{'jumlahSubParameter': 1}}, 
                         {upsert: true}, 
                         (errUpdPar,resUpdPar) =>{
@@ -1292,7 +1294,7 @@ function deleteSubParameter(parameterT, subParameterT){
         
     })
 
-    Parameter.findOneAndUpdate({IDPertanyaan:IDParameter},{$inc:{jumlahSubParameter: -1}}, {upsert: true} , (err,res) =>{
+    Parameter.findOneAndUpdate({IDParameter:IDParameter},{$inc:{jumlahSubParameter: -1}}, {upsert: true} , (err,res) =>{
         if(err){
             console.log('Gagal menghapus Entry Entry di Parameter')
         }
@@ -1328,7 +1330,7 @@ function updateSubParameter(req,res) {
     IDParameter = req.body.inputParameter
     // bobot = req.body.inputBobot
     IndexSubParameter = req.body.inputIndex
-    // IDPertanyaan = createID(req.body.inputAspek, req.body.inputIndikator, req.body.inputNoParameter)
+    // IDParameter = createID(req.body.inputAspek, req.body.inputIndikator, req.body.inputNoParameter)
 
     // subParameter.subParameter = req.body.inputSubParameter
     // subParameter.IDParameter = req.body.inputParameter
@@ -1568,6 +1570,8 @@ function countScore(data) {
     return totalSkor
 }
 
+
+//Fungsi untuk menghitung skor
 function countScoreParameter(data) {
     
     var totalSkor = 0
@@ -1627,7 +1631,7 @@ module.exports = app;
 //     indikator: {
 //         type: Number
 //     },
-        // IDPertanyaan:{
+        // IDParameter:{
         //     type: String
         // },
         // bobot: {

@@ -12,7 +12,7 @@ var subParameterSchema = new mongoose.Schema({
         type: Number
     },
     IDParameter:{
-        type: String
+        type: Number
     },
     IndexSubParameter:{
         type: Number

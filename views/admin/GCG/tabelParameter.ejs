@@ -158,16 +158,16 @@
                                     <tbody>
                                         <% result.forEach(function(row, i) { %> 
                                         <tr>
-                                            <td><%=row.index%></td>
+                                            <td><%=row.IDParameter%></td>
                                             <td><%=row.pertanyaan%></td>
                                             <td><%=row.jumlahSubParameter%></td>
                                             <td><%=row.bobot%></td>
                                             <td><%=row.nilai%></td>
                                             <td>
-                                                <a class="btn btn-primary" href="/GCGData/<%=idAspek%>/<%=idIndikator%>/<%=row.IDPertanyaan%>/" role="button" style="text-align: center;">Detail</a>
+                                                <a class="btn btn-primary" href="/GCGData/<%=idAspek%>/<%=idIndikator%>/<%=row.IDParameter%>/" role="button" style="text-align: center;">Detail</a>
                                             </td>
                                             <td>
-                                                <a class="btn btn-secondary" href="/GCGData/<%=idAspek%>/<%=idIndikator%>/updateParameter/<%=row.IDPertanyaan%>/" role="button" style="text-align: center;">Ubah</a>
+                                                <a class="btn btn-secondary" href="/GCGData/<%=idAspek%>/<%=idIndikator%>/updateParameter/<%=row.IDParameter%>/" role="button" style="text-align: center;">Ubah</a>
                                             </td>
                                             <td class="justify-content-center">
                                                 <!-- Button trigger modal -->
@@ -190,7 +190,7 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                       <a type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
-                                                      <a type="button" class="btn btn-danger" href="/GCGData/<%=idAspek%>/<%=idIndikator%>/hapusParameter/<%=row.IDPertanyaan%>/">Hapus data</a>
+                                                      <a type="button" class="btn btn-danger" href="/GCGData/<%=idAspek%>/<%=idIndikator%>/hapusParameter/<%=row.IDParameter%>/">Hapus data</a>
                                                     </div>
                                                   </div>
                                                 </div>

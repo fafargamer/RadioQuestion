@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>GCG - Parameter <%=dataParameter.IDPertanyaan%></title>
+    <title>GCG - Parameter <%=dataParameter.IDParameter%></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">  
     <link href="  https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css" crossorigin="anonymous">
@@ -121,7 +121,7 @@
                                 <li><a href="/GCGData/">GCG</a></li>
                                 <li><a href="/GCGData/<%=idAspek%>/">Aspek <%=idAspek%></a></li>
                                 <li><a href="/GCGData/<%=idAspek%>/<%=idIndikator%>/">Indikator <%=idIndikator%></a></li>                                   
-                                <li><span>Parameter <%=dataParameter.IDPertanyaan%></span></li>                                                        
+                                <li><span>Parameter <%=dataParameter.IDParameter%></span></li>                                                        
                             </ul>
                         </div>
                     </div>
@@ -142,7 +142,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h2>Daftar Sub-Parameter</h2>
-                                <a class="btn btn-success" href="/GCGData/<%=idAspek%>/<%=idIndikator%>/<%=dataParameter.IDPertanyaan%>/addSubParameter/" role="button" style="float: right;">+</a>
+                                <a class="btn btn-success" href="/GCGData/<%=idAspek%>/<%=idIndikator%>/<%=dataParameter.IDParameter%>/addSubParameter/" role="button" style="float: right;">+</a>
                                 <table class="table table-condensed" id="tabel">
                                     <thead style="height: 100px; background-color: lightskyblue;">
                                         <tr>
@@ -191,7 +191,7 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                       <a type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
-                                                      <a type="button" class="btn btn-danger" href="/GCGData/<%=idAspek%>/<%=idIndikator%>/<%=dataParameter.IDPertanyaan%>/hapusSubParameter/<%=row.IndexSubParameter%>/">Hapus data</a>
+                                                      <a type="button" class="btn btn-danger" href="/GCGData/<%=idAspek%>/<%=idIndikator%>/<%=dataParameter.IDParameter%>/hapusSubParameter/<%=row.IndexSubParameter%>/">Hapus data</a>
                                                     </div>
                                                   </div>
                                                 </div>

@@ -12,7 +12,7 @@ var faktorSchema = new mongoose.Schema({
         type:Number
     },
     IDParameter:{
-        type: String
+        type: Number
     },
     IndexSubParameter:{
         type: Number
@@ -31,6 +31,9 @@ var faktorSchema = new mongoose.Schema({
         type: []
     },
     catatanBukti:{
+        type:String
+    },
+    urlBukti:{
         type:String
     }
 });

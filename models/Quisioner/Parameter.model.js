@@ -11,16 +11,16 @@ var parameterSchema = new mongoose.Schema({
     indikator: {
         type: Number
     },
-    index: {
+    IDParameter:{
         type: Number
-    },
-    IDPertanyaan:{
-        type: String
     },
     bobot: {
         type: Number
     },
     nilai: {
+        type: Number
+    },
+    nilaiIndividu: {
         type: Number
     },
     jumlahSubParameter:{

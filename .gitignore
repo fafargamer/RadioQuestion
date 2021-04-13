@@ -1,6 +1,6 @@
 /node_modules
 /trashbin
-/controllers/testController.js
+# /controllers/testController.js
 # /views/admin
 /views/trashbin
 DumpEJS

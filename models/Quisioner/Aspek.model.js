@@ -15,6 +15,9 @@ var aspekSchema = new mongoose.Schema({
     nilai: {
         type: Float
     },
+    nilaiIndividu: {
+        type: Number
+    },
     jumlahIndikator:{
         type: Number
     },

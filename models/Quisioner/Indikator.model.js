@@ -18,6 +18,9 @@ var indikatorSchema = new mongoose.Schema({
     nilai: {
         type: Float
     },
+    nilaiIndividu: {
+        type: Number
+    },
     jumlahParameter:{
         type: Number
     },
