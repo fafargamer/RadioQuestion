@@ -317,8 +317,8 @@
                                             <tbody>
                                                 <tr class="accordion-toggle align-items-start">
                                                     <th class="col">Judul</th>
-                                                    <th class="col">Nilai</th>
                                                     <th class="col">Bobot</th>
+                                                    <th class="col">Nilai</th>
                                                     <th class="col">Individu</th>
                                                 </tr>            
                                             </tbody>
@@ -335,7 +335,7 @@
                                                     <td class="col"><a data-toggle="collapse" data-target="#demo-<%=i%>"><%=row.aspek%></a></td>
                                                     <td class="col"><%=row.bobot%></td>
                                                     <td class="col"><%=row.nilai%></td>
-                                                    <td class="col"><%=row.nilaiIndividu%>%</td>
+                                                    <td class="col nilaiOverall"  value="<%=row.nilaiIndividu%>"><%=row.nilaiIndividu%></td>
                                                 </tr>            
                                             </tbody>
                                         </table>
@@ -350,8 +350,8 @@
                                                 <tr class="accordion-toggle">
                                                     <td class="col"><a data-toggle="collapse" data-target="#demo-<%=i%>-<%=j%>"><%=rowI.indikator%></a></td>                                                      
                                                     <td class="col"><%=rowI.bobot%></td>
-                                                    <td class="nilaiOverall col" style="width: 110%;"><%=rowI.nilai%></td>
-                                                    <td class="col"><%=rowI.nilaiIndividu%>%</td>
+                                                    <td class="col" style="width: 110%;"><%=rowI.nilai%></td>
+                                                    <td class="col nilaiOverall"  value="<%=rowI.nilaiIndividu%>"><%=rowI.nilaiIndividu%></td>
                                                 </tr>            
                                             </tbody>
                                         </table> 
@@ -364,8 +364,8 @@
                                                         <tr data-toggle="collapse" class="accordion-toggle" data-target="#demo-<%=i%>-<%=j%>-<%=k%>"  style="width: 110%;">
                                                             <td class="col"><%=rowP.pertanyaan%></td>                                                                  
                                                             <td class="col"><%=rowP.bobot%></td>
-                                                            <td class="col nilaiOverall"><%=rowP.nilai%></td>
-                                                            <td class="col"><%=rowP.nilaiIndividu%>%</td>
+                                                            <td class="col"><%=rowP.nilai%></td>
+                                                            <td class="col nilaiOverall" value="<%=rowP.nilaiIndividu%>"><%=rowP.nilaiIndividu%></td>
                                                         </tr>            
                                                     </tbody>
                                                 </table> 
@@ -377,8 +377,8 @@
                                                             <tbody>
                                                                 <tr data-toggle="collapse" class="accordion-toggle" data-target="#demo-<%=i%>-<%=j%>-<%=k%>-<%=l%>">
                                                                     <td class="col"> <a><%=rowSP.subParameter%></a></td>                                                                   
-                                                                    <td class="col"><%=rowSP.nilai%></td>
-                                                                    <td class="col"><%=rowSP.nilaiPersen%>%</td>
+                                                                    <td class="col"></td>
+                                                                    <td class="col" value="<%=rowSP.nilaiPersen%>"><%=rowSP.nilaiPersen%>%</td>
                                                                 </tr>            
                                                             </tbody>
                                                         </table> 
@@ -502,9 +502,20 @@
                     { "width": "40%", "targets": 1 }
                 ]
             });
+
+            $("td.nilaiOverall").each(function() {
+                $(this).html() < 15 ? $(this).css('background-color', '#d64161') : null;
+
+                ($(this).html() >= 15 && $(this).html() < 45) ? $(this).css('background-color', '#fee227'): null;
+
+                ($(this).html() >= 45 && $(this).html() < 90) ? $(this).css('background-color', '#9ccc9c'): null;
+
+                $(this).html() >= 90 ? $(this).css('background-color', '#0e6b0e') : null;
+
+            });
             
         } );
-    </script>  
+    </script> 
 </body>
 
 </html>

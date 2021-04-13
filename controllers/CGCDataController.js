@@ -557,81 +557,6 @@ app.post('/postPenilaian', async function(req, res, next) {
 })
 
 
-async function berinilaiFaktor(req,res) {
-    Index = req.body.inputID
-    aspek = req.body.inputAspek
-    indikator = req.body.inputIndikator
-    IDParameter = req.body.idParameter
-    IndexSubParameter = req.body.idSubParameter
-    buktiPemenuhan = req.body.inputPemenuhan
-    skor = req.body.inputNilai
-    nilaiPersen = toPercentage(skor)
-
-    const resFaktor = await FaktorSchema.findOneAndUpdate({aspek, indikator, IDParameter, IndexSubParameter, Index} , {buktiPemenuhan, skor, nilaiPersen}, {upsert:true}).exec()
-    if(resFaktor) {
-        console.log('Faktor sudah diberi nilai')
-    }
-
-    return resFaktor
-}
-
-async function nilaiSP(req,res) {
-    aspek = req.body.inputAspek
-    indikator = req.body.inputIndikator
-    IDParameter = req.body.idParameter
-    IndexSubParameter = req.body.idSubParameter
-
-    const resFaktors = await FaktorSchema.find({aspek, indikator, IDParameter, IndexSubParameter}).exec()
-    const nilaiSP = await countScoreFaktor(resFaktors)
-    const nilaiPersen = await toPercentage(nilaiSP)
-    const updSP = await SubParameter.findOneAndUpdate({aspek, indikator, IDParameter, IndexSubParameter}, {nilai:nilaiSP, nilaiPersen}).exec()
-
-    return updSP
-}
-
-
-async function nilaiPar(req,res) {
-    aspek = req.body.inputAspek
-    indikator = req.body.inputIndikator
-    IDParameter = req.body.idParameter
-
-    const resSP = await SubParameter.find({aspek, indikator, IDParameter}).exec()
-    const parRes = await Parameter.findOne({aspek, indikator, IDParameter}).exec()
-    var nilaiParBef = await countScoreParameter(resSP)
-    var nilaiPar = parseFloat(nilaiParBef*parRes.bobot).toFixed(3)
-    var nilaiPersen = parseFloat(nilaiPar/parRes.bobot).toFixed(3)
-    const nilaiIndividu = await toPercentage(nilaiPersen)
-    const updP = await Parameter.findOneAndUpdate({aspek, indikator, IDParameter}, {nilai:nilaiPar, nilaiIndividu}).exec()
-
-    return updP
-}
-
-async function nilaiIndi(req,res) {
-    aspek = req.body.inputAspek
-    indikator = req.body.inputIndikator
-
-    const resP = await Parameter.find({aspek, indikator}).exec()
-    const IndRes = await Indikator.findOne({aspek, index: indikator}).exec()
-    var nilaiIndBef = await countScore(resP)
-    var nilaiPersen = (parseFloat((nilaiIndBef/IndRes.bobot)*100).toFixed(0))
-    const updI = await Indikator.findOneAndUpdate({aspek, index: indikator}, {nilai:nilaiIndBef, nilaiIndividu:nilaiPersen}).exec()
-
-    return updI
-}
-
-async function nilaiAspek(req,res) {
-    aspek = req.body.inputAspek
-
-    const resI = await Indikator.find({aspek}).exec()
-    const AspRes = await Aspek.findOne({index: aspek}).exec()
-    var nilaiAspBef = await countScore(resI)
-    var nilaiPersen = (parseFloat(nilaiAspBef/AspRes.bobot).toFixed(2))*100
-    const updA = await Aspek.findOneAndUpdate({index: aspek}, {nilai:nilaiAspBef, nilaiIndividu:nilaiPersen}).exec()
-
-    return updA
-}
-
-
 
 
 
@@ -1748,6 +1673,81 @@ function isLoggedIn(req, res, next) {
       res.redirect('/login');
     }
   }
+
+  async function berinilaiFaktor(req,res) {
+    Index = req.body.inputID
+    aspek = req.body.inputAspek
+    indikator = req.body.inputIndikator
+    IDParameter = req.body.idParameter
+    IndexSubParameter = req.body.idSubParameter
+    buktiPemenuhan = req.body.inputPemenuhan
+    skor = req.body.inputNilai
+    nilaiPersen = toPercentage(skor)
+
+    const resFaktor = await FaktorSchema.findOneAndUpdate({aspek, indikator, IDParameter, IndexSubParameter, Index} , {buktiPemenuhan, skor, nilaiPersen}, {upsert:true}).exec()
+    if(resFaktor) {
+        console.log('Faktor sudah diberi nilai')
+    }
+
+    return resFaktor
+}
+
+async function nilaiSP(req,res) {
+    aspek = req.body.inputAspek
+    indikator = req.body.inputIndikator
+    IDParameter = req.body.idParameter
+    IndexSubParameter = req.body.idSubParameter
+
+    const resFaktors = await FaktorSchema.find({aspek, indikator, IDParameter, IndexSubParameter}).exec()
+    const nilaiSP = await countScoreFaktor(resFaktors)
+    const nilaiPersen = await toPercentage(nilaiSP)
+    const updSP = await SubParameter.findOneAndUpdate({aspek, indikator, IDParameter, IndexSubParameter}, {nilai:nilaiSP, nilaiPersen}).exec()
+
+    return updSP
+}
+
+
+async function nilaiPar(req,res) {
+    aspek = req.body.inputAspek
+    indikator = req.body.inputIndikator
+    IDParameter = req.body.idParameter
+
+    const resSP = await SubParameter.find({aspek, indikator, IDParameter}).exec()
+    const parRes = await Parameter.findOne({aspek, indikator, IDParameter}).exec()
+    var nilaiParBef = await countScoreParameter(resSP)
+    var nilaiPar = parseFloat(nilaiParBef*parRes.bobot).toFixed(3)
+    var nilaiPersen = parseFloat(nilaiPar/parRes.bobot).toFixed(3)
+    const nilaiIndividu = await toPercentage(nilaiPersen)
+    const updP = await Parameter.findOneAndUpdate({aspek, indikator, IDParameter}, {nilai:nilaiPar, nilaiIndividu}).exec()
+
+    return updP
+}
+
+async function nilaiIndi(req,res) {
+    aspek = req.body.inputAspek
+    indikator = req.body.inputIndikator
+
+    const resP = await Parameter.find({aspek, indikator}).exec()
+    const IndRes = await Indikator.findOne({aspek, index: indikator}).exec()
+    var nilaiIndBef = await parseFloat(countScore(resP)).toFixed(3)
+    var nilaiPersen = (parseFloat((nilaiIndBef/IndRes.bobot)*100).toFixed(0))
+    const updI = await Indikator.findOneAndUpdate({aspek, index: indikator}, {nilai:nilaiIndBef, nilaiIndividu:nilaiPersen}).exec()
+
+    return updI
+}
+
+async function nilaiAspek(req,res) {
+    aspek = req.body.inputAspek
+
+    const resI = await Indikator.find({aspek}).exec()
+    const AspRes = await Aspek.findOne({index: aspek}).exec()
+    var nilaiAspBef = await countScore(resI)
+    var nilaiPersen = (parseFloat(nilaiAspBef/AspRes.bobot).toFixed(2))*100
+    const updA = await Aspek.findOneAndUpdate({index: aspek}, {nilai:nilaiAspBef, nilaiIndividu:nilaiPersen}).exec()
+
+    return updA
+}
+
 
 module.exports = app;
 
