@@ -33,6 +33,9 @@ var faktorSchema = new mongoose.Schema({
     catatanBukti:{
         type:String
     },
+    valid:{
+        type:Number
+    },
     nilaiPersen:{
         type:Number
     },

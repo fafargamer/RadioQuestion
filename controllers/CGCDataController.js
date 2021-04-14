@@ -1469,6 +1469,7 @@ function addFaktors(req,res, FaktorT, aspekT, indikatorT, IDParameterT, IndexSub
     faktorIns.Index = Index
     faktorIns.catatan = catatan
     faktorIns.catatanBukti = catatanBukti
+    faktorIns.valid = 0
 
     FaktorSchema.findOne({Index}, (errFind,resFind) =>{
         if(errFind){
@@ -1682,9 +1683,11 @@ function isLoggedIn(req, res, next) {
     IndexSubParameter = req.body.idSubParameter
     buktiPemenuhan = req.body.inputPemenuhan
     skor = req.body.inputNilai
+    valid = req.body.inputValid
     nilaiPersen = toPercentage(skor)
 
-    const resFaktor = await FaktorSchema.findOneAndUpdate({aspek, indikator, IDParameter, IndexSubParameter, Index} , {buktiPemenuhan, skor, nilaiPersen}, {upsert:true}).exec()
+
+    const resFaktor = await FaktorSchema.findOneAndUpdate({aspek, indikator, IDParameter, IndexSubParameter, Index} , {buktiPemenuhan, skor, nilaiPersen, valid}, {upsert:true}).exec()
     if(resFaktor) {
         console.log('Faktor sudah diberi nilai')
     }
@@ -1698,9 +1701,19 @@ async function nilaiSP(req,res) {
     IDParameter = req.body.idParameter
     IndexSubParameter = req.body.idSubParameter
 
-    const resFaktors = await FaktorSchema.find({aspek, indikator, IDParameter, IndexSubParameter}).exec()
-    const nilaiSP = await countScoreFaktor(resFaktors)
-    const nilaiPersen = await toPercentage(nilaiSP)
+    const resFaktors = await FaktorSchema.find({aspek, indikator, IDParameter, IndexSubParameter, valid:1}).exec()
+    // console.log(resFaktors[0].skor)
+    if(resFaktors.length === 0){
+        var nilaiSP = 0
+        var nilaiPersen = 0
+        console.log("NP : " + nilaiPersen)
+    }
+    else {
+        var nilaiSP = await countScoreFaktor(resFaktors)
+        var nilaiPersen = await toPercentage(parseInt(nilaiSP))
+        console.log("NP : " + nilaiPersen)
+    }
+    console.log(nilaiSP)
     const updSP = await SubParameter.findOneAndUpdate({aspek, indikator, IDParameter, IndexSubParameter}, {nilai:nilaiSP, nilaiPersen}).exec()
 
     return updSP

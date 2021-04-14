@@ -206,8 +206,8 @@
                 <div class="menu-inner">
                     <nav>
                         <ul class="metismenu" id="menu">
-                            <li class="active">
-                                <a href="javascript:void(0)" aria-expanded="true"><p class="glyphicon glyphicon-list-alt" style="color:white;"></p><span>GCG</span></a>
+                            <li  class="active">
+                                <a href="javascript:void(0)" aria-expanded="true"><p class="glyphicon glyphicon-pencil" style="color:white;"></p><span>Input/Edit GCG</span></a>
                                 <ul class="collapse">
                                     <li><a href="/GCGdata/">Data GCG</a></li>
                                     <li><a href="/GCGdata/1/">Aspek 1</a></li>
@@ -218,6 +218,9 @@
                                     <li><a href="/GCGdata/6/">Aspek 6</a></li>   
                                     <li><a href="/GCGdata/7/">Aspek 7</a></li>                                                                                                                                             
                                 </ul>
+                            </li>
+                            <li>
+                                <a href="/all/" aria-expanded="true"><p class="glyphicon glyphicon-list-alt" style="color:white;"></p><span>GCG Summary</span></a>
                             </li>
                             <li>
                                 <a href="javascript:void(0)" aria-expanded="true"><p class="glyphicon glyphicon-user" style="color:white;"></p><span>User Management</span></a>
@@ -352,7 +355,17 @@
                                                   <label class="radio">1
                                                     <input type="radio" name="inputNilai" id="inputNilai" value="1">
                                                     <span class="checkround"></span>
-                                                  </label>                                             
+                                                  </label>   
+                                                  
+                                                  <h2>Apakah faktor valid?</h2>
+                                                  <label class="radio">Tidak
+                                                      <input type="radio" name="inputValid" id="inputValid" value="0">
+                                                      <span class="checkround"></span>
+                                                    </label>
+                                                    <label class="radio">Ya
+                                                        <input type="radio" name="inputValid" id="inputValid" value="1">
+                                                        <span class="checkround"></span>
+                                                    </label>                                                
                 
                                                 <div class="ans ml-2 form-group ">  
                                                     <div class="question bg-white p-3 border-bottom">
@@ -480,6 +493,7 @@
                     $("#inputPemenuhanO").attr("checked", "checked");
                 }                                              
                 $('[name="inputNilai"]').val(['<%=data.skor%>'])
+                $('[name="inputValid"]').val(['<%=data.valid%>'])
 
                 
             });
