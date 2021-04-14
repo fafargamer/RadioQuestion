@@ -20,7 +20,7 @@ app.get('/crypto', (req,res) => {
     console.log(CryptoJS.HmacSHA1("Message", "Key"));
 })
 
-app.get('/', async function(req, res, next) {
+app.get('/', isLoggedIn, async function(req, res, next) {
         try {    
             const resAsp = await Aspek.find({}).exec()
             const resInd = await getAllIndikators(resAsp)
@@ -133,5 +133,14 @@ async function twoTest(resInd) {
     return test
 }
 
+function isLoggedIn(req, res, next) {
+    console.log('Loggin in....')
+    if (req.isAuthenticated()) {
+      return next();
+    }
+    else {
+      res.redirect('/login');
+    }
+  }
 
 module.exports = app;

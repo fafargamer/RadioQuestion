@@ -413,7 +413,7 @@
                                                                             </td>                                                                            
                                                                             <td><%=rowSF.buktiPemenuhan%></td>                                                                   
                                                                             <td style="float: right;"><%=rowSF.skor%></td>
-                                                                            <td class="validation" value="<%=rowSF.valid%>" hidden><%=rowSF.valid%></td>
+                                                                            <td class="validationData" value="<%=rowSF.valid%>"><%=rowSF.valid%></td>
                                                                         </tr>            
                                                                     </tbody>
                                                                     <% }); %> 
@@ -523,11 +523,12 @@
 
             });
 
-            $('td.validation').each(function(){
-                    var tr=$(this).closest('tr');
+            $('td.validationData').each(function(){
+                console.log($(this).html())
+                var tr=$(this).closest('tr');
                     
-                    if ($(this).val()!=1) {
-                        tr.addClass('unvalid');  
+                    if ($(this).html()!=1) {  
+                        
                         tr.css('background-color', '#888888')
                     }     
                 });
