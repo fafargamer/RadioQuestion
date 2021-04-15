@@ -574,34 +574,16 @@
 
 
             $('.aspek-collapse').on('click', function(event) {
-                if(Collapses.includes($(this).attr('href'))==true){
-                    remove_item = $(this).attr('href');
-                    console.log(remove_item)
-                    var Waaaagh = $.grep(Collapses, function(elem){
-                        return elem != remove_item;
-                    });
-                    // console.log(Waaaagh)
-                    Collapses = Waaaagh
-
-                }
-                else {
-                    console.log($(this).attr('href'))
-                    Collapses.push($(this).attr('href'));
-                }
+                Collapses = []
+                console.log($(this).attr('href'))
+                Collapses.push($(this).attr('href'));
                 console.log(Collapses)
                 localStorage.setItem('collapsedItems', JSON.stringify(Collapses));
             })
 
             $('.indikator-collapse').on('click', function(event) {
-                if(Collapses.includes($(this).attr('href'))==true){
-                    remove_item = $(this).attr('href');
-                    console.log(remove_item)
-                    var Waaaagh = $.grep(Collapses, function(elem){
-                        return elem != remove_item;
-                    });
-                    // console.log(Waaaagh)
-                    Collapses = Waaaagh
-
+                if(Collapses.length == 2){
+                    Collapses.splice(1, 1, $(this).attr('href'));
                 }
                 else {
                     console.log($(this).attr('href'))
@@ -612,15 +594,8 @@
             })
 
             $('.parameter-collapse').on('click', function(event) {
-                if(Collapses.includes($(this).attr('href'))==true){
-                    remove_item = $(this).attr('href');
-                    console.log(remove_item)
-                    var Waaaagh = $.grep(Collapses, function(elem){
-                        return elem != remove_item;
-                    });
-                    // console.log(Waaaagh)
-                    Collapses = Waaaagh
-
+                if(Collapses.length == 3){
+                    Collapses.splice(2, 1, $(this).attr('href'));
                 }
                 else {
                     console.log($(this).attr('href'))
@@ -631,15 +606,8 @@
             })  
             
             $('.subParameter-collapse').on('click', function(event) {
-                if(Collapses.includes($(this).attr('href'))==true){
-                    remove_item = $(this).attr('href');
-                    console.log(remove_item)
-                    var Waaaagh = $.grep(Collapses, function(elem){
-                        return elem != remove_item;
-                    });
-                    // console.log(Waaaagh)
-                    Collapses = Waaaagh
-
+                if(Collapses.length == 4){
+                    Collapses.splice(3, 1, $(this).attr('href'));
                 }
                 else {
                     console.log($(this).attr('href'))
