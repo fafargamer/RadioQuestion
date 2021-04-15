@@ -795,7 +795,7 @@ function addIndikator(req,res) {
     indikator.bobot = req.body.inputBobot
     indikator.nilai = 0
     indikator.jumlahParameter = 0
-    Aspek.findOne({index:aspek}, (errAsp,resAsp) => {
+    Aspek.findOne({index:indikator.aspek}, (errAsp,resAsp) => {
         if(errAsp) {
             res.send(errAsp)
         }
