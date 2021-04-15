@@ -519,11 +519,11 @@
             // localStorage.setItem(MY_ARRAY, JSON.stringify(arr));
             if (localStorage.getItem('collapsedItems') === null) {
                 Collapses = [0]
-                console.log(Collapses)
+                // console.log(Collapses)
             }
             else {
                 Collapses = JSON.parse(localStorage.getItem('collapsedItems'));
-                console.log(Collapses)
+                // console.log(Collapses)
             }
 
             for (i = 0; i < Collapses.length; ++i) {
@@ -572,29 +572,15 @@
             
             /* Anchor Links */
 
-            $('.aspek-collapse').on('click', function(event) {
-                if(Collapses.indexOf($(this).attr('href')) !== -1){
-                    var Waaaagh = Collapses.filter(function(elem){
-                        return elem != $(this).attr('href'); 
-                    });
-                    console.log('Already there')
-                    Collapses = Waaaagh
-
-                }
-                else {
-                    console.log($(this).attr('href'))
-                    Collapses.push($(this).attr('href'));
-                }
-                console.log(Collapses)
-                localStorage.setItem('collapsedItems', JSON.stringify(Collapses));
-            })
 
             $('.aspek-collapse').on('click', function(event) {
-                if(Collapses.indexOf($(this).attr('href')) !== -1){
-                    var Waaaagh = Collapses.filter(function(elem){
-                        return elem != $(this).attr('href'); 
+                if(Collapses.includes($(this).attr('href'))==true){
+                    remove_item = $(this).attr('href');
+                    console.log(remove_item)
+                    var Waaaagh = $.grep(Collapses, function(elem){
+                        return elem != remove_item;
                     });
-                    console.log('Already there')
+                    // console.log(Waaaagh)
                     Collapses = Waaaagh
 
                 }
@@ -607,11 +593,13 @@
             })
 
             $('.indikator-collapse').on('click', function(event) {
-                if(Collapses.indexOf($(this).attr('href')) !== -1){
-                    var Waaaagh = Collapses.filter(function(elem){
-                        return elem != $(this).attr('href'); 
+                if(Collapses.includes($(this).attr('href'))==true){
+                    remove_item = $(this).attr('href');
+                    console.log(remove_item)
+                    var Waaaagh = $.grep(Collapses, function(elem){
+                        return elem != remove_item;
                     });
-                    console.log('Already there')
+                    // console.log(Waaaagh)
                     Collapses = Waaaagh
 
                 }
@@ -624,11 +612,13 @@
             })
 
             $('.parameter-collapse').on('click', function(event) {
-                if(Collapses.indexOf($(this).attr('href')) !== -1){
-                    var Waaaagh = Collapses.filter(function(elem){
-                        return elem != $(this).attr('href'); 
+                if(Collapses.includes($(this).attr('href'))==true){
+                    remove_item = $(this).attr('href');
+                    console.log(remove_item)
+                    var Waaaagh = $.grep(Collapses, function(elem){
+                        return elem != remove_item;
                     });
-                    console.log('Already there')
+                    // console.log(Waaaagh)
                     Collapses = Waaaagh
 
                 }
@@ -641,11 +631,13 @@
             })  
             
             $('.subParameter-collapse').on('click', function(event) {
-                if(Collapses.indexOf($(this).attr('href')) !== -1){
-                    var Waaaagh = Collapses.filter(function(elem){
-                        return elem != $(this).attr('href'); 
+                if(Collapses.includes($(this).attr('href'))==true){
+                    remove_item = $(this).attr('href');
+                    console.log(remove_item)
+                    var Waaaagh = $.grep(Collapses, function(elem){
+                        return elem != remove_item;
                     });
-                    console.log('Already there')
+                    // console.log(Waaaagh)
                     Collapses = Waaaagh
 
                 }
