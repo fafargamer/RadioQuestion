@@ -321,12 +321,12 @@
                         <div class="card">
                             
                             <div class="card-body">
-                                <button id="refreshBtn" class="btn-success">Reload</button>
+                                <!-- <button id="refreshBtn" class="btn-success">Reload</button>
 
-                                <h2>GCG TWC 2020</h2>
+                                <h2 class="justify-content-center">GCG TWC 2020</h2> -->
                                 <!-- <a class="btn btn-success" href="/GCGData/addAspek" role="button" style="float: right;">+</a> -->
                                 <div>
-                                    <div class="container">                                      
+                                    <div class="">                                      
                                         <table class="table table-striped" id="tabel-header">
                                             <tbody>
                                                 <tr class="accordion-toggle align-items-start">
@@ -345,7 +345,7 @@
                                 <div id="accordion" class="accordion" aria-expanded='false'>
                                     <% result.forEach(function(row, i) { %>  
                                         <div>
-                                            <div class="container">                                      
+                                            <div class="">                                      
                                                 <table class="table table-striped" id="tabel-<%=i%>" style="background-color: #f9d5e5;">
                                                     <tbody>
                                                         <tr class="collapsed aspek-collapse" data-toggle="collapse" href="#demo-<%=i%>">
@@ -362,7 +362,7 @@
 
                                         <div id="demo-<%=i%>" class="collapse indikator-div accordion" data-parent="#accordion">
                                             <% row.indikators.forEach(function(rowI, j) { %>
-                                            <div class="container">
+                                            <div class="">
                                                 <table class="table table-condensed table-striped" id="tabel-<%=i%>-<%=j%>"  style="background-color: #b7d7e8;"">
                                                     <tbody>
                                                         <tr class="indikator-collapse collapsed" data-toggle="collapse" href="#demo-<%=i%>-<%=j%>">
@@ -374,12 +374,12 @@
                                                     </tbody>
                                                 </table> 
 
-                                                <div id="demo-<%=i%>-<%=j%>" class="collapse accordion" data-parent="#demo-<%=i%>">
+                                                <div id="demo-<%=i%>-<%=j%>" class="collapse indikator-div accordion" data-parent="#demo-<%=i%>">
                                                     <% rowI.parameters.forEach(function(rowP, k) { %>
-                                                        <div class="container" style="width: 101.5%;">
+                                                        <div class="">
                                                         <table class="table table-condensed table-striped" id="tabel-<%=i%>-<%=j%>-<%=k%>"  style="background-color: #fbefcc;">
                                                             <tbody>
-                                                                <tr  class="parameter-collapse collapsed" data-toggle="collapse" href="#demo-<%=i%>-<%=j%>-<%=k%>" style="width: 110%;">
+                                                                <tr  class="parameter-collapse collapsed" data-toggle="collapse" href="#demo-<%=i%>-<%=j%>-<%=k%>">
                                                                     <td class="col"><%=rowP.pertanyaan%></td>                                                                  
                                                                     <td class="col"><%=rowP.bobot%></td>
                                                                     <td class="col"><%=rowP.nilai%></td>
@@ -388,9 +388,9 @@
                                                             </tbody>
                                                         </table> 
 
-                                                        <div id="demo-<%=i%>-<%=j%>-<%=k%>" class="collapse accordion" data-parent="#demo-<%=i%>-<%=j%>">
+                                                        <div id="demo-<%=i%>-<%=j%>-<%=k%>" class="collapse indikator-div accordion" data-parent="#demo-<%=i%>-<%=j%>">
                                                             <% rowP.subparameters.forEach(function(rowSP, l) { %>
-                                                                <div class="container" style="width: 101.5%;">
+                                                                <div class="">
                                                                     <table class="table table-condensed table-striped" id="tabel-<%=i%>-<%=j%>-<%=k%>-<%=l%>"  style="background-color: #ffffff;">
                                                                         <tbody>
                                                                             <tr class="subParameter-collapse collapsed" data-toggle="collapse" href="#demo-<%=i%>-<%=j%>-<%=k%>-<%=l%>">
@@ -401,8 +401,8 @@
                                                                         </tbody>
                                                                     </table> 
 
-                                                                    <div id="demo-<%=i%>-<%=j%>-<%=k%>-<%=l%>" class="collapse accordion" data-parent="#demo-<%=i%>-<%=j%>-<%=k%>">
-                                                                            <div class="container" style="width: 101.5%;">
+                                                                    <div id="demo-<%=i%>-<%=j%>-<%=k%>-<%=l%>" class="collapse indikator-div accordion" data-parent="#demo-<%=i%>-<%=j%>-<%=k%>">
+                                                                            <div class="">
                                                                                 <table class="table table-condensed table-striped" id="tabel-<%=i%>-<%=j%>-<%=k%>-<%=l%>"  style="background-color: #ffffff;">
                                                                                     <thead>
                                                                                         <tr class="accordion-toggle align-items-start">
