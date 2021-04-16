@@ -509,7 +509,7 @@ app.post('/PostCatatan', isLoggedIn, (req,res) =>{
         else{
             console.log(catatanBukti)
             console.log("Catatan terupdate")
-            res.redirect('/GCGData/'+ aspek +'/'+ indikator + '/' + IDParameter + '/' + IndexSubParameter + '/')
+            res.redirect('/all/')
         }
     })
     // console.log(req.originalUrl)
