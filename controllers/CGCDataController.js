@@ -1182,12 +1182,12 @@ function getSubParameters(req, res) {
     var IDParameter = req.params.idparams;
     var idAspek = req.params.idAspek
     var idIndikator = req.params.idIndikator
-    Parameter.findOne({IDParameter}, (errorParameter,resultParameter) =>{
+    Parameter.findOne({aspek:idAspek, indikator: idIndikator, IDParameter}, (errorParameter,resultParameter) =>{
         if(errorParameter){
             res.send(errorParameter)
         }
         else{
-            SubParameter.find({ IDParameter: IDParameter}, (err,result) =>{
+            SubParameter.find({ aspek:resultParameter.aspek, indikator:resultParameter.indikator, IDParameter: IDParameter}, (err,result) =>{
                 if(err){
                     res.send(err)
                 }
