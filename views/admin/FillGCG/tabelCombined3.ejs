@@ -574,44 +574,68 @@
 
 
             $('.aspek-collapse').on('click', function(event) {
-                Collapses = []
-                console.log($(this).attr('href'))
-                Collapses.push($(this).attr('href'));
-                console.log(Collapses)
+                if(Collapses.includes($(this).attr('href'))){
+                    Collapses = []
+                    console.log(Collapses)
+                }
+                else {
+                    Collapses = []
+                    console.log($(this).attr('href'))
+                    Collapses.push($(this).attr('href'));
+                    console.log(Collapses)
+                }
                 localStorage.setItem('collapsedItems', JSON.stringify(Collapses));
             })
 
             $('.indikator-collapse').on('click', function(event) {
-                if(Collapses.length == 2){
+                if(Collapses.includes($(this).attr('href'))){
+                    Collapses[1] = ''
+                    console.log(Collapses)
+                }
+                else {
+                    if(Collapses.length > 1){
                     Collapses.splice(1, 1, $(this).attr('href'));
                 }
                 else {
                     console.log($(this).attr('href'))
                     Collapses.push($(this).attr('href'));
                 }
+                }
                 console.log(Collapses)
                 localStorage.setItem('collapsedItems', JSON.stringify(Collapses));
             })
 
             $('.parameter-collapse').on('click', function(event) {
-                if(Collapses.length == 3){
+                if(Collapses.includes($(this).attr('href'))){
+                    Collapses[2] = ''
+                    console.log(Collapses)
+                }
+                else {
+                    if(Collapses.length > 2){
                     Collapses.splice(2, 1, $(this).attr('href'));
                 }
                 else {
                     console.log($(this).attr('href'))
                     Collapses.push($(this).attr('href'));
                 }
+                }
                 console.log(Collapses)
                 localStorage.setItem('collapsedItems', JSON.stringify(Collapses));
             })  
             
             $('.subParameter-collapse').on('click', function(event) {
-                if(Collapses.length == 4){
+                if(Collapses.includes($(this).attr('href'))){
+                    Collapses[3] = ''
+                    console.log(Collapses)
+                }
+                else {
+                    if(Collapses.length > 3){
                     Collapses.splice(3, 1, $(this).attr('href'));
                 }
                 else {
                     console.log($(this).attr('href'))
                     Collapses.push($(this).attr('href'));
+                }
                 }
                 console.log(Collapses)
                 localStorage.setItem('collapsedItems', JSON.stringify(Collapses));

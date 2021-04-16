@@ -25,7 +25,7 @@ app.use(bodyParser.json())
 const parameterController = require('./controllers/CGCDataController.js');
 const adminLTEController = require('./controllers/adminLTEController.js');
 const userManagementController = require('./controllers/userManagementController.js');
-const testControllers = require('./controllers/testController.js');
+const testControllers = require('./controllers/SummaryController.js');
 
 
 require('./config/passport.js')
