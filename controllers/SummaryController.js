@@ -29,7 +29,7 @@ app.get('/', isLoggedIn, async function(req, res, next) {
             const resSubFak = await getAllSubFaktors(resSubPars)
             // console.log(resInd)
             // res.send(resInd[0].indikators)
-            res.render('admin/FillGCG/tabelCombined3', {result:resSubFak})
+            res.render('admin/FillGCG/tabelCombined3', {result:resSubFak, user:req.user})
             next();
         } catch (err) { 
             next(err)
