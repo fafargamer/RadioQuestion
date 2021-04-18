@@ -314,12 +314,15 @@
                                             <!-- <h3 class="text-danger">Q.</h3> -->
                                             <h3 class="mt-1 ml-2"><%=data.faktor%></h3>
                                         </div> 
-                                        <form class="question bg-white p-3 border-bottom" action="/GCGData/postPenilaian" method="POST">
+                                        <form class="question bg-white p-3 border-bottom formSubFaktor" action="/GCGData/postPenilaian" method="POST" id="postForm">
                                             <input type="text" id="inputID" name="inputID" value="<%=data.Index%>" hidden readonly>
                                                 <input type="text" class="form-control" id="inputAspek" name="inputAspek" value="<%=data.aspek%>" hidden>
                                                 <input type="text" class="form-control" id="inputIndikator" name="inputIndikator" value="<%=data.indikator%>" hidden>
                                                 <input type="text" class="form-control" id="idParameter" name="idParameter" value="<%=data.IDParameter%>" hidden>
                                                 <input type="text" class="form-control" id="idSubParameter" name="idSubParameter" value="<%=data.IndexSubParameter%>" hidden>
+                                                <input type="text" class="form-control" id="iBuktiPemenuhan" name="iBuktiPemenuhan" value="<%-data.buktiPemenuhan%>" hidden readonly>
+                                                <input type="text" class="form-control" id="iIsiNilai" name="iIsiNilai" value="<%=data.skor%>" hidden readonly>
+                                                <input type="text" class="form-control" id="iIsiValid" name="iIsiValid" value="<%=data.valid%>" hidden readonly>
                                             <h2>Bukti Pemenuhan</h2>
                                                 <label class="check">Dokumen
                                                     <input type="checkbox" name="inputPemenuhan[]" id="inputPemenuhanD" value="D">
@@ -339,33 +342,33 @@
                                                 </label>
                                               <h2>Nilai Faktor</h2>
                                               <label class="radio">0
-                                                  <input type="radio" name="inputNilai" id="inputNilai" value="0">
+                                                  <input type="radio" name="inputNilai" id="inputNilaiA" value="0">
                                                   <span class="checkround"></span>
                                                 </label>
                                                 <label class="radio">0.25
-                                                    <input type="radio" name="inputNilai" id="inputNilai" value="0.25">
+                                                    <input type="radio" name="inputNilai" id="inputNilaiB" value="0.25">
                                                     <span class="checkround"></span>
                                                   </label>                                                
                                                   <label class="radio">0.5
-                                                    <input type="radio" name="inputNilai" id="inputNilai" value="0.5">
+                                                    <input type="radio" name="inputNilai" id="inputNilaiC" value="0.5">
                                                     <span class="checkround"></span>
                                                   </label>
                                                   <label class="radio">0.75
-                                                    <input type="radio" name="inputNilai" id="inputNilai" value="0.75">
+                                                    <input type="radio" name="inputNilai" id="inputNilaiD" value="0.75">
                                                     <span class="checkround"></span>
                                                   </label>
                                                   <label class="radio">1
-                                                    <input type="radio" name="inputNilai" id="inputNilai" value="1">
+                                                    <input type="radio" name="inputNilai" id="inputNilaiE" value="1">
                                                     <span class="checkround"></span>
                                                   </label>   
                                                   
                                                   <h2>Apakah faktor valid?</h2>
                                                   <label class="radio">Tidak
-                                                      <input type="radio" name="inputValid" id="inputValid" value="0">
+                                                      <input type="radio" name="inputValid" id="inputValid-0" value="0">
                                                       <span class="checkround"></span>
                                                     </label>
                                                     <label class="radio">Ya
-                                                        <input type="radio" name="inputValid" id="inputValid" value="1">
+                                                        <input type="radio" name="inputValid" id="inputValid-1" value="1">
                                                         <span class="checkround"></span>
                                                     </label>                                                
                 
@@ -479,26 +482,67 @@
     <script>
         $(document).ready(function() {
             // $("#inputNilai").find('option[value="<%=data.skor%>"]').attr('selected','selected')
-            var FileTypes = '<%-data.buktiPemenuhan%>';
-            $(function() {
-                // $('[name="inputPemenuhan"]').val(['<%=data.buktiPemenuhan%>'])
-                if(FileTypes.includes('D')==true){
-                    $("#inputPemenuhanD").attr("checked", "checked");
-                }
-                if(FileTypes.includes('K')==true){
-                    $("#inputPemenuhanK").attr("checked", "checked");
-                }  
-                if(FileTypes.includes('W')==true){
-                    $("#inputPemenuhanW").attr("checked", "checked");
-                }
-                if(FileTypes.includes('O')==true){
-                    $("#inputPemenuhanO").attr("checked", "checked");
-                }                                              
-                $('[name="inputNilai"]').val(['<%=data.skor%>'])
-                $('[name="inputValid"]').val(['<%=data.valid%>'])
+            // $('#iBuktiPemenuhan').val("Blarrggg");
 
+            // console.log(FileTypes)
+
+            $('.formSubFaktor').each(function(){
                 
+                var FileTypes = $('#'+$(this).attr('id') +' '+'#iBuktiPemenuhan').val();
+                var nilai = $('#'+$(this).attr('id') + ' ' +  '#iIsiNilai').val();
+                var validasi = $('#'+$(this).attr('id') + ' ' +  '#iIsiValid').val()
+                console.log(nilai)
+                console.log(validasi)
+                // var stringQuery = '#'+$(this).attr('id')
+                // console.log($(this).html())
+                    
+                
+                if(FileTypes.includes('O')==true){
+                    $('#'+$(this).attr('id') + ' ' +  '#inputPemenuhanO').attr("checked", "checked");
+                    // $("#postForm #inputPemenuhanO").attr("checked", "checked");
+                }    
+                if(FileTypes.includes('D')==true){
+                    $('#'+$(this).attr('id') + ' ' +  '#inputPemenuhanW').attr("checked", "checked");
+                    // $("#postForm #inputPemenuhanO").attr("checked", "checked");
+                } 
+                if(FileTypes.includes('K')==true){
+                    $('#'+$(this).attr('id') + ' ' +  '#inputPemenuhanK').attr("checked", "checked");
+                    // $("#postForm #inputPemenuhanO").attr("checked", "checked");
+                } 
+                if(FileTypes.includes('W')==true){
+                    $('#'+$(this).attr('id') + ' ' +  '#inputPemenuhanW').attr("checked", "checked");
+                    // $("#postForm #inputPemenuhanO").attr("checked", "checked");
+                } 
+                
+                // $(this).children('input[name="inputNilai"]').val(nilai)
+                // $('#'+$(this).attr('id') + ' ' +  '#inputNilai[value='+nilai+']').prop('checked', true);
+                var string = '#'+$(this).attr('id') + ' ' +  '#inputValid-'+validasi
+                var string2 = '#'+$(this).attr('id') + ' ' +  '#inputNilai-'+nilai
+                console.log(string2)
+                console.log(string)
+                if(nilai == 0) {
+                    $('#'+$(this).attr('id') + ' ' +  '#inputNilaiA').attr('checked', true);
+                }
+                else if(nilai == 0.25) {
+                    $('#'+$(this).attr('id') + ' ' +  '#inputNilaiB').attr('checked', true);
+                }
+                else if(nilai == 0.5) {
+                    $('#'+$(this).attr('id') + ' ' +  '#inputNilaiC').attr('checked', true);
+                }
+                else if(nilai == 0.75) {
+                    $('#'+$(this).attr('id') + ' ' +  '#inputNilaiD').attr('checked', true);
+                }
+                else if(nilai == 1.0) {
+                    $('#'+$(this).attr('id') + ' ' +  '#inputNilaiE').attr('checked', true);
+                }
+                // $('#'+$(this).attr('id') + ' ' +  '#inputNilai-'+nilai).attr('checked', true);
+                $('#'+$(this).attr('id') + ' ' +  '#inputValid-'+validasi).attr('checked', true);
             });
+
+            // if(FileTypes.includes('O')==true){
+            //         $(".postForm #inputPemenuhanO").attr("checked", "checked");
+            //     } 
+
         });
     </script>  
 </body>

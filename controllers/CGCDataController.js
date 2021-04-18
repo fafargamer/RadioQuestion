@@ -1586,7 +1586,7 @@ function getFillForm(req,res) {
                                     res.send('Faktor tidak ada')
                                 }
                                 else{
-                                    res.render('admin/GCG/isiFaktor/isi', {data:result, user:req.user, subparameter:resSubP, parameter:resPar, indikator:resInd})
+                                    res.render('admin/GCG/isiFaktor/isi2', {data:result, user:req.user, subparameter:resSubP, parameter:resPar, indikator:resInd})
                                 }
                             })
                         }
@@ -1703,14 +1703,14 @@ async function nilaiSP(req,res) {
 
     const resFaktors = await FaktorSchema.find({aspek, indikator, IDParameter, IndexSubParameter, valid:1}).exec()
     // console.log(resFaktors[0].skor)
-    if(resFaktors.length === 0){
+    if(resFaktors.length == 0){
         var nilaiSP = 0
         var nilaiPersen = 0
         console.log("NP : " + nilaiPersen)
     }
     else {
         var nilaiSP = await countScoreFaktor(resFaktors)
-        var nilaiPersen = await toPercentage(parseInt(nilaiSP))
+        var nilaiPersen = await toPercentage(nilaiSP)
         console.log("NP : " + nilaiPersen)
     }
     console.log(nilaiSP)

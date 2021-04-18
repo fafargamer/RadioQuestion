@@ -422,11 +422,115 @@
                                                                                         <tr class="faktor">
                                                                                             <td class="col-5"><%=rowSF.faktor%></td>
                                                                                             <td>
-                                                                                                <a class="btn btn-light justify-content-center" href='/GCGData/<%=rowSF.aspek%>/<%=rowSF.indikator%>/<%=rowSF.IDParameter%>/<%=rowSF.IndexSubParameter%>/<%=rowSF.Index%>/fillForm/' role="button" >...</a>
-                                                                                            </td> 
+                                                                                                <button type="button" class="btn btn-light justify-content-center" data-toggle="modal" data-target="#modalForm-<%=i%>-<%=j%>-<%=k%>-<%=l%>-<%=m%>">
+                                                                                                    <i class="glyphicon glyphicon-pencil">
+
+                                                                                                    </i>
+                                                                                                </button>
+                                                                                                <div class="modal fade" id="modalForm-<%=i%>-<%=j%>-<%=k%>-<%=l%>-<%=m%>" tabindex="-1" role="dialog" aria-labelledby="modalCatatan<%=i+1%>Label" aria-hidden="true">
+                                                                                                    <div class="modal-dialog" role="document">
+                                                                                                      <div class="modal-content">
+                                                                                                        <div class="modal-header">
+                                                                                                          <h5 class="modal-title" id="modalForm-<%=i%>-<%=j%>-<%=k%>-<%=l%>-<%=m%>-Label">Beri Penilaian</h5>
+                                                                                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                                            <span aria-hidden="true">&times;</span>
+                                                                                                          </button>
+                                                                                                        </div>
+                                                                                                        <div class="modal-body">
+																											<div class="question bg-white p-3 border-bottom">
+																												<div class="d-flex flex-row align-items-center question-title">
+																													<!-- <h3 class="text-danger">Q.</h3> -->
+																													<h3 class="mt-1 ml-2"><%=rowSF.faktor%></h3>
+																												</div> 
+																												<form class="question bg-white p-3 border-bottom formSubFaktor" action="/GCGData/postPenilaian" method="POST" id="postForm-<%=i%>-<%=j%>-<%=k%>-<%=l%>-<%=m%>">
+																													<input type="text" id="inputID" name="inputID" value="<%=rowSF.Index%>" hidden readonly>
+																														<input type="text" class="form-control" id="inputAspek" name="inputAspek" value="<%=rowSF.aspek%>" hidden>
+																														<input type="text" class="form-control" id="inputIndikator" name="inputIndikator" value="<%=rowSF.indikator%>" hidden>
+																														<input type="text" class="form-control" id="idParameter" name="idParameter" value="<%=rowSF.IDParameter%>" hidden>
+																														<input type="text" class="form-control" id="idSubParameter" name="idSubParameter" value="<%=rowSF.IndexSubParameter%>" hidden>
+																														<input type="text" class="form-control" id="iBuktiPemenuhan" name="iBuktiPemenuhan" value="<%-rowSF.buktiPemenuhan%>" hidden readonly>
+																														<input type="text" class="form-control" id="iIsiNilai" name="iIsiNilai" value="<%=rowSF.skor%>" hidden readonly>
+																														<input type="text" class="form-control" id="iIsiValid" name="iIsiValid" value="<%=rowSF.valid%>" hidden readonly>
+																													<h2>Bukti Pemenuhan</h2>
+																														<label class="check">Dokumen
+																															<input type="checkbox" name="inputPemenuhan[]" id="inputPemenuhanD" value="D">
+																															<span class="checkmark"></span>
+																														</label>
+																														<label class="check">Kusioner
+																														  <input type="checkbox" name="inputPemenuhan[]" id="inputPemenuhanK" value="K">
+																														  <span class="checkmark"></span>
+																														</label>                                                
+																														<label class="check">Wawancara
+																															<input type="checkbox" name="inputPemenuhan[]" id="inputPemenuhanW" value="W">
+																															<span class="checkmark"></span>
+																														</label>
+																														<label class="check">Observasi
+																															<input type="checkbox" name="inputPemenuhan[]" id="inputPemenuhanO" value="O">
+																															<span class="checkmark"></span>
+																														</label>
+																													  <h2>Nilai Faktor</h2>
+																													  <label class="radio">0
+																														  <input type="radio" name="inputNilai" id="inputNilaiA" value="0">
+																														  <span class="checkround"></span>
+																														</label>
+																														<label class="radio">0.25
+																															<input type="radio" name="inputNilai" id="inputNilaiB" value="0.25">
+																															<span class="checkround"></span>
+																														  </label>                                                
+																														  <label class="radio">0.5
+																															<input type="radio" name="inputNilai" id="inputNilaiC" value="0.5">
+																															<span class="checkround"></span>
+																														  </label>
+																														  <label class="radio">0.75
+																															<input type="radio" name="inputNilai" id="inputNilaiD" value="0.75">
+																															<span class="checkround"></span>
+																														  </label>
+																														  <label class="radio">1
+																															<input type="radio" name="inputNilai" id="inputNilaiE" value="1">
+																															<span class="checkround"></span>
+																														  </label>   
+																														  
+																														  <h2>Apakah faktor valid?</h2>
+																														  <label class="radio">Tidak
+																															  <input type="radio" name="inputValid" id="inputValid-0" value="0">
+																															  <span class="checkround"></span>
+																															</label>
+																															<label class="radio">Ya
+																																<input type="radio" name="inputValid" id="inputValid-1" value="1">
+																																<span class="checkround"></span>
+																															</label>                                                
+																						
+																														<div class="ans ml-2 form-group ">  
+																															<div class="question bg-white p-3 border-bottom">
+																																<h1>
+																																	
+																																</h1>
+																															</div>
+																															<h1>
+																																<!-- <span style="white-space: "> -->
+																														
+																															</h1>
+																															<% if(rowSF.catatan != null) { %>
+																															<div>
+																																<h3><%-rowSF.catatan.replace('\n', '<br>')%></h3>
+																															</div>
+																															<% } %>
+																														</div> 
+																						
+																												</form>																																																	
+																											</div>
+                                                                                                        </div>
+                                                                                                        <div class="modal-footer">
+                                                                                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                                                          <button form="postForm-<%=i%>-<%=j%>-<%=k%>-<%=l%>-<%=m%>" type="submit" class="btn btn-primary">Submit</button>
+                                                                                                        </div>
+                                                                                                      </div>
+                                                                                                    </div>
+                                                                                                  </div>
+                                                                                            </td>                                                                       
                                                                                             <td>
                                                                                                 <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modalCatatan-<%=i%>-<%=j%>-<%=k%>-<%=l%>-<%=m%>">
-                                                                                                    Catatan
+                                                                                                    <i class="glyphicon glyphicon-cloud-upload"></i>
                                                                                                 </button>
                                                                                                 <div class="modal fade" id="modalCatatan-<%=i%>-<%=j%>-<%=k%>-<%=l%>-<%=m%>" tabindex="-1" role="dialog" aria-labelledby="modalCatatan<%=i+1%>Label" aria-hidden="true">
                                                                                                     <div class="modal-dialog" role="document">
@@ -616,8 +720,59 @@
                 // show the default panel
                 $('.collapse').eq(defaultDiv-1).collapse('show');
             })
-            
-            /* Anchor Links */
+
+            $('.formSubFaktor').each(function(){
+                
+                var FileTypes = $('#'+$(this).attr('id') +' '+'#iBuktiPemenuhan').val();
+                var nilai = $('#'+$(this).attr('id') + ' ' +  '#iIsiNilai').val();
+                var validasi = $('#'+$(this).attr('id') + ' ' +  '#iIsiValid').val()
+                console.log(nilai)
+                console.log(validasi)
+                // var stringQuery = '#'+$(this).attr('id')
+                // console.log($(this).html())
+                    
+                
+                if(FileTypes.includes('O')==true){
+                    $('#'+$(this).attr('id') + ' ' +  '#inputPemenuhanO').attr("checked", "checked");
+                    // $("#postForm #inputPemenuhanO").attr("checked", "checked");
+                }    
+                if(FileTypes.includes('D')==true){
+                    $('#'+$(this).attr('id') + ' ' +  '#inputPemenuhanW').attr("checked", "checked");
+                    // $("#postForm #inputPemenuhanO").attr("checked", "checked");
+                } 
+                if(FileTypes.includes('K')==true){
+                    $('#'+$(this).attr('id') + ' ' +  '#inputPemenuhanK').attr("checked", "checked");
+                    // $("#postForm #inputPemenuhanO").attr("checked", "checked");
+                } 
+                if(FileTypes.includes('W')==true){
+                    $('#'+$(this).attr('id') + ' ' +  '#inputPemenuhanW').attr("checked", "checked");
+                    // $("#postForm #inputPemenuhanO").attr("checked", "checked");
+                } 
+                
+                // $(this).children('input[name="inputNilai"]').val(nilai)
+                // $('#'+$(this).attr('id') + ' ' +  '#inputNilai[value='+nilai+']').prop('checked', true);
+                var string = '#'+$(this).attr('id') + ' ' +  '#inputValid-'+validasi
+                var string2 = '#'+$(this).attr('id') + ' ' +  '#inputNilai-'+nilai
+                console.log(string2)
+                console.log(string)
+                if(nilai == 0) {
+                    $('#'+$(this).attr('id') + ' ' +  '#inputNilaiA').attr('checked', true);
+                }
+                else if(nilai == 0.25) {
+                    $('#'+$(this).attr('id') + ' ' +  '#inputNilaiB').attr('checked', true);
+                }
+                else if(nilai == 0.5) {
+                    $('#'+$(this).attr('id') + ' ' +  '#inputNilaiC').attr('checked', true);
+                }
+                else if(nilai == 0.75) {
+                    $('#'+$(this).attr('id') + ' ' +  '#inputNilaiD').attr('checked', true);
+                }
+                else if(nilai == 1.0) {
+                    $('#'+$(this).attr('id') + ' ' +  '#inputNilaiE').attr('checked', true);
+                }
+                // $('#'+$(this).attr('id') + ' ' +  '#inputNilai-'+nilai).attr('checked', true);
+                $('#'+$(this).attr('id') + ' ' +  '#inputValid-'+validasi).attr('checked', true);
+            });
 
 
             $('.aspek-collapse').on('click', function(event) {
