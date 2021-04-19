@@ -1471,7 +1471,7 @@ function addFaktors(req,res, FaktorT, aspekT, indikatorT, IDParameterT, IndexSub
     faktorIns.catatanBukti = catatanBukti
     faktorIns.valid = 0
 
-    FaktorSchema.findOne({Index}, (errFind,resFind) =>{
+    FaktorSchema.findOne({aspek:aspekT, indikator:indikatorT, IDParameter:IDParameterT, IndexSubParameter:IndexSubParameterT, Index}, (errFind,resFind) =>{
         if(errFind){
             res.send(errFind)
         }
