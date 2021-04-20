@@ -1,0 +1,13 @@
+
+requirement : node js
+
+sebelum deploy npm init dulu
+
+requirements ada di package.json
+
+file .env isinya url database sama SESSION_SECRET (kalau mau variabel bisa langsung diubah di server.js, misal tidak support .env)
+
+Procfile untuk deploy ke Heroku
+
+
+Server start : server.js
