@@ -22,7 +22,7 @@ app.get('/crypto', (req,res) => {
 
 app.get('/', isLoggedIn, async function(req, res, next) {
         try {    
-            const resAsp = await Aspek.find({}).exec()
+            const resAsp = await Aspek.find({}).sort({index: 'ascending'}).exec()
             const resInd = await getAllIndikators(resAsp)
             const resPars = await getAllParameters(resInd)
             const resSubPars = await getAllSubParameters(resPars)
@@ -40,13 +40,19 @@ async function getAllIndikators(resAsp) {
     testAsp = {}
     testAsp = resAsp
         for(i=0;i<resAsp.length;i++) {
-            var resInd = await Indikator.find({aspek: resAsp[i].index})
+            var resInd = await Indikator.find({aspek: resAsp[i].index}).sort({index: 'ascending'}).exec()
             if(resInd) {
+                // var sortable = [];
+                // for (var i in resInd) {
+                //     sortable.push(i);
+                // }
+                // const sortedArr = await sort(resInd)
+                console.log(resInd)
                 testAsp[i].indikators = resInd
             }
             // const resIndP = await getAllParameters(resInd)
-            console.log(typeof resAsp)
-            console.log(typeof resInd)
+            // console.log(typeof resAsp)
+            // console.log(typeof resInd)
             // console.log(resIndP)
             // testAsp[i].indikators = resInd
             // console.log(resAsp[i].indikators[0].indikator)
@@ -63,7 +69,7 @@ async function getAllParameters(resInd) {
     testInd = resInd
     for(i=0;i<resInd.length;i++) {
         for(j=0;j<resInd[i].indikators.length;j++){
-            var resPars = await Parameter.find({aspek: resInd[i].indikators[j].aspek, indikator:resInd[i].indikators[j].index}).exec()
+            var resPars = await Parameter.find({aspek: resInd[i].indikators[j].aspek, indikator:resInd[i].indikators[j].index}).sort({IDParameter: 'ascending'}).exec()
             if(resPars){
                 testInd[i].indikators[j].parameters = resPars
             }
@@ -81,7 +87,7 @@ async function getAllSubParameters(resPars) {
             for(k=0;k<resPars[i].indikators[j].parameters.length;k++){
                 var resSubPars = await SubParameter.find({aspek: resPars[i].indikators[j].parameters[k].aspek, 
                     indikator:resPars[i].indikators[j].parameters[k].indikator, 
-                    IDParameter: resPars[i].indikators[j].parameters[k].IDParameter}).exec()
+                    IDParameter: resPars[i].indikators[j].parameters[k].IDParameter}).sort({IndexSubParameter: 'ascending'}).exec()
                 if(resSubPars){
                     testPars[i].indikators[j].parameters[k].subparameters = resSubPars
                 }
@@ -108,10 +114,10 @@ async function getAllSubFaktors(resSubPars) {
                         indikator:resSubPars[i].indikators[j].parameters[k].subparameters[l].indikator, 
                         IDParameter: resSubPars[i].indikators[j].parameters[k].subparameters[l].IDParameter,
                         IndexSubParameter: resSubPars[i].indikators[j].parameters[k].subparameters[l].IndexSubParameter,
-                    }).exec()
+                    }).sort({Index: 'ascending'}).exec()
     
                     if(resSubPars){
-                        console.log(resSubFaktor)
+                        // console.log(resSubFaktor)
                         testSubPars[i].indikators[j].parameters[k].subparameters[l].faktors = resSubFaktor
                     }
 
@@ -142,5 +148,12 @@ function isLoggedIn(req, res, next) {
       res.redirect('/login');
     }
   }
+
+// async function sort(data) {
+//     for(i=0;i<2;i++) {
+//         console.log(i)
+//     }
+//     return data
+// }
 
 module.exports = app;
