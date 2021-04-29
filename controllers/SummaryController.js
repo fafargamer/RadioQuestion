@@ -22,7 +22,7 @@ app.get('/crypto', (req,res) => {
 
 app.get('/', isLoggedIn, async function(req, res, next) {
         try {    
-            const resAsp = await Aspek.find({}).sort({index: 'ascending'}).exec()
+            const resAsp = await Aspek.find({}).sort({aspek: 'ascending'}).exec()
             const resInd = await getAllIndikators(resAsp)
             const resPars = await getAllParameters(resInd)
             const resSubPars = await getAllSubParameters(resPars)
@@ -40,7 +40,7 @@ async function getAllIndikators(resAsp) {
     testAsp = {}
     testAsp = resAsp
         for(i=0;i<resAsp.length;i++) {
-            var resInd = await Indikator.find({aspek: resAsp[i].index}).sort({index: 'ascending'}).exec()
+            var resInd = await Indikator.find({aspek: resAsp[i].index}).sort({indikator: 'ascending'}).exec()
             if(resInd) {
                 // var sortable = [];
                 // for (var i in resInd) {
@@ -69,7 +69,7 @@ async function getAllParameters(resInd) {
     testInd = resInd
     for(i=0;i<resInd.length;i++) {
         for(j=0;j<resInd[i].indikators.length;j++){
-            var resPars = await Parameter.find({aspek: resInd[i].indikators[j].aspek, indikator:resInd[i].indikators[j].index}).sort({IDParameter: 'ascending'}).exec()
+            var resPars = await Parameter.find({aspek: resInd[i].indikators[j].aspek, indikator:resInd[i].indikators[j].index}).sort({pertanyaan: 'ascending'}).exec()
             if(resPars){
                 testInd[i].indikators[j].parameters = resPars
             }
@@ -87,7 +87,7 @@ async function getAllSubParameters(resPars) {
             for(k=0;k<resPars[i].indikators[j].parameters.length;k++){
                 var resSubPars = await SubParameter.find({aspek: resPars[i].indikators[j].parameters[k].aspek, 
                     indikator:resPars[i].indikators[j].parameters[k].indikator, 
-                    IDParameter: resPars[i].indikators[j].parameters[k].IDParameter}).sort({IndexSubParameter: 'ascending'}).exec()
+                    IDParameter: resPars[i].indikators[j].parameters[k].IDParameter}).sort({subParameter: 'ascending'}).exec()
                 if(resSubPars){
                     testPars[i].indikators[j].parameters[k].subparameters = resSubPars
                 }
@@ -114,7 +114,7 @@ async function getAllSubFaktors(resSubPars) {
                         indikator:resSubPars[i].indikators[j].parameters[k].subparameters[l].indikator, 
                         IDParameter: resSubPars[i].indikators[j].parameters[k].subparameters[l].IDParameter,
                         IndexSubParameter: resSubPars[i].indikators[j].parameters[k].subparameters[l].IndexSubParameter,
-                    }).sort({Index: 'ascending'}).exec()
+                    }).sort({faktor: 'ascending'}).exec()
     
                     if(resSubPars){
                         // console.log(resSubFaktor)
