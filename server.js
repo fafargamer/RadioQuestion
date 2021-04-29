@@ -6,6 +6,8 @@ var bodyParser = require('body-parser')
 var flash = require('connect-flash')
 const passport = require('passport');
 var app = express();
+const fs = require('fs')
+const path = require('path');
 
 require('./models/Mongoosedatabase.js');
 require("dotenv").config();
@@ -25,6 +27,7 @@ app.use(bodyParser.json())
 const parameterController = require('./controllers/CGCDataController.js');
 const userManagementController = require('./controllers/userManagementController.js');
 const testControllers = require('./controllers/SummaryController.js');
+const fileControllers = require('./controllers/fileController.js')
 
 
 require('./config/passport.js')
@@ -100,6 +103,7 @@ app.get('/logout', function(req, res){
   res.redirect('/');
 });
 
+
 function isLoggedIn(req, res, next) {
   // console.log('Loggin in....')
   if (req.isAuthenticated()) {
@@ -122,5 +126,6 @@ app.get('/', isLoggedIn, (req,res) =>{
 
 
 app.use('/GCGData', parameterController);
+app.use('/files', fileControllers);
 app.use('/UserManagement', userManagementController);
 app.use('/all', testControllers);

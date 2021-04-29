@@ -406,7 +406,8 @@
                                                                                 <table class="table table-condensed table-striped" id="tabel-<%=i%>-<%=j%>-<%=k%>-<%=l%>"  style="background-color: #ffffff;">
                                                                                     <thead>
                                                                                         <tr class="accordion-toggle align-items-start">
-                                                                                            <th class="col">Faktor</th>
+                                                                                            <th class="col" style="width: 20%;">Faktor</th>
+                                                                                            <th class="col">Bukti</th>
                                                                                             <th>
                 
                                                                                             </th>    
@@ -420,7 +421,8 @@
                                                                                     <% rowSP.faktors.forEach(function(rowSF, m) { %>
                                                                                     <tbody>
                                                                                         <tr class="faktor">
-                                                                                            <td class="col-5"><%=rowSF.faktor%></td>
+                                                                                            <td class="col" style="width: 20%;"><%=rowSF.faktor%></td>
+                                                                                            <td class="col"><a href="/files/downloadBukti/<%=rowSF.urlBukti%>" target="_blank"><%=rowSF.urlBukti%></a></td>
                                                                                             <td>
                                                                                                 <button type="button" class="btn btn-light justify-content-center" data-toggle="modal" data-target="#modalForm-<%=i%>-<%=j%>-<%=k%>-<%=l%>-<%=m%>">
                                                                                                     <i class="glyphicon glyphicon-pencil">
@@ -444,10 +446,10 @@
 																												</div> 
 																												<form class="question bg-white p-3 border-bottom formSubFaktor" action="/GCGData/postPenilaian" method="POST" id="postForm-<%=i%>-<%=j%>-<%=k%>-<%=l%>-<%=m%>">
 																													<input type="text" id="inputID" name="inputID" value="<%=rowSF.Index%>" hidden readonly>
-																														<input type="text" class="form-control" id="inputAspek" name="inputAspek" value="<%=rowSF.aspek%>" hidden>
-																														<input type="text" class="form-control" id="inputIndikator" name="inputIndikator" value="<%=rowSF.indikator%>" hidden>
-																														<input type="text" class="form-control" id="idParameter" name="idParameter" value="<%=rowSF.IDParameter%>" hidden>
-																														<input type="text" class="form-control" id="idSubParameter" name="idSubParameter" value="<%=rowSF.IndexSubParameter%>" hidden>
+																														<input type="text" class="form-control" id="inputAspek" name="inputAspek" value="<%=rowSF.aspek%>" readonly hidden>
+																														<input type="text" class="form-control" id="inputIndikator" name="inputIndikator" value="<%=rowSF.indikator%>" hidden readonly>
+																														<input type="text" class="form-control" id="idParameter" name="idParameter" value="<%=rowSF.IDParameter%>" hidden readonly>
+																														<input type="text" class="form-control" id="idSubParameter" name="idSubParameter" value="<%=rowSF.IndexSubParameter%>" hidden readonly>
 																														<input type="text" class="form-control" id="iBuktiPemenuhan" name="iBuktiPemenuhan" value="<%-rowSF.buktiPemenuhan%>" hidden readonly>
 																														<input type="text" class="form-control" id="iIsiNilai" name="iIsiNilai" value="<%=rowSF.skor%>" hidden readonly>
 																														<input type="text" class="form-control" id="iIsiValid" name="iIsiValid" value="<%=rowSF.valid%>" hidden readonly>
@@ -542,7 +544,7 @@
                                                                                                           </button>
                                                                                                         </div>
                                                                                                         <div class="modal-body">
-                                                                                                          <form action="/GCGData/PostCatatan" method="POST" name="formCatatan-<%=i%>-<%=j%>-<%=k%>-<%=l%>-<%=m%>" id="formCatatan-<%=i%>-<%=j%>-<%=k%>-<%=l%>-<%=m%>">
+                                                                                                          <form action="/GCGData/PostCatatan" method="POST" name="formCatatan-<%=i%>-<%=j%>-<%=k%>-<%=l%>-<%=m%>" id="formCatatan-<%=i%>-<%=j%>-<%=k%>-<%=l%>-<%=m%>" enctype="multipart/form-data">
                                                                                                             <div class="form-group">
                                                                                                               <label for="message-text" class="col-form-label">Catatan Bukti:</label>
                                                                                                               <textarea class="form-control" id="catatan" name="catatan" rows="4" ><%=rowSF.catatanBukti%></textarea>
@@ -562,9 +564,11 @@
                                                                                                             <div class="form-group">
                                                                                                                   <input type="text" class="form-control" id="idSubParameter" name="idSubParameter" value="<%=rowSF.IndexSubParameter%>" hidden>
                                                                                                             </div>
+                                                                                                            <input type="text" class="form-control" id="namaFaktor" name="namaFaktor" value="<%=rowSF.faktor%>" readonly hidden>
+                                                                                                            <input type="text" class="form-control" id="oldUrlBukti" name="oldUrlBukti" value="<%=rowSF.urlBukti%>" readonly hidden>
                                                                                                             <div class="form-group">
                                                                                                                 <label for="message-text" class="col-form-label">Upload Bukti:</label>
-                                                                                                                <input id="input-bukti-faktor" name="input-bukti-faktor" type="file" class="file-upload" data-browse-on-zone-click="true" data-height="500">
+                                                                                                                <input id="inputBuktiFaktor" name="inputBuktiFaktor" type="file" class="file-upload" data-browse-on-zone-click="true" data-height="500">
                                                                                                             </div>
                                                                                                           </form>
                                                                                                         </div>

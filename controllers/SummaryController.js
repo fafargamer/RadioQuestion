@@ -47,7 +47,7 @@ async function getAllIndikators(resAsp) {
                 //     sortable.push(i);
                 // }
                 // const sortedArr = await sort(resInd)
-                console.log(resInd)
+                // console.log(resInd)
                 testAsp[i].indikators = resInd
             }
             // const resIndP = await getAllParameters(resInd)

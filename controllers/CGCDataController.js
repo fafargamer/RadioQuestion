@@ -12,7 +12,13 @@ const toPercent = require('decimal-to-percent');
 const e = require('express');
 const { reset } = require('nodemon');
 
+const multer = require('multer')
+const fs = require('fs')
+const path = require('path');
+
 mongoose.set('useFindAndModify', false);
+
+// app.use(express.bodyParser());
 
 //Get Aspeks
 // app.get('/', (req,res) =>{
@@ -492,54 +498,6 @@ app.get('/:idAspek/:idIndikator/:idParams/:idSubParams/:Index/fillForm/', isLogg
     getFillForm(req,res)
 })
 
-app.post('/PostCatatan', isLoggedIn, (req,res) =>{
-    // Index = req.body.Index
-    // catatan = req.body.catatan
-    IndexSubParameter = req.body.idSubParameter
-    IDParameter = req.body.idParameter
-    aspek = req.body.inputAspek
-    indikator = req.body.inputIndikator
-    Index = req.body.inputIndex
-    catatanBukti = req.body.catatan
-
-    FaktorSchema.findOneAndUpdate({aspek, indikator, IDParameter, IndexSubParameter, Index}, {catatanBukti}, (err, result) =>{
-        if(err){
-            res.send(err)
-        }
-        else{
-            console.log(catatanBukti)
-            console.log("Catatan terupdate")
-            res.redirect('/all/')
-        }
-    })
-    // console.log(req.originalUrl)
-})
-
-//Post penilaian Faktor
-// app.post('/postPenilaian', isLoggedIn, (req,res) => {
-//     Index = req.body.inputID
-//     aspek = req.body.inputAspek
-//     indikator = req.body.inputIndikator
-//     IDParameter = req.body.idParameter
-//     IndexSubParameter = req.body.idSubParameter
-//     buktiPemenuhan = req.body.inputPemenuhan
-//     skor = req.body.inputNilai
-
-//     console.log(req.body)
-
-    
-
-//     FaktorSchema.findOneAndUpdate({aspek, indikator, IDParameter, IndexSubParameter, Index} , {buktiPemenuhan, skor}, {upsert:true}, (err,result) => {
-//         if(err){
-//             res.send(err)
-//         }
-//         else{
-//             console.log(result)
-//             res.redirect('/GCGData/'+result.aspek+'/'+result.indikator+'/'+result.IDParameter+'/'+result.IndexSubParameter+'/')
-//         }
-//     })
-// })
-
 app.post('/postPenilaian', async function(req, res, next) {
     try {    
         const FaktorSchema = await berinilaiFaktor(req,res)
@@ -556,9 +514,85 @@ app.post('/postPenilaian', async function(req, res, next) {
     }
 })
 
+    // // console.log(inputFile)
+    // const storage = multer.diskStorage({
+    //     destination : path.join(__dirname + './../files/buktiFaktor/'),
+    //     filename: function(req, file, cb){
+    //         cb(null, 'bukti-' + req.body.inputAspek + '-' + req.body.inputIndikator + '-' + req.body.idParameter + '-' + req.body.idSubParameter + '-' + req.body.inputIndex + path.extname(file.originalname));
+    //         // console.log(filename)
+    //     }
+    // });
 
+    // const fileFilter = (req, file, cb) => {
+    //     console.log('filename: ' + file.originalname)
+    //     console.log('aspek: ' + req.body.inputAspek)
+    //     // console.log('new filename ' + req.file.filename)
+    //     // if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+    //     //   cb(null, true);
+    //     // } else {
+    //     //   //rejects storing a file
+    //     //   console.log('Wrong type')
+    //     // //   res.redirect('/all/')
+    //     //   cb(null, false);
+    //     // }
+    // };
 
+    // const upload = multer({
+    //     storage : storage,
+    //     fileFilter: fileFilter
+    // }).single('inputBuktiFaktor');
 
+    app.post('/PostCatatan', isLoggedIn, (req,res,next) =>{
+        // Index = req.body.Index
+        // catatan = req.body.catatan
+        console.log('request header' + JSON.stringify(req.body))
+        IndexSubParameter = req.body.idSubParameter
+        IDParameter = req.body.idParameter
+        aspek = req.body.inputAspek
+        indikator = req.body.inputIndikator
+        Index = req.body.inputIndex
+        catatanBukti = req.body.catatan
+        // inputFile = req.body.inputBuktiFaktor
+        // console.log(req.files.inputBuktiFaktor.name)
+    
+        FaktorSchema.findOneAndUpdate({aspek, indikator, IDParameter, IndexSubParameter, Index}, {catatanBukti}, (err, result) =>{
+            if(err){
+                res.send(err)
+            }
+            else{
+                console.log(catatanBukti)
+                console.log("Catatan terupdate")
+            }
+        })
+        
+        upload(req, res, err => {
+            if (err) throw err
+            // console.log(aspek)
+            if(req.file) {
+                FaktorSchema.findOneAndUpdate({aspek:req.body.inputAspek, 
+                    indikator:req.body.inputIndikator, 
+                    IDParameter:req.body.idParameter, 
+                    IndexSubParameter:req.body.idSubParameter, 
+                    Index:req.body.inputIndex}, 
+                    {urlBukti:req.file.filename}, (err, result) =>{
+                    if(err){
+                        res.send(err)
+                    }
+                    else{
+                        console.log(catatanBukti)
+                        console.log("Catatan terupdate")
+                    }
+                })
+                const delfileName = req.body.oldUrlBukti;
+                const delpath = __dirname + './../files/buktiFaktor/';
+                fs.unlinkSync(delpath+delfileName)
+            }
+             //script lain misal redirect atau alert :D 
+             res.redirect('/all/')
+         });
+            
+        // res.redirect('/all/')
+    })
 
 
 
@@ -1760,6 +1794,20 @@ async function nilaiAspek(req,res) {
 
     return updA
 }
+
+//set storage engine
+const storage = multer.diskStorage({
+    destination : path.join(__dirname + './../files/buktiFaktor/'),
+    filename: function(req, file, cb){
+        cb(null, req.body.namaFaktor + '-' + Date.now() +
+        path.extname(file.originalname));
+    }
+});
+
+//init upload
+const upload = multer({
+    storage : storage
+}).single('inputBuktiFaktor');
 
 
 module.exports = app;
