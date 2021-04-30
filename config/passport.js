@@ -22,7 +22,9 @@ passport.use('local', new LocalStrategy(
             // console.log('Password = ' + password)
             // console.log('Logggggiiiiinggg.......')
             User.findOne({username: username, password: password}, function(err, result){
-                if(err) return done(err)
+                if(err) {
+                    return done(null,false)
+                }
                 if(!result){
                     console.log('Not found')
                     return done(null,false)

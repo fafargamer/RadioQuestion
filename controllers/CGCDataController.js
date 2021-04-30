@@ -545,7 +545,7 @@ app.post('/postPenilaian', async function(req, res, next) {
     app.post('/PostCatatan', isLoggedIn, (req,res,next) =>{
         // Index = req.body.Index
         // catatan = req.body.catatan
-        console.log('request header' + JSON.stringify(req.body))
+        // console.log('request header' + JSON.stringify(req.body))
         IndexSubParameter = req.body.idSubParameter
         IDParameter = req.body.idParameter
         aspek = req.body.inputAspek
@@ -562,35 +562,9 @@ app.post('/postPenilaian', async function(req, res, next) {
             else{
                 console.log(catatanBukti)
                 console.log("Catatan terupdate")
+                res.redirect('back')
             }
-        })
-        
-        upload(req, res, err => {
-            if (err) throw err
-            // console.log(aspek)
-            if(req.file) {
-                FaktorSchema.findOneAndUpdate({aspek:req.body.inputAspek, 
-                    indikator:req.body.inputIndikator, 
-                    IDParameter:req.body.idParameter, 
-                    IndexSubParameter:req.body.idSubParameter, 
-                    Index:req.body.inputIndex}, 
-                    {urlBukti:req.file.filename}, (err, result) =>{
-                    if(err){
-                        res.send(err)
-                    }
-                    else{
-                        console.log(catatanBukti)
-                        console.log("Catatan terupdate")
-                    }
-                })
-                const delfileName = req.body.oldUrlBukti;
-                const delpath = __dirname + './../files/buktiFaktor/';
-                fs.unlinkSync(delpath+delfileName)
-            }
-             //script lain misal redirect atau alert :D 
-             res.redirect('/all/')
-         });
-            
+        })          
         // res.redirect('/all/')
     })
 
@@ -1795,19 +1769,6 @@ async function nilaiAspek(req,res) {
     return updA
 }
 
-//set storage engine
-const storage = multer.diskStorage({
-    destination : path.join(__dirname + './../files/buktiFaktor/'),
-    filename: function(req, file, cb){
-        cb(null, req.body.namaFaktor + '-' + Date.now() +
-        path.extname(file.originalname));
-    }
-});
-
-//init upload
-const upload = multer({
-    storage : storage
-}).single('inputBuktiFaktor');
 
 
 module.exports = app;
