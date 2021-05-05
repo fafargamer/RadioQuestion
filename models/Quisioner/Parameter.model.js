@@ -28,6 +28,12 @@ var parameterSchema = new mongoose.Schema({
     },
     catatan:{
         type: String
+    },
+    analisis: {
+        type:String
+    },
+    rekomendasi: {
+        type:String
     }
 });
 

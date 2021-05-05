@@ -379,8 +379,55 @@
                                                         <div class="">
                                                         <table class="table table-condensed table-striped" id="tabel-<%=i%>-<%=j%>-<%=k%>"  style="background-color: #fbefcc;">
                                                             <tbody>
-                                                                <tr  class="parameter-collapse collapsed" data-toggle="collapse" href="#demo-<%=i%>-<%=j%>-<%=k%>">
-                                                                    <td class="col"><%=rowP.pertanyaan%></td>                                                                  
+                                                                <tr  class="collapsed">
+                                                                    <td class="col parameter-collapse" data-toggle="collapse" href="#demo-<%=i%>-<%=j%>-<%=k%>"><%=rowP.pertanyaan%></td>
+                                                                    <td>
+                                                                        <button type="button" class="btn btn-light btn-xs" data-toggle="modal" data-target="#modalCatatan-<%=i%>-<%=j%>-<%=k%>" style="size: 50%;">
+                                                                            <i class="glyphicon glyphicon-pencil">
+                                                                            </i>
+                                                                        </button>
+                                                                        <div class="modal fade" id="modalCatatan-<%=i%>-<%=j%>-<%=k%>" tabindex="-1" role="dialog" aria-labelledby="modalCatatan-<%=i%>-<%=j%>-<%=k%>-Label" aria-hidden="true">
+                                                                            <div class="modal-dialog" role="document">
+                                                                              <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                  <h5 class="modal-title" id="modalCatatan-<%=i%>-<%=j%>-<%=k%>-Label"><%=rowP.pertanyaan%></h5>
+                                                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                  </button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                  <form action="/GCGData/PostParameterExt" method="POST" name="formCatatan-<%=i%>-<%=j%>-<%=k%>" id="formCatatan-<%=i%>-<%=j%>-<%=k%>">
+                                                                                    <div class="form-group">
+                                                                                        <label for="message-text" class="col-form-label">Analisis:</label>
+                                                                                        <textarea class="form-control" type="text" id="analisis" name="analisis" rows=4><%=rowP.analisis%></textarea>
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                        <label for="message-text" class="col-form-label">Rekomendasi:</label>
+                                                                                        <textarea class="form-control" type="text" id="rekomendasi" name="rekomendasi" rows=4><%=rowP.rekomendasi%></textarea>
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                      <label for="message-text" class="col-form-label">Catatan:</label>
+                                                                                      <textarea class="form-control" type="text" id="catatan" name="catatan" rows=4><%=rowP.catatan%></textarea>
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                        <input type="text" class="form-control" id="inputAspek" name="inputAspek" value="<%=rowP.aspek%>" hidden>
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                        <input type="text" class="form-control" id="inputIndikator" name="inputIndikator" value="<%=rowP.indikator%>" hidden>
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                          <input type="text" class="form-control" id="idParameter" name="idParameter" value="<%=rowP.IDParameter%>" hidden>
+                                                                                    </div>
+                                                                                  </form>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                                  <button form="formCatatan-<%=i%>-<%=j%>-<%=k%>" type="submit" class="btn btn-primary">Submit</button>
+                                                                                </div>
+                                                                              </div>
+                                                                            </div>
+                                                                          </div>
+                                                                    </td>                                                                  
                                                                     <td class="col"><%=rowP.bobot%></td>
                                                                     <td class="col"><%=rowP.nilai%></td>
                                                                     <td class="col nilaiOverall" value="<%=rowP.nilaiIndividu%>"><%=rowP.nilaiIndividu%></td>
@@ -424,7 +471,7 @@
                                                                                             <td class="col" style="width: 20%;"><%=rowSF.faktor%></td>
                                                                                             <td class="col"><a href="/files/downloadBukti/<%=rowSF.urlBukti%>" target="_blank"><%=rowSF.urlBukti%></a></td>
                                                                                             <td>
-                                                                                                <button type="button" class="btn btn-light justify-content-center" data-toggle="modal" data-target="#modalForm-<%=i%>-<%=j%>-<%=k%>-<%=l%>-<%=m%>">
+                                                                                                <button type="button" class="btn btn-light justify-content-center btn-xs" data-toggle="modal" data-target="#modalForm-<%=i%>-<%=j%>-<%=k%>-<%=l%>-<%=m%>">
                                                                                                     <i class="glyphicon glyphicon-pencil">
 
                                                                                                     </i>
@@ -433,17 +480,17 @@
                                                                                                     <div class="modal-dialog" role="document">
                                                                                                       <div class="modal-content">
                                                                                                         <div class="modal-header">
-                                                                                                          <h5 class="modal-title" id="modalForm-<%=i%>-<%=j%>-<%=k%>-<%=l%>-<%=m%>-Label">Beri Penilaian</h5>
+                                                                                                          <h5 class="modal-title" id="modalForm-<%=i%>-<%=j%>-<%=k%>-<%=l%>-<%=m%>-Label"><%=rowSF.faktor%></h5>
                                                                                                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                                                             <span aria-hidden="true">&times;</span>
                                                                                                           </button>
                                                                                                         </div>
                                                                                                         <div class="modal-body">
 																											<div class="question bg-white p-3 border-bottom">
-																												<div class="d-flex flex-row align-items-center question-title">
-																													<!-- <h3 class="text-danger">Q.</h3> -->
-																													<h3 class="mt-1 ml-2"><%=rowSF.faktor%></h3>
-																												</div> 
+																												<!-- <div class="d-flex flex-row align-items-center question-title">
+																													<h3 class="text-danger">Q.</h3> -->
+																													<!-- <h3 class="mt-1 ml-2"><%=rowSF.faktor%></h3> -->
+																												<!-- </div>  -->
 																												<form class="question bg-white p-3 border-bottom formSubFaktor" action="/GCGData/postPenilaian" method="POST" id="postForm-<%=i%>-<%=j%>-<%=k%>-<%=l%>-<%=m%>">
 																													<input type="text" id="inputID" name="inputID" value="<%=rowSF.Index%>" hidden readonly>
 																														<input type="text" class="form-control" id="inputAspek" name="inputAspek" value="<%=rowSF.aspek%>" readonly hidden>
@@ -531,14 +578,14 @@
                                                                                                   </div>
                                                                                             </td>                                                                       
                                                                                             <td>
-                                                                                                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modalCatatan-<%=i%>-<%=j%>-<%=k%>-<%=l%>-<%=m%>">
+                                                                                                <button type="button" class="btn btn-secondary btn-xs" data-toggle="modal" data-target="#modalCatatan-<%=i%>-<%=j%>-<%=k%>-<%=l%>-<%=m%>">
                                                                                                     <i class="glyphicon glyphicon-cloud-upload"></i>
                                                                                                 </button>
                                                                                                 <div class="modal fade" id="modalCatatan-<%=i%>-<%=j%>-<%=k%>-<%=l%>-<%=m%>" tabindex="-1" role="dialog" aria-labelledby="modalCatatan<%=i+1%>Label" aria-hidden="true">
                                                                                                     <div class="modal-dialog" role="document">
                                                                                                       <div class="modal-content">
                                                                                                         <div class="modal-header">
-                                                                                                          <h5 class="modal-title" id="modalCatatan-<%=i%>-<%=j%>-<%=k%>-<%=l%>-<%=m%>-Label">Bukti Faktor</h5>
+                                                                                                          <h5 class="modal-title" id="modalCatatan-<%=i%>-<%=j%>-<%=k%>-<%=l%>-<%=m%>-Label"><%=rowSF.faktor%></h5>
                                                                                                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                                                             <span aria-hidden="true">&times;</span>
                                                                                                           </button>

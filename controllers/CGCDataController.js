@@ -498,6 +498,10 @@ app.get('/:idAspek/:idIndikator/:idParams/:idSubParams/:Index/fillForm/', isLogg
     getFillForm(req,res)
 })
 
+app.post('/PostParameterExt/', isLoggedIn, (req,res) =>{
+    PostParameterExt(req,res)
+})
+
 app.post('/postPenilaian', async function(req, res, next) {
     try {    
         const FaktorSchema = await berinilaiFaktor(req,res)
@@ -1177,6 +1181,29 @@ function updateParameter(req,res) {
                     res.redirect('/GCGdata/'+aspek+'/'+indikator)
                 }
             })
+        }
+    })
+}
+
+function PostParameterExt(req,res) {
+    Parameter.findOne({aspek:req.body.inputAspek,indikator:req.body.inputIndikator,IDParameter:req.body.idParameter}, (errFind,resFind) =>{
+        if(errFind) {
+            res.send('Gagal konek database')
+        }
+        else if(!resFind) {
+            res.send('Parameter tidak ada')
+        }
+        else {
+            Parameter.findOneAndUpdate({aspek:req.body.inputAspek,indikator:req.body.inputIndikator,IDParameter:req.body.idParameter}, 
+                {analisis:req.body.analisis,rekomendasi:req.body.rekomendasi,catatan:req.body.catatan},
+                (errPost,resPost) => {
+                    if(errPost) {
+                        res.send('Gagal post')
+                    }
+                    else {
+                        res.redirect('/all/')
+                    }
+                }) 
         }
     })
 }
