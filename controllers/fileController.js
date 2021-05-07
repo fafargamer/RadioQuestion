@@ -22,13 +22,17 @@ app.get('/downloadBukti/:filename', isLoggedIn, (req,res) =>{
     const fileName = req.params.filename;
     const path = __dirname + './../files/buktiFaktor/';
   
-    res.download(path + fileName, (err) => {
-      if (err) {
-        res.status(500).send({
-          message: "File can not be downloaded: " + err,
-        });
-      }
-    });
+    // res.download(path + fileName, (err) => {
+    //   if (err) {
+    //     res.status(500).send({
+    //       message: "File can not be downloaded: " + err,
+    //     });
+    //   }
+    // });
+    fs.readFile(path + fileName, function (err,data){
+      // response.contentType("application/pdf");
+      res.end(data);
+   });
     // res.redirect('/all/')
     // res.send(req.params.filename)
   })
