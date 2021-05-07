@@ -451,7 +451,7 @@
                                                                     <div id="demo-<%=i%>-<%=j%>-<%=k%>-<%=l%>" class="collapse indikator-div accordion" data-parent="#demo-<%=i%>-<%=j%>-<%=k%>">
                                                                             <div class="">
                                                                                 <table class="table table-condensed table-striped" id="tabel-<%=i%>-<%=j%>-<%=k%>-<%=l%>"  style="background-color: #ffffff;">
-                                                                                    <thead>
+                                                                                    <!-- <thead>
                                                                                         <tr class="accordion-toggle align-items-start">
                                                                                             <th class="col" style="width: 20%;">Faktor</th>
                                                                                             <th class="col">Bukti</th>
@@ -464,7 +464,7 @@
                                                                                             <th class="col">Bukti</th>
                                                                                             <th class="col">Nilai</th>
                                                                                         </tr>            
-                                                                                    </thead>
+                                                                                    </thead> -->
                                                                                     <% rowSP.faktors.forEach(function(rowSF, m) { %>
                                                                                     <tbody>
                                                                                         <tr class="faktor">
@@ -626,6 +626,33 @@
                                                                                                       </div>
                                                                                                     </div>
                                                                                                   </div>
+                                                                                            </td>
+                                                                                            <td class="justify-content-center">
+                                                                                                <!-- Button trigger modal -->
+                                                                                              <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modalHapus-<%=i%>-<%=j%>-<%=k%>-<%=l%>-<%=m%>">
+                                                                                                <i class= "glyphicon glyphicon-trash"></i>
+                                                                                              </button>
+                                                                        
+                                                                                              <!-- Modal -->
+                                                                                              <div class="modal fade" id="modalHapus-<%=i%>-<%=j%>-<%=k%>-<%=l%>-<%=m%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                                                <div class="modal-dialog" role="document">
+                                                                                                  <div class="modal-content">
+                                                                                                    <div class="modal-header">
+                                                                                                      <h5 class="modal-title" id="exampleModalLabel">Hapus Bukti Pemenuhan</h5>
+                                                                                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                                        <span aria-hidden="true">&times;</span>
+                                                                                                      </button>
+                                                                                                    </div>
+                                                                                                    <div class="modal-body">
+                                                                                                        <%=rowSF.urlBukti%>
+                                                                                                    </div>
+                                                                                                    <div class="modal-footer">
+                                                                                                      <a type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                                                                                                      <a type="button" class="btn btn-danger" href="/files/deleteBukti/<%=rowSF.urlBukti%>">Hapus data</a>
+                                                                                                    </div>
+                                                                                                  </div>
+                                                                                                </div>
+                                                                                              </div>
                                                                                             </td>                                                                           
                                                                                             <td><%=rowSF.buktiPemenuhan%></td>                                                                   
                                                                                             <td style="float: right;"><%=rowSF.skor%></td>
