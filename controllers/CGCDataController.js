@@ -997,28 +997,28 @@ function getParameters(req, res) {
                     res.send(err)
                 }
                 else{
-                    var totalSkor = []
+                    // var totalSkor = []
     
-                    // skorArray = {}
-                    // skorArray = result.skor
+                    // // skorArray = {}
+                    // // skorArray = result.skor
     
     
     
-                    if(result.length > 0){
-                        var totalSkor = countScore(result)
-                        console.log("total skor = " + totalSkor)
-                        console.log("bobot = " + resInd.bobot)
-                        // totalSkor = totalSkor * resInd.bobot
-                        console.log("final skor = " + totalSkor)
-                        Indikator.findOneAndUpdate({aspek:idAspek, index:idIndikator}, {nilai:totalSkor}, {upsert:true}, (errUpdSub,resUpdSub) =>{
-                            if(errUpdSub){
-                                console.log(errUpdSub)
-                            }
-                            else{
-                               console.log(resUpdSub)
-                            }
-                        })
-                    }
+                    // if(result.length > 0){
+                    //     var totalSkor = countScore(result)
+                    //     console.log("total skor = " + totalSkor)
+                    //     console.log("bobot = " + resInd.bobot)
+                    //     // totalSkor = totalSkor * resInd.bobot
+                    //     console.log("final skor = " + totalSkor)
+                    //     Indikator.findOneAndUpdate({aspek:idAspek, index:idIndikator}, {nilai:totalSkor}, {upsert:true}, (errUpdSub,resUpdSub) =>{
+                    //         if(errUpdSub){
+                    //             console.log(errUpdSub)
+                    //         }
+                    //         else{
+                    //            console.log(resUpdSub)
+                    //         }
+                    //     })
+                    // }
                     res.render('admin/GCG/tabelParameter', {result: result, idAspek: idAspek, idIndikator: idIndikator, user:req.user, resInd:resInd})
                 }
             })
@@ -1231,36 +1231,36 @@ function getSubParameters(req, res) {
                 }
                 else{
 
-                    var totalSkor = []
+                    // var totalSkor = []
 
-                    // skorArray = {}
-                    // skorArray = result.skor
+                    // // skorArray = {}
+                    // // skorArray = result.skor
     
     
     
-                    if(result.length > 0){
+                    // if(result.length > 0){
 
-                        //Fungsi untuk menghitung skor
-                        var totalSkor = countScoreParameter(result)
-                        totalSkor = totalSkor * resultParameter.bobot
+                    //     //Fungsi untuk menghitung skor
+                    //     var totalSkor = countScoreParameter(result)
+                    //     totalSkor = totalSkor * resultParameter.bobot
 
-                        //Query buat update skor
-                        Parameter.findOneAndUpdate({IDParameter: IDParameter}, {nilai:totalSkor}, {upsert:true}, (errUpdSub,resUpdSub) =>{
-                            if(errUpdSub){
-                                console.log(errUpdSub)
-                            }
-                            else{
-                               console.log(resUpdSub)
-                            }
-                        })
-                    }
-                    else{
-                        var totalSkor = 0
-                    }
+                    //     //Query buat update skor
+                    //     Parameter.findOneAndUpdate({IDParameter: IDParameter}, {nilai:totalSkor}, {upsert:true}, (errUpdSub,resUpdSub) =>{
+                    //         if(errUpdSub){
+                    //             console.log(errUpdSub)
+                    //         }
+                    //         else{
+                    //            console.log(resUpdSub)
+                    //         }
+                    //     })
+                    // }
+                    // else{
+                    //     var totalSkor = 0
+                    // }
                     console.log(result)
 
-                    var percentData = toPercentageData(result)
-                    res.render('admin/GCG/tabelSubParameter', {data:result, dataParameter:resultParameter, idAspek:idAspek, idIndikator:idIndikator, header:result[0], user:req.user, percentData:percentData})
+                    // var percentData = toPercentageData(result)
+                    res.render('admin/GCG/tabelSubParameter', {data:result, dataParameter:resultParameter, idAspek:idAspek, idIndikator:idIndikator, header:result[0], user:req.user})
                 }
             })
         }
@@ -1448,20 +1448,20 @@ function getFaktors(req, res, aspekT, indikatorT, IDParameterT, IndexSubParamete
 
 
 
-                if(result.length > 0){
-                    var totalSkor = countScoreFaktor(result)
-                    SubParameter.findOneAndUpdate({aspek, indikator, IDParameter, IndexSubParameter}, {nilai:totalSkor}, {upsert:true}, (errUpdSub,resUpdSub) =>{
-                        if(errUpdSub){
-                            console.log(errUpdSub)
-                        }
-                        else{
-                           console.log(resUpdSub)
-                        }
-                    })
-                }
-                else{
-                    var totalSkor = 0
-                }
+                // if(result.length > 0){
+                //     var totalSkor = countScoreFaktor(result)
+                //     SubParameter.findOneAndUpdate({aspek, indikator, IDParameter, IndexSubParameter}, {nilai:totalSkor}, {upsert:true}, (errUpdSub,resUpdSub) =>{
+                //         if(errUpdSub){
+                //             console.log(errUpdSub)
+                //         }
+                //         else{
+                //            console.log(resUpdSub)
+                //         }
+                //     })
+                // }
+                // else{
+                //     var totalSkor = 0
+                // }
 
                 res.render('admin/GCG/tabelFaktor', {
                     result:result, 

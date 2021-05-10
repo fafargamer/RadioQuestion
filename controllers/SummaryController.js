@@ -27,9 +27,10 @@ app.get('/', isLoggedIn, async function(req, res, next) {
             const resPars = await getAllParameters(resInd)
             const resSubPars = await getAllSubParameters(resPars)
             const resSubFak = await getAllSubFaktors(resSubPars)
+            const getAverage = await getAverageSkor(resAsp)
             // console.log(resInd)
             // res.send(resInd[0].indikators)
-            res.render('admin/FillGCG/tabelCombined3', {result:resSubFak, user:req.user})
+            res.render('admin/FillGCG/tabelCombined3', {result:resSubFak, user:req.user, average:getAverage})
             next();
         } catch (err) { 
             next(err)
@@ -134,9 +135,14 @@ async function getAllSubFaktors(resSubPars) {
     return testSubPars
 }
 
-async function twoTest(resInd) {
-    var test = 2+2
-    return test
+async function getAverageSkor(resAsp) {
+    var averageSkor = 0
+    for(i=0;i<resAsp.length;i++) {
+        console.log(resAsp[i].nilaiIndividu)
+        averageSkor = averageSkor + resAsp[i].nilaiIndividu
+    }
+    averageSkor = averageSkor/resAsp.length
+    return averageSkor
 }
 
 function isLoggedIn(req, res, next) {

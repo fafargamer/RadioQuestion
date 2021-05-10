@@ -34,6 +34,12 @@ var parameterSchema = new mongoose.Schema({
     },
     rekomendasi: {
         type:String
+    },
+    terakhirIsi:{
+        type:String
+    },
+    tanggalIsi:{
+        type:Date
     }
 });
 

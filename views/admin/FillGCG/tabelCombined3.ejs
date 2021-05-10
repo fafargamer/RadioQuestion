@@ -681,6 +681,21 @@
 
                                     <% }); %> 
                                 </div>
+
+                                <div>
+                                    <div class="">                                      
+                                        <table class="table table-striped" id="tabel-header">
+                                            <tbody>
+                                                <tr>
+                                                    <th class="col">Rerata Nilai</th>
+                                                    <td class="col nilaiOverall"><%=average%></td>
+                                                </tr>            
+                                            </tbody>
+                                        </table>
+                                        
+                                    </div>
+                                </div>
+
                                 </div>
                             </div>
                         </div>
@@ -750,6 +765,8 @@
             // var MY_ARRAY= 'my_array';
             // var arr=[1,2,3,4,5];
             // localStorage.setItem(MY_ARRAY, JSON.stringify(arr));
+            
+
             if (localStorage.getItem('collapsedItems') === null) {
                 Collapses = [0]
                 // console.log(Collapses)
