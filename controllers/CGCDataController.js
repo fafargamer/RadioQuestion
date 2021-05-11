@@ -502,7 +502,7 @@ app.post('/PostParameterExt/', isLoggedIn, (req,res) =>{
     PostParameterExt(req,res)
 })
 
-app.post('/postPenilaian', async function(req, res, next) {
+app.post('/postPenilaian', isLoggedIn, async function(req, res, next) {
     try {    
         const FaktorSchema = await berinilaiFaktor(req,res)
         const SubParameterRes = await nilaiSP(req,res)
@@ -1748,8 +1748,9 @@ async function nilaiSP(req,res) {
         var nilaiPersen = await toPercentage(nilaiSP)
         console.log("NP : " + nilaiPersen)
     }
+    var datetime = new Date();
     console.log(nilaiSP)
-    const updSP = await SubParameter.findOneAndUpdate({aspek, indikator, IDParameter, IndexSubParameter}, {nilai:nilaiSP, nilaiPersen}).exec()
+    const updSP = await SubParameter.findOneAndUpdate({aspek, indikator, IDParameter, IndexSubParameter}, {nilai:nilaiSP, nilaiPersen, terakhirIsi:req.user.username, tanggalIsi:datetime}).exec()
 
     return updSP
 }
@@ -1766,7 +1767,8 @@ async function nilaiPar(req,res) {
     var nilaiPar = parseFloat(nilaiParBef*parRes.bobot).toFixed(3)
     var nilaiPersen = parseFloat(nilaiPar/parRes.bobot).toFixed(3)
     const nilaiIndividu = await toPercentage(nilaiPersen)
-    const updP = await Parameter.findOneAndUpdate({aspek, indikator, IDParameter}, {nilai:nilaiPar, nilaiIndividu}).exec()
+    var datetime = new Date();
+    const updP = await Parameter.findOneAndUpdate({aspek, indikator, IDParameter}, {nilai:nilaiPar, nilaiIndividu, terakhirIsi:req.user.username, tanggalIsi:datetime}).exec()
 
     return updP
 }

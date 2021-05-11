@@ -205,6 +205,7 @@
             {
                 background-color:#000000;
             }
+
     </style>
 </head>
 
@@ -380,7 +381,9 @@
                                                         <table class="table table-condensed table-striped" id="tabel-<%=i%>-<%=j%>-<%=k%>"  style="background-color: #fbefcc;">
                                                             <tbody>
                                                                 <tr  class="collapsed">
-                                                                    <td class="col parameter-collapse" data-toggle="collapse" href="#demo-<%=i%>-<%=j%>-<%=k%>"><%=rowP.pertanyaan%></td>
+                                                                    <td class="col parameter-collapse" data-toggle="collapse tooltip" data-placement="bottom" title="Terakhir diisi oleh : <%=rowP.terakhirIsi%>&#13;Pada : <%=rowP.tanggalIsi%>" href="#demo-<%=i%>-<%=j%>-<%=k%>"><%=rowP.pertanyaan%></td>
+                                                                    <!-- <td class="col" style="width: 200%;"><a>Terakhir diisi oleh : <%=rowP.terakhirIsi%></a></td> -->
+                                                                    <!-- <td class="col"> </td> -->
                                                                     <td>
                                                                         <button type="button" class="btn btn-light btn-xs" data-toggle="modal" data-target="#modalCatatan-<%=i%>-<%=j%>-<%=k%>" style="size: 50%;">
                                                                             <i class="glyphicon glyphicon-pencil">
@@ -781,6 +784,7 @@
             }
             // console.log(collapseItem)
 
+            $('[data-toggle="tooltip"]').tooltip()
 
             $('#tabel').DataTable({
                 "lengthChange": false,

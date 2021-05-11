@@ -28,6 +28,12 @@ var subParameterSchema = new mongoose.Schema({
     },
     jumlahFaktor:{
         type: Number
+    },
+    terakhirIsi:{
+        type:String
+    },
+    tanggalIsi:{
+        type:Date
     }
 });
 
