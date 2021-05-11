@@ -35,6 +35,12 @@ var indikatorSchema = new mongoose.Schema({
     },
     analisis:{
         type: String
+    },
+    terakhirIsi:{
+        type:String
+    },
+    tanggalIsi:{
+        type:Date
     }
 });
 

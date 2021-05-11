@@ -1781,7 +1781,8 @@ async function nilaiIndi(req,res) {
     const IndRes = await Indikator.findOne({aspek, index: indikator}).exec()
     var nilaiIndBef = await parseFloat(countScore(resP)).toFixed(3)
     var nilaiPersen = (parseFloat((nilaiIndBef/IndRes.bobot)*100).toFixed(0))
-    const updI = await Indikator.findOneAndUpdate({aspek, index: indikator}, {nilai:nilaiIndBef, nilaiIndividu:nilaiPersen}).exec()
+    var datetime = new Date();
+    const updI = await Indikator.findOneAndUpdate({aspek, index: indikator}, {nilai:nilaiIndBef, nilaiIndividu:nilaiPersen, terakhirIsi:req.user.username, tanggalIsi:datetime}).exec()
 
     return updI
 }

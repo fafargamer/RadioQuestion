@@ -206,6 +206,29 @@
                 background-color:#000000;
             }
 
+            .tooltip {
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                font-size: 12px;
+                font-style: normal;
+                font-weight: normal;
+                line-height: 1.42857143;
+                text-align: left;
+                text-align: start;
+                text-decoration: none;
+                text-shadow: none;
+                text-transform: none;
+                letter-spacing: normal;
+                word-break: normal;
+                word-spacing: normal;
+                word-wrap: normal;
+                white-space: normal;
+                /* ... */
+            }
+
+            .tooltip-inner {
+                white-space:pre-wrap;
+            }
+
     </style>
 </head>
 
@@ -367,7 +390,8 @@
                                                 <table class="table table-condensed table-striped" id="tabel-<%=i%>-<%=j%>"  style="background-color: #b7d7e8;"">
                                                     <tbody>
                                                         <tr class="indikator-collapse collapsed" data-toggle="collapse" href="#demo-<%=i%>-<%=j%>">
-                                                            <td class="col"><a><%=rowI.indikator%></a></td>                                                      
+                                                            <td class="col"  data-toggle="tooltip" data-placement="bottom" title="Terakhir diisi oleh : <%=rowI.terakhirIsi%>
+                                                                <%=rowI.tanggalIsi%>"><a><%=rowI.indikator%></a></td>                                                      
                                                             <td class="col"><%=rowI.bobot%></td>
                                                             <td class="col"><%=rowI.nilai%></td>
                                                             <td class="col nilaiOverall"><%=rowI.nilaiIndividu%></td>
@@ -380,8 +404,8 @@
                                                         <div class="">
                                                         <table class="table table-condensed table-striped" id="tabel-<%=i%>-<%=j%>-<%=k%>"  style="background-color: #fbefcc;">
                                                             <tbody>
-                                                                <tr  class="collapsed">
-                                                                    <td class="col parameter-collapse" data-toggle="collapse tooltip" data-placement="bottom" title="Terakhir diisi oleh : <%=rowP.terakhirIsi%>&#13;Pada : <%=rowP.tanggalIsi%>" href="#demo-<%=i%>-<%=j%>-<%=k%>"><%=rowP.pertanyaan%></td>
+                                                                <tr  class="collapsed"></tr>
+                                                                    <td class="col parameter-collapse" data-toggle="collapse" href="#demo-<%=i%>-<%=j%>-<%=k%>"><%=rowP.pertanyaan%></td>
                                                                     <!-- <td class="col" style="width: 200%;"><a>Terakhir diisi oleh : <%=rowP.terakhirIsi%></a></td> -->
                                                                     <!-- <td class="col"> </td> -->
                                                                     <td>
@@ -784,7 +808,7 @@
             }
             // console.log(collapseItem)
 
-            $('[data-toggle="tooltip"]').tooltip()
+            $('[data-toggle="tooltip"]').tooltip({ trigger: "hover" });
 
             $('#tabel').DataTable({
                 "lengthChange": false,
