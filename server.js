@@ -83,10 +83,6 @@ app.use(flash());
 
 // index page
 
-app.listen(process.env.PORT || 3000, () => {
-    console.log('Express server started at port : 3000');
-});
-
 
 
 app.get('/login', (req,res) => {
@@ -129,3 +125,13 @@ app.use('/GCGData', parameterController);
 app.use('/files', fileControllers);
 app.use('/UserManagement', userManagementController);
 app.use('/all', testControllers);
+
+
+
+
+
+//Port
+app.listen(process.env.PORT || 8081, () => {
+    console.log('Express server started at port : ' + process.env.PORT);
+});
+
